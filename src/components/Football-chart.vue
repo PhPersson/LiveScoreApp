@@ -5,8 +5,42 @@
 </template>
 
 <script>
+
+import axios from 'axios';
+
+
 export default {
-  name: 'FootballChart'
+  name: 'FootballChart',
+
+  data() {
+  },
+
+  mounted() {
+    this.fetchApiData();
+  },
+
+
+  methods: {
+    fetchApiData(){
+      const url = 'https://api.football-data.org/v4/competitions/PL/matches?season=2022&dateFrom=2023-04-16&dateTo=2023-04-16';
+      const options = {
+        headers: {
+          'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
+        }
+      };
+      axios.get(url, options)
+        .then(response => {
+          console.log(response.data.matches[1].awayTeam);
+        })
+        .catch(error => {
+          console.error(error.message);
+        });
+
+
+  }
+}
+
+
 }
 </script>
 
