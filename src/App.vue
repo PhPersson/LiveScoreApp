@@ -1,5 +1,5 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.jpg">
+  <img class="logo" alt="Vue logo" src="./assets/logo.jpg">
   <LiveScoreApp/>
 </template>
 
@@ -15,4 +15,10 @@ export default {
 </script>
 
 <style>
+.logo{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 10%;
+}
 </style>
