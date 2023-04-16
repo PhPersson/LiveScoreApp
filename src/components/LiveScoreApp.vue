@@ -20,6 +20,7 @@
 
        <img v-bind:src="match.homeTeam.crest" class="crest">
 
+
         {{ match.homeTeam.name }} 
 
         <div class="score"> {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }} </div>
@@ -38,10 +39,8 @@
 
 import axios from 'axios';
 
-
 export default {
   name: 'LiveScoreApp',
-
   data() {
     return {
       PLurl: 'https://api.football-data.org/v4/competitions/PL/matches',
@@ -53,6 +52,7 @@ export default {
       //Gårdagens resultat https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=YESTERDAY
       //morgondagens matcher https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=TOMORRROW
 
+
       awayTeams: [],
       homeTeams: [],
       matchesToday: [],
@@ -62,22 +62,24 @@ export default {
 
   mounted() {
     //this.getTodaysDate();
+
     this.fetchApiData();
   },
 
 
   methods: {
     getTodaysDate(){
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-    this.todaysDate = `${year}-${month}-${day}`;
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      this.todaysDate = `${year}-${month}-${day}`;
     },
 
 
     fetchApiData(){
       const url = this.testUrl;
+
       const options = {
         headers: {
           'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
@@ -89,7 +91,7 @@ export default {
         }
       };
 
-      axios.get(url, options)
+      axios.get(apiUrl, options)
         .then(response => {
           this.handleAwayTeams(response.data.matches);
           this.handleHomeTeams(response.data.matches);
