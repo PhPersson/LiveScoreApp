@@ -3,7 +3,12 @@
     <p>Today's matches:</p>
     <ul>
       <li v-for="match in matchesToday" :key="match.id">
-        {{ match.homeTeam.name }} vs {{ match.awayTeam.name }}
+
+        {{ match.homeTeam.name }} 
+        <div class="score"> {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }} </div>
+       
+        
+        {{ match.awayTeam.name }}
       </li>
     </ul>
   </div>
@@ -101,10 +106,18 @@ ul {
   padding: 0;
 }
 li {
+  font-size: large;
   display: inline-block;
   margin: 0 10px;
+  list-style: none;
+  display: block;
 }
 a {
   color: #42b983;
+}
+.score {
+
+  font-style: italic;
+  display:inline-block;
 }
 </style>
