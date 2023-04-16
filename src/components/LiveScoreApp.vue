@@ -91,7 +91,7 @@ export default {
         }
       };
 
-      axios.get(apiUrl, options)
+      axios.get(url, options)
         .then(response => {
           this.handleAwayTeams(response.data.matches);
           this.handleHomeTeams(response.data.matches);
