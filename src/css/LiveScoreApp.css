@@ -66,3 +66,11 @@ h3 {
     text-align: center;
     
   }
+
+  .timeLive{
+    color:red;
+    text-align: center;
+    display: inline-block;
+
+
+  }
