@@ -1,28 +1,28 @@
 <template>
   <div class="live">
 
-    <p>{{getTodaysDate}}</p>
     <h1>Today's matches:</h1>
     <ul>
     
-      
       <li class="match" v-for="match in matchesToday" :key="match.id">
         <p class="time" v-if="match.status === 'FINISHED'"> {{ match.utcDate.substring(11,16) }} -  FULL TIME  </p>
         <p class="time" v-if="match.status === 'IN_PLAY'"> {{ match.utcDate.substring(11,16) }} -  LIVE  </p>
         <p class="time" v-else-if="match.status === 'PAUSED'"> {{ match.utcDate.substring(11,16) }} -  HT  </p>
         <p class="time" v-else-if="match.status === 'TIMED'"> {{ match.utcDate.substring(11,16) }}  </p>
 
-       <img v-bind:src="match.homeTeam.crest" class="crest">
+
       <div class="homeTeam">
-        {{ match.homeTeam.name }} <Icon icon="bx:football"/>
+        <img v-bind:src="match.homeTeam.crest" class="crest">
+        {{ match.homeTeam.name }} <Icon icon="openmoji:soccer-ball" @click="saveTeam(match.homeTeam.id, match.homeTeam.name)"/>
       </div>
-      <div 
-        class="score"> {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }} 
+      
+      <div class="score"> 
+        {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }} 
       </div>
+      
       <div class="awayTeam">
         {{ match.awayTeam.name }}
-
-        <img v-bind:src="match.awayTeam.crest" class="crest">
+        {{ match.awayTeam.name }} <Icon icon="openmoji:soccer-ball" @click="saveTeam(match.awayTeam.id, match.awayTeam.name)"/>
       </div>
       </li>
     </ul>
@@ -41,9 +41,9 @@ export default {
   data() {
     return {
       PLurl: 'https://api.football-data.org/v4/competitions/PL/matches',
-      SerieAUrl: `https://api.football-data.org/v4/competitions/SA/matches`,
-      BundesUrl: `https://api.football-data.org/v4/competitions/BL1/matches`,
-      testUrl: `https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021`,
+      // SerieAUrl: `https://api.football-data.org/v4/competitions/SA/matches`,
+      // BundesUrl: `https://api.football-data.org/v4/competitions/BL1/matches`,
+      // testUrl: `https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021`,
 
 
       //Gårdagens resultat https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=YESTERDAY
@@ -99,6 +99,12 @@ export default {
           console.error(error.message);
         });
   },
+
+  saveTeam(teamID, teamName){
+    const teamList = JSON.parse(localStorage.getItem('teamList')) || [];
+      teamList.push({teamID, teamName});
+      localStorage.setItem('teamList', JSON.stringify(teamList));
+  }
 
     // handleAwayTeams(matches) { //Tar in alla matcher som indata-parameter
     //   matches.forEach(match => {
