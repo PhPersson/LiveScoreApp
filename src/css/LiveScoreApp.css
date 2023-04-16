@@ -66,3 +66,8 @@ h3 {
     text-align: center;
     
   }
+
+  .faicon:hover {
+    cursor: pointer;
+    color: yellow;
+  }
