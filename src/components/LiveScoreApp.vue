@@ -11,8 +11,8 @@
 
 
         <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} -  FULL TIME  </p>
-        <p class="time" v-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{ getTime(match) + ' CEST' }} -  LIVE first half  </p>
-        <p class="time" v-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{ getTime(match) + ' CEST' }} -  LIVE second half  </p>
+        <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{ getTime(match) + ' CEST' }} -  <p class="timeLive">LIVE</p> first half  </div>
+        <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{ getTime(match) + ' CEST' }} -  <p class="timeLive">LIVE</p> second half  </div>
         <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} -  HT  </p>
         <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }}  </p>
 
@@ -176,7 +176,6 @@ a {
 
   padding-left: 1rem;
   padding-right: 1rem;
-  padding-top: 1rem;
   padding-bottom: 2rem;
   border-radius: 8px;
 
@@ -200,6 +199,14 @@ p{
 .time{
   color: white;
   text-align: center;
+  
+}
+
+.timeLive{
+  color: red;
+  text-align: center;
+  display: inline-block;
+
   
 }
 </style>
