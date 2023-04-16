@@ -14,8 +14,9 @@
         <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} -  HT  </p>
         <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }}  </p>
 
-        <img v-bind:src="match.homeTeam.crest" class="crest" />
+
         <div class="homeTeam">
+          <img v-bind:src="match.homeTeam.crest" class="crest" />
           {{ match.homeTeam.name }} <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.homeTeam.id, match.homeTeam.name)"/>
         </div>
         <div class="score">
@@ -23,6 +24,7 @@
         </div>
         <div class="awayTeam">
           {{ match.awayTeam.name }} <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.awayTeam.id, match.awayTeam.name)"/>
+          <img v-bind:src="match.awayTeam.crest" class="crest" />
         </div>
 
 
