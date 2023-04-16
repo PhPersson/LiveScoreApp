@@ -10,10 +10,10 @@
         
 
 
-        <p class="time" v-if="match.status === 'FINISHED'"> {{ match.utcDate.substring(11,16) }} -  FULL TIME  </p>
-        <p class="time" v-if="match.status === 'IN_PLAY'"> {{ match.utcDate.substring(11,16) }} -  LIVE  </p>
-        <p class="time" v-else-if="match.status === 'PAUSED'"> {{ match.utcDate.substring(11,16) }} -  HT  </p>
-        <p class="time" v-else-if="match.status === 'TIMED'"> {{ match.utcDate.substring(11,16) }}  </p>
+        <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} -  FULL TIME  </p>
+        <p class="time" v-if="match.status === 'IN_PLAY'"> {{ getTime(match) + ' CEST' }} -  LIVE  </p>
+        <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} -  HT  </p>
+        <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }}  </p>
 
 
 
@@ -74,6 +74,12 @@ export default {
       const month = String(today.getMonth() + 1).padStart(2, '0');
       const day = String(today.getDate()).padStart(2, '0');
       this.todaysDate = `${year}-${month}-${day}`;
+    },
+
+    getTime(match){
+      var time = match.utcDate.substring(11,13)
+      time = parseInt(time) + 2
+      return time + match.utcDate.substring(13,16) ;
     },
 
 
