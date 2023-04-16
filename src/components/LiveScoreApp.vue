@@ -1,11 +1,11 @@
 <template>
   <div class="live">
+    <h1>Your favorites:</h1>
 
-    <p>{{getTodaysDate}}</p>
+
+
     <h1>Today's matches:</h1>
-    <ul>
-    
-      
+    <ul>    
       <li class="match" v-for="match in matchesToday" :key="match.id">
       
         <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} -  FULL TIME  </p>
@@ -55,6 +55,9 @@ export default {
       //Gårdagens resultat https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=YESTERDAY
       //morgondagens matcher https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=TOMORRROW
 
+      // Kommande matcher https://api.football-data.org/v4/teams/5890/matches?dateFrom=2023-04-16&dateTo=2023-04-30
+
+
       matchesToday: [],
       todaysDate: ''
     }
@@ -76,8 +79,8 @@ export default {
     },
 
     getTime(match){
-      var time = match.utcDate.substring(11,13)
-      time = parseInt(time) + 2
+      var time = match.utcDate.substring(11,13);
+      time = parseInt(time) + 2;
       return time + match.utcDate.substring(13,16) ;
     },
 
@@ -98,7 +101,7 @@ export default {
         const response = await axios.get(this.apiUrl, options);
         this.matchesToday = response.data.matches;
       } catch (error) {
-        console.error(error.message)
+        console.error(error.message);
       }
   },
   saveTeam(teamID, teamName) {
