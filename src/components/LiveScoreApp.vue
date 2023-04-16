@@ -1,9 +1,11 @@
 <template>
-  <div class="hello">
-   <h1>Hej!</h1>
-   <ol>
-   <li v-for="team in awayTeams" v-bind:key="team.id">{{ team.name }}</li>
-  </ol>
+  <div>
+    <p>Today's matches:</p>
+    <ul>
+      <li v-for="match in matchesToday" :key="match.id">
+        {{ match.homeTeam.name }} vs {{ match.awayTeam.name }}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -13,33 +15,54 @@ import axios from 'axios';
 
 
 export default {
-  name: 'FootballChart',
+  name: 'LiveScoreApp',
 
   data() {
     return {
-      PLurl: 'https://api.football-data.org/v4/competitions/PL/matches?season=2022&dateFrom=2023-04-16&dateTo=2023-04-16',
+      PLurl: 'https://api.football-data.org/v4/competitions/PL/matches',
+      SerieAUrl: `https://api.football-data.org/v4/competitions/SA/matches`,
       awayTeams: [],
       homeTeams: [],
+      matchesToday: [],
+      todaysDate: ''
     }
   },
 
   mounted() {
+    this.getTodaysDate();
     this.fetchApiData();
   },
 
 
   methods: {
+    getTodaysDate(){
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    this.todaysDate = `${year}-${month}-${day}`;
+    },
+
+
     fetchApiData(){
       const url = this.PLurl;
       const options = {
         headers: {
           'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
+        },
+          params: {
+            season: 2022,
+            dateFrom: this.todaysDate,
+            dateTo: this.todaysDate
         }
       };
+
       axios.get(url, options)
         .then(response => {
           this.handleAwayTeams(response.data.matches);
           this.handleHomeTeams(response.data.matches);
+          this.matchesToday = response.data.matches;
+          console.log(response.data.matches);
         })
         .catch(error => {
           console.error(error.message);
@@ -51,9 +74,9 @@ export default {
         this.awayTeams.push(match.awayTeam)
       });
 
-      this.awayTeams.forEach(element => {
-        console.log(element);
-      });
+      // this.awayTeams.forEach(element => {
+      //   console.log(element);
+      // });
     },
 
     handleHomeTeams(matches) { //Tar in alla matcher som indata-parameter
