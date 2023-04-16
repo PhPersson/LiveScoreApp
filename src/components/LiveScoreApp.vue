@@ -100,23 +100,6 @@ export default {
         console.error(error.message)
       }
   },
-
-    handleAwayTeams(matches) { //Tar in alla matcher som indata-parameter
-      matches.forEach(match => {
-        this.awayTeams.push(match.awayTeam)
-      });
-
-      // this.awayTeams.forEach(element => {
-      //   console.log(element);
-      // });
-    },
-
-    handleHomeTeams(matches) { //Tar in alla matcher som indata-parameter
-      matches.forEach(match => {
-        this.homeTeams.push(match.homeTeam);
-      });
-
-    },
 }
 
 
