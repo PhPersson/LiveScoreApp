@@ -86,7 +86,7 @@ export default {
       //Gårdagens resultat https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=YESTERDAY
       //morgondagens matcher https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=TOMORRROW
 
- Alex
+
 
       //Specifikt team matcher https://api.football-data.org/v4/teams/99/matches?dateFrom=2023-04-16&dateTo=2023-04-30
 
@@ -136,16 +136,10 @@ export default {
       var time = match.utcDate.substring(11, 13)
       time = parseInt(time) + 2
       return time + match.utcDate.substring(13, 16);
-
-    getTime(match){
-      var time = match.utcDate.substring(11,13);
-      time = parseInt(time) + 2;
-      return time + match.utcDate.substring(13,16) ;
-
     },
 
-
     
+
 
 
     async fetchApiData(state, dir) {
