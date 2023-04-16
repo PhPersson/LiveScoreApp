@@ -7,9 +7,7 @@
     
       
       <li class="match" v-for="match in matchesToday" :key="match.id">
-        
-
-
+      
         <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} -  FULL TIME  </p>
         <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{ getTime(match) + ' CEST' }} -  <p class="timeLive">LIVE</p> first half  </div>
         <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{ getTime(match) + ' CEST' }} -  <p class="timeLive">LIVE</p> second half  </div>
@@ -17,18 +15,17 @@
         <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }}  </p>
 
 
-
-
-       <img v-bind:src="match.homeTeam.crest" class="crest">
-
-
-        {{ match.homeTeam.name }} 
-
-        <div class="score"> {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }} </div>
-
-        {{ match.awayTeam.name }}
-
-        <img v-bind:src="match.awayTeam.crest" class="crest">
+        <div class="homeTeam">
+          <img v-bind:src="match.homeTeam.crest" class="crest" />
+          {{ match.homeTeam.name }} <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.homeTeam.id, match.homeTeam.name)"/>
+        </div>
+        <div class="score">
+          {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }}
+        </div>
+        <div class="awayTeam">
+          {{ match.awayTeam.name }} <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.awayTeam.id, match.awayTeam.name)"/>
+          <img v-bind:src="match.awayTeam.crest" class="crest" />
+        </div>
 
 
       </li>
@@ -39,9 +36,12 @@
 <script>
 
 import axios from 'axios';
-
+import { Icon } from '@iconify/vue';
 export default {
   name: 'LiveScoreApp',
+  components: {
+      Icon,
+    },
   data() {
     return {
       // PLurl: 'https://api.football-data.org/v4/competitions/PL/matches',
@@ -60,7 +60,6 @@ export default {
 
   async mounted() {
     //this.getTodaysDate();
-
     await this.fetchApiData();
   },
 
@@ -100,6 +99,11 @@ export default {
         console.error(error.message)
       }
   },
+  saveTeam(teamID, teamName) {
+      const teamList = JSON.parse(localStorage.getItem('teamList')) || [];
+      teamList.push({teamID, teamName});
+      localStorage.setItem('teamList', JSON.stringify(teamList));
+    }
 }
 
 

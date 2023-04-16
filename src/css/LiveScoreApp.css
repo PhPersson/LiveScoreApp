@@ -67,10 +67,12 @@ h3 {
     
   }
 
+  .faicon:hover {
+    cursor: pointer;
+    color: yellow;
+
   .timeLive{
     color:red;
     text-align: center;
     display: inline-block;
-
-
   }
