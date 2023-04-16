@@ -1,15 +1,15 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.jpg">
-  <FootballChartVue/>
+  <LiveScoreApp/>
 </template>
 
 <script>
-import FootballChartVue from './components/Football-chart.vue'
+import LiveScoreApp from './components/LiveScoreApp.vue'
 
 export default {
   name: 'App',
   components: {
-    FootballChartVue
+    LiveScoreApp
   }
 }
 </script>
