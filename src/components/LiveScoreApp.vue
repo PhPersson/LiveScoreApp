@@ -1,9 +1,9 @@
 <template>
   <div>
-    <p>Today's matches:</p>
+    <h1>Dagens matcher: {{ this.todaysDate }}</h1>
     <ul>
       <li v-for="match in matchesToday" :key="match.id">
-        {{ match.homeTeam.name }} vs {{ match.awayTeam.name }}
+        {{ match.homeTeam.name }} mot {{ match.awayTeam.name }}
       </li>
     </ul>
   </div>
@@ -13,14 +13,11 @@
 
 import axios from 'axios';
 
-
 export default {
   name: 'LiveScoreApp',
-
   data() {
     return {
-      PLurl: 'https://api.football-data.org/v4/competitions/PL/matches',
-      SerieAUrl: `https://api.football-data.org/v4/competitions/SA/matches`,
+      serie: `PL`, //SA = Serie A, PD = LaLiga, PL=Pre
       awayTeams: [],
       homeTeams: [],
       matchesToday: [],
@@ -29,6 +26,7 @@ export default {
   },
 
   mounted() {
+    // resten av koden för att hämta data från API-tjänsten
     this.getTodaysDate();
     this.fetchApiData();
   },
@@ -36,16 +34,16 @@ export default {
 
   methods: {
     getTodaysDate(){
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-    this.todaysDate = `${year}-${month}-${day}`;
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      this.todaysDate = `${year}-${month}-${day}`;
     },
 
 
     fetchApiData(){
-      const url = this.PLurl;
+      let apiUrl =  `https://api.football-data.org/v4/competitions/${this.serie}/matches`
       const options = {
         headers: {
           'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
@@ -57,7 +55,7 @@ export default {
         }
       };
 
-      axios.get(url, options)
+      axios.get(apiUrl, options)
         .then(response => {
           this.handleAwayTeams(response.data.matches);
           this.handleHomeTeams(response.data.matches);
