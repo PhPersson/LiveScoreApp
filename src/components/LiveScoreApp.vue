@@ -5,15 +5,14 @@
     <h1>Today's matches:</h1>
     <ul>
     
-      
       <li class="match" v-for="match in matchesToday" :key="match.id">
+
 
         <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} -  FULL TIME  </p>
         <p class="time" v-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{ getTime(match) + ' CEST' }} -  LIVE first half  </p>
         <p class="time" v-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{ getTime(match) + ' CEST' }} -  LIVE second half  </p>
         <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} -  HT  </p>
         <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }}  </p>
-
 
       <div class="homeTeam">
         <img v-bind:src="match.homeTeam.crest" class="crest">
@@ -44,11 +43,11 @@ export default {
     },
   data() {
     return {
+
       // PLurl: 'https://api.football-data.org/v4/competitions/PL/matches',
       // SerieAUrl: `https://api.football-data.org/v4/competitions/SA/matches`,
       // BundesUrl: `https://api.football-data.org/v4/competitions/BL1/matches`,
       testUrl: `https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021`,
-
 
       //Gårdagens resultat https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=YESTERDAY
       //morgondagens matcher https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=TOMORRROW
@@ -104,6 +103,12 @@ export default {
         console.error(error);
       }
   },
+
+  saveTeam(teamID, teamName){
+    const teamList = JSON.parse(localStorage.getItem('teamList')) || [];
+      teamList.push({teamID, teamName});
+      localStorage.setItem('teamList', JSON.stringify(teamList));
+  }
 
     // handleAwayTeams(matches) { //Tar in alla matcher som indata-parameter
     //   matches.forEach(match => {
