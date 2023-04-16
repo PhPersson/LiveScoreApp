@@ -16,15 +16,17 @@
 
 
         <div class="homeTeam">
+          <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.homeTeam.id, match.homeTeam.name)"/>
           <img v-bind:src="match.homeTeam.crest" class="crest" />
-          {{ match.homeTeam.name }} <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.homeTeam.id, match.homeTeam.name)"/>
+          {{ match.homeTeam.name }} 
         </div>
         <div class="score">
           {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }}
         </div>
         <div class="awayTeam">
-          {{ match.awayTeam.name }} <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.awayTeam.id, match.awayTeam.name)"/>
+          {{ match.awayTeam.name }} 
           <img v-bind:src="match.awayTeam.crest" class="crest" />
+          <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.awayTeam.id, match.awayTeam.name)"/>
         </div>
 
 
