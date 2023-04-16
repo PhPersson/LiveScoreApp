@@ -7,6 +7,7 @@
 
 <li class="match" v-for="match in matchesFav" :key="match.id">
 
+  <p class="date">Date: {{ match.utcDate.substring(0, 10) }} </p>
   <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
   <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{ getTime(match)
     + ' CEST' }} - <p class="timeLive">LIVE</p> first half </div>
