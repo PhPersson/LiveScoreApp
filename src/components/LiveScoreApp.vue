@@ -1,7 +1,7 @@
 <template>
   <div class="live">
 
-    <p>{{getTodaysDate}}</p>
+
     <h1>Today's matches:</h1>
     <ul>
     
@@ -12,17 +12,19 @@
         <p class="time" v-else-if="match.status === 'PAUSED'"> {{ match.utcDate.substring(11,16) }} -  HT  </p>
         <p class="time" v-else-if="match.status === 'TIMED'"> {{ match.utcDate.substring(11,16) }}  </p>
 
-       <img v-bind:src="match.homeTeam.crest" class="crest">
+
       <div class="homeTeam">
-        {{ match.homeTeam.name }} <Icon icon="bx:football"/>
+        <img v-bind:src="match.homeTeam.crest" class="crest">
+        {{ match.homeTeam.name }} <Icon icon="openmoji:soccer-ball" @click="saveTeam(match.homeTeam.id, match.homeTeam.name)"/>
       </div>
-      <div 
-        class="score"> {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }} 
+      
+      <div class="score"> 
+        {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }} 
       </div>
+      
       <div class="awayTeam">
         {{ match.awayTeam.name }}
-
-        <img v-bind:src="match.awayTeam.crest" class="crest">
+        {{ match.awayTeam.name }} <Icon icon="openmoji:soccer-ball" @click="saveTeam(match.awayTeam.id, match.awayTeam.name)"/>
       </div>
       </li>
     </ul>
@@ -40,26 +42,24 @@ export default {
     },
   data() {
     return {
-      PLurl: 'https://api.football-data.org/v4/competitions/PL/matches',
-      SerieAUrl: `https://api.football-data.org/v4/competitions/SA/matches`,
-      BundesUrl: `https://api.football-data.org/v4/competitions/BL1/matches`,
+      // PLurl: 'https://api.football-data.org/v4/competitions/PL/matches',
+      // SerieAUrl: `https://api.football-data.org/v4/competitions/SA/matches`,
+      // BundesUrl: `https://api.football-data.org/v4/competitions/BL1/matches`,
       testUrl: `https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021`,
 
 
       //Gårdagens resultat https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=YESTERDAY
       //morgondagens matcher https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=TOMORRROW
 
-
-      awayTeams: [],
-      homeTeams: [],
+      // awayTeams: [],
+      // homeTeams: [],
       matchesToday: [],
       todaysDate: ''
     }
   },
 
   mounted() {
-    //this.getTodaysDate();
-
+    this.getTodaysDate();
     this.fetchApiData();
   },
 
@@ -74,30 +74,27 @@ export default {
     },
 
 
-    fetchApiData(){
+    async fetchApiData() {
       const url = this.testUrl;
 
       const options = {
         headers: {
-          'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
+          'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`,
         },
-          params: {
-            season: 2022,
-            dateFrom: this.todaysDate,
-            dateTo: this.todaysDate
-        }
+        params: {
+          season: 2022,
+          dateFrom: this.todaysDate,
+          dateTo: this.todaysDate,
+        },
       };
 
-      axios.get(url, options)
-        .then(response => {
-          // this.handleAwayTeams(response.data.matches);
-          // this.handleHomeTeams(response.data.matches);
-          this.matchesToday = response.data.matches;
-          // console.log(response.data.matches);
-        })
-        .catch(error => {
-          console.error(error.message);
-        });
+      try {
+        const response = await axios.get(url, options);
+        this.matchesToday = response.data.matches;
+      }
+      catch (error){
+        console.error(error);
+      }
   },
 
     // handleAwayTeams(matches) { //Tar in alla matcher som indata-parameter
