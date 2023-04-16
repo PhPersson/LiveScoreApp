@@ -1,19 +1,52 @@
 <template>
   <div class="live">
     <h1>Your favorites:</h1>
+    <ul>
 
+
+
+<li class="match" v-for="match in matchesFav" :key="match.id">
+
+  <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
+  <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{ getTime(match)
+    + ' CEST' }} - <p class="timeLive">LIVE</p> first half </div>
+  <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{ getTime(match)
+    + ' CEST' }} - <p class="timeLive">LIVE</p> second half </div>
+  <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
+  <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
+
+
+  <div class="homeTeam">
+    <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.homeTeam.id, match.homeTeam.name)" />
+    <img v-bind:src="match.homeTeam.crest" class="crest" />
+    {{ match.homeTeam.name }}
+  </div>
+  <div class="score">
+    {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }}
+  </div>
+  <div class="awayTeam">
+    {{ match.awayTeam.name }}
+    <img v-bind:src="match.awayTeam.crest" class="crest" />
+    <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.awayTeam.id, match.awayTeam.name)" />
+  </div>
+
+
+</li>
+</ul>
 
 
 
     <div class="topMenu">
-      <Icon class="dateIcon" v-if="state !== 'Yesterday'" icon="material-symbols:arrow-back-ios-new-rounded" @click="fetchApiData(state, 'back')" />
-      {{ getTodaysDate2(state) }} 
-      <Icon class="dateIcon" v-if="state !== 'Tomorrow'" icon="material-symbols:arrow-forward-ios-rounded"  @click="fetchApiData(state, 'forward')"/>
+      <Icon class="dateIcon" v-if="state !== 'Yesterday'" icon="material-symbols:arrow-back-ios-new-rounded"
+        @click="fetchApiData(state, 'back')" />
+      {{ getTodaysDate2(state) }}
+      <Icon class="dateIcon" v-if="state !== 'Tomorrow'" icon="material-symbols:arrow-forward-ios-rounded"
+        @click="fetchApiData(state, 'forward')" />
     </div>
-    
+
     <h1>{{ state }}'s matches:</h1>
 
-  
+
 
 
     <ul>
@@ -58,10 +91,12 @@ import { Icon } from '@iconify/vue';
 
 var State = {
   Yesterday: "Yesterday",
-  Today: "Today", 
-  Tomorrow : "Tomorrow"
+  Today: "Today",
+  Tomorrow: "Tomorrow"
 }
 
+
+var teamIDtemp;
 
 
 export default {
@@ -69,18 +104,24 @@ export default {
   components: {
     Icon,
   },
+
+
   data() {
     return {
 
 
       state: State.Today,
-      
+
+
+
       // PLurl: 'https://api.football-data.org/v4/competitions/PL/matches',
       // SerieAUrl: `https://api.football-data.org/v4/competitions/SA/matches`,
       // BundesUrl: `https://api.football-data.org/v4/competitions/BL1/matches`,
       apiUrl: `https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021`,
       apiUrlYesterday: `https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=YESTERDAY`,
       apiUrlTomorrow: `https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=TOMORROW`,
+      apiUrlFav1: `https://api.football-data.org/v4/teams/`,
+      apiUrlFav2: `/matches?dateFrom=2023-04-16&dateTo=2023-04-30`,
 
 
       //Gårdagens resultat https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=YESTERDAY
@@ -95,13 +136,16 @@ export default {
 
 
       matchesToday: [],
+      matchesFav: [],
       todaysDate: ''
     }
   },
 
   async mounted() {
     //this.getTodaysDate();
+    teamIDtemp = await this.getTeam();
     await this.fetchApiData(this.apiUrl);
+    await this.fetchApiDataFav(this.apiUrlFav1, this.apiUrlFav2, teamIDtemp[0].teamID);
   },
 
 
@@ -114,21 +158,26 @@ export default {
       this.todaysDate = `${year}-${month}-${day}`;
     },
 
+    async getTeam() {
 
+    return Promise.resolve().then(function () {
+            return JSON.parse(localStorage.getItem("teamList"));
+        });
+    },
 
     getTodaysDate2(state) {
-     var d;
-      if(state == State.Today){
+      var d;
+      if (state == State.Today) {
         d = new Date().toLocaleDateString("en-UK").replace(/\//g, '-');
-      }else if(state == State.Yesterday){
+      } else if (state == State.Yesterday) {
         d = new Date();
         d.setDate(d.getDate() - 1);
         d = d.toLocaleDateString("en-UK").replace(/\//g, '-');
-      }else{
+      } else {
         d = new Date();
         d.setDate(d.getDate() + 1);
         d = d.toLocaleDateString("en-UK").replace(/\//g, '-');
-      }      
+      }
       return d;
     },
 
@@ -138,21 +187,48 @@ export default {
       return time + match.utcDate.substring(13, 16);
     },
 
-    
+
+    async fetchApiDataFav(url, url2, fav) {
+
+      const options = {
+        headers: {
+          'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
+        },
+        params: {
+          
+        }
+      };
+      url = url + fav + url2;
+
+      console.log(url);
+
+      try {
+        const response = await axios.get(url, options);
+        //this.matchesToday = response.data.matches;
+        console.log(response.data.matches);
+        this.matchesFav = response.data.matches;
+
+      } catch (error) {
+        console.error(error.message);
+      }
+    },
+
+
+
 
 
 
     async fetchApiData(state, dir) {
 
-      var url; 
+      var url;
 
-      if(state == State.Today && dir =='back'){
-       url = this.apiUrlYesterday;
-       this.state = State.Yesterday;
-      } else if(state == State.Today && dir =='forward'){
+      if (state == State.Today && dir == 'back') {
+        url = this.apiUrlYesterday;
+        this.state = State.Yesterday;
+      } else if (state == State.Today && dir == 'forward') {
         url = this.apiUrlTomorrow;
         this.state = State.Tomorrow;
-      }else {
+      } else {
         url = this.apiUrl;
         this.state = State.Today;
 
@@ -178,16 +254,18 @@ export default {
       }
     },
 
-   
-    
-   
-    
-    
+
+
+
+
+
     saveTeam(teamID, teamName) {
       const teamList = JSON.parse(localStorage.getItem('teamList')) || [];
       teamList.push({ teamID, teamName });
       localStorage.setItem('teamList', JSON.stringify(teamList));
     }
+
+
   }
 
 
