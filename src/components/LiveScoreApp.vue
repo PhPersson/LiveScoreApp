@@ -6,8 +6,8 @@
 
 
 <li class="match" v-for="match in matchesFav" :key="match.id">
-
-  <p class="date">Date: {{ match.utcDate.substring(0, 10) }} </p>
+  <p>{{ match }}</p>
+  <!-- <p class="date">Date: {{ match.utcDate.substring(0, 10) }} </p> -->
   <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
   <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{ getTime(match)
     + ' CEST' }} - <p class="timeLive">LIVE</p> first half </div>
@@ -19,7 +19,7 @@
 
   <div class="homeTeam">
     <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.homeTeam.id, match.homeTeam.name)" />
-    <img v-bind:src="match.homeTeam.crest" class="crest" />
+    <!-- <img v-bind:src="match.homeTeam.crest" class="crest" /> -->
     {{ match.homeTeam.name }}
   </div>
   <div class="score">
@@ -27,7 +27,7 @@
   </div>
   <div class="awayTeam">
     {{ match.awayTeam.name }}
-    <img v-bind:src="match.awayTeam.crest" class="crest" />
+    <!-- <img v-bind:src="match.awayTeam.crest" class="crest" /> -->
     <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.awayTeam.id, match.awayTeam.name)" />
   </div>
 
@@ -189,7 +189,7 @@ export default {
     },
 
 
-    async fetchApiDataFav(url, url2, fav) {
+    async fetchApiDataFav(url, url2, fav) { //Hantera om favoriter är null
 
       const options = {
         headers: {
@@ -207,8 +207,8 @@ export default {
         const response = await axios.get(url, options);
         //this.matchesToday = response.data.matches;
         console.log(response.data.matches);
-        this.matchesFav = response.data.matches;
-
+        this.matchesFav = response.data.matches[0];
+        console.log(this.matchesFav);
       } catch (error) {
         console.error(error.message);
       }
@@ -264,6 +264,7 @@ export default {
       const teamList = JSON.parse(localStorage.getItem('teamList')) || [];
       teamList.push({ teamID, teamName });
       localStorage.setItem('teamList', JSON.stringify(teamList));
+
     }
 
 
