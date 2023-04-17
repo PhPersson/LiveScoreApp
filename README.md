@@ -22,10 +22,10 @@ npm run serve
 ```
 
 
-# Demo
+## Demo
 _TODO_
 
-# Varför Vue.js?
+## Varför Vue.js?
 Se [jämförelsen här](jämförelse.md)
 
 ## Teknologier som används
