@@ -12,7 +12,8 @@ npm install
 
 * Hämta en API-nyckel [här](https://www.football-data.org/client/register)
 
-* Byt ut DIN API-NYCKEL i filen EXAMPLE.env till din faktiska API-nyckel som du fick från förregående steg
+* Byt ut DIN API-NYCKEL i filen EXAMPLE.env till din API-nyckel som du fick från förregående steg
+
 * Döp om filen EXAMPLE.env till bara _.env.local_
 
 * Kör sedan nedan kommando för att starta servern.
@@ -21,11 +22,11 @@ npm run serve
 ```
 
 
-# Användning
+# Demo
 _TODO_
 
 # Varför Vue.js?
-Se [Jämförelsen här](jämförelse.md)
+Se [jämförelsen här](jämförelse.md)
 
 ## Teknologier som används
 * [Vue.js](https://vuejs.org/)
