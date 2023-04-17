@@ -4,7 +4,7 @@
       <h1>Your favorites:</h1>
         <ul v-if="favTeams.length > 0">
 
-          <li class="match" v-for="match in favTeams" :key="match.id">
+          <!-- <li class="match" v-for="match in this.favTeams" :key="match.id">
             <p class="date">Date: {{ match.utcDate.substring(0, 10) }} </p>
             <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
             <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{ getTime(match)
@@ -12,11 +12,11 @@
             <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{ getTime(match)
               + ' CEST' }} - <p class="timeLive">LIVE</p> second half </div>
             <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
-            <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
+            <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p> -->
 
 
-            <div class="homeTeam">
-              <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeamAsFav(match.homeTeam.id, match.homeTeam.name)" />
+            <!-- <div class="homeTeam">
+              <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeamAsFav(match.homeTeam.id)" />
               <img v-bind:src="match.homeTeam.crest" class="crest" />
               {{ match.homeTeam.name }}
             </div>
@@ -26,10 +26,10 @@
             <div class="awayTeam">
               {{ match.awayTeam.name }}
               <img v-bind:src="match.awayTeam.crest" class="crest" />
-              <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeamAsFav(match.awayTeam.id, match.awayTeam.name)" />
-            </div>
+              <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeamAsFav(match.awayTeam)" />
+            </div> -->
 
-          </li>
+          <!-- </li> -->
         </ul>
         <p id="nofav" v-else>No favorite teams added yet.</p>
     </div>
@@ -61,7 +61,7 @@
 
 
         <div class="homeTeam">
-          <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeamAsFav(match.homeTeam.id, match.homeTeam.name)" />
+          <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeamAsFav(match.homeTeam)" />
           <img v-bind:src="match.homeTeam.crest" class="crest" />
           {{ match.homeTeam.name }}
         </div>
@@ -71,7 +71,7 @@
         <div class="awayTeam">
           {{ match.awayTeam.name }}
           <img v-bind:src="match.awayTeam.crest" class="crest" />
-          <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeamAsFav(match.awayTeam.id, match.awayTeam.name)" />
+          <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeamAsFav(match.awayTeam)" />
         </div>
 
       </li>
@@ -124,7 +124,7 @@ export default {
   },
 
   async mounted() {
-    teamIDtemp = await this.getTeam();
+    // teamIDtemp = await this.getTeam();
     this.fetchFavTeams();
     await this.fetchApiData(this.apiUrl);
     await this.fetchApiDataFav(this.apiUrlFav1, this.apiUrlFav2, teamIDtemp[0].teamID);
@@ -233,28 +233,20 @@ export default {
       }
     },
 
-    saveTeamAsFav(teamID, teamName) {
-      this.favTeams = JSON.parse(localStorage.getItem('favTeams')) || [];
-      this.favTeams.push({ teamID, teamName });
-      localStorage.setItem('favTeams', JSON.stringify(this.favTeams));
+    saveTeamAsFav(team) {
+      console.log(team);
+      // this.favTeams = JSON.parse(localStorage.getItem('favTeams')) || [];
+      // this.favTeams.push({ team });
+      // localStorage.setItem('favTeams', JSON.stringify(this.favTeams));
     },
 
     fetchFavTeams() {
-      try {
-      const storedFavTeams = localStorage.getItem('favTeams');
-      if (storedFavTeams) {
-        this.favTeams = JSON.parse(storedFavTeams);
-        } else {
-        this.favTeams = [];
-        }
-      } catch (error) {
-      console.error('Error parsing favTeams from localStorage:', error);
-      this.favTeams = [];
-      }
+      const storedFavTeams =  JSON.parse(localStorage.getItem('favTeams')) || [];
+        console.log(storedFavTeams);
+    
+  
     },
-  
-  
-    }
+  }
 
 }
 </script>
