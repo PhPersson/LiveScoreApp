@@ -70,7 +70,7 @@ export default {
 
       // Kommande matcher https://api.football-data.org/v4/teams/5890/matches?dateFrom=2023-04-16&dateTo=2023-04-30
       top5Leagues: ["Premier League", "La Liga", "Serie A", "Bundesliga", "Ligue A"],
-      otherLeagues: ["Allsvenskan"],
+      otherLeagues: [""],
       selectedTop5League: '',
       selectedOtherLeague: '',
       teams: [],

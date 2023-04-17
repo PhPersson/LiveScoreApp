@@ -1,5 +1,5 @@
 <template>
-  <img class="logo" alt="Vue logo" src="./assets/logo.jpg">
+  <img class="logo" alt="Vue logo" src="./assets/logo.jpg" @click="reloadPage">
   <LiveScoreApp/>
 </template>
 
@@ -10,6 +10,11 @@ export default {
   name: 'App',
   components: {
     LiveScoreApp
+  },
+  methods: {
+    reloadPage() {
+      location.reload();
+    }
   }
 }
 </script>
