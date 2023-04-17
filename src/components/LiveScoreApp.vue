@@ -1,13 +1,13 @@
 <template>
   <div class="live">
 
-    <h2>Top 5 Leagues:</h2>
-    <select v-model="selectedTop5League" @change="fetchteams">
+    <h2 class= "dropdown-headers">Top 5 Leagues:</h2>
+    <select class="dropdown-list" v-model="selectedTop5League" @change="fetchteams">
       <option v-for="league in top5Leagues" :value="league" :key="league">{{ league }}</option>
     </select>
 
-    <h2>Other Leagues:</h2>
-    <select v-model="selectedOtherLeague" @change="fetchteams">
+    <h2 class= "dropdown-headers">Other Leagues:</h2>
+    <select class="dropdown-list" v-model="selectedOtherLeague" @change="fetchteams">
       <option v-for="league in otherLeagues" :value="league" :key="league">{{ league }}</option>
     </select>
     <h1>Your favorites:</h1>
