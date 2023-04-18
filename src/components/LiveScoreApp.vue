@@ -1,4 +1,5 @@
 <template>
+
   <div class="live">
 
     <h2 class= "dropdown-headers">Leagues:</h2>
