@@ -1,7 +1,7 @@
 <template>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">    <img src="https://images.template.net/wp-content/uploads/2017/02/22162556/Football-Ball-Icon.jpg" width="80" alt="Bootstrappin'">
+    <a class="navbar-brand" href="#">    <img src="https://www.svgrepo.com/show/17072/football.svg" width="60" alt="Bootstrappin'">
 LiveScoreApp</a>
 
 
