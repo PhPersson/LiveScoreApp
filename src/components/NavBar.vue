@@ -1,7 +1,7 @@
 <template>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">    <img src="https://www.svgrepo.com/show/17072/football.svg" width="60" alt="Bootstrappin'">
+    <a class="navbar-brand" href="/">    <img src="https://www.svgrepo.com/show/17072/football.svg" width="60" alt="Bootstrappin'">
 LiveScoreApp</a>
 
 
@@ -11,18 +11,20 @@ LiveScoreApp</a>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="/">
+            Home
+            </a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Live games
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Premier League</a></li>
-            <li><a class="dropdown-item" href="#">La Liga</a></li>
-            <li><a class="dropdown-item" href="#">Serie A</a></li>
-            <li><a class="dropdown-item" href="#">BundesLiga</a></li>
-            <li><a class="dropdown-item" href="#">League 1</a></li>
+            <li><a class="dropdown-item" href="/about">Premier League</a></li>
+            <li><a class="dropdown-item" href="/about">La Liga</a></li>
+            <li><a class="dropdown-item" href="/about">Serie A</a></li>
+            <li><a class="dropdown-item" href="/about">BundesLiga</a></li>
+            <li><a class="dropdown-item" href="/about">League 1</a></li>
 
           </ul>
         </li>
@@ -31,11 +33,11 @@ LiveScoreApp</a>
             League Tables
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Premier League</a></li>
-            <li><a class="dropdown-item" href="#">La Liga</a></li>
-            <li><a class="dropdown-item" href="#">Serie A</a></li>
-            <li><a class="dropdown-item" href="#">BundesLiga</a></li>
-            <li><a class="dropdown-item" href="#">League 1</a></li>
+            <li><a class="dropdown-item" href="/about">Premier League</a></li>
+            <li><a class="dropdown-item" href="/about">La Liga</a></li>
+            <li><a class="dropdown-item" href="/about">Serie A</a></li>
+            <li><a class="dropdown-item" href="/about">BundesLiga</a></li>
+            <li><a class="dropdown-item" href="/about">League 1</a></li>
           </ul>
         </li>
       </ul>

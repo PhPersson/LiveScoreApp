@@ -1,22 +1,32 @@
 <template>
   <NavBar/>
   
+  <router-view />
+  <!--
+
+      <NavBar/>
+
+  -->
+  
    <!--
     <img class="logo" alt="logo" src="./assets/logo.jpg" @click="reloadPage">
    -->
 
+
+    <!--
+
   <LiveScoreApp/>
+
+  -->
 
 </template>
 
 <script>
-import LiveScoreApp from './components/LiveScoreApp.vue'
 import NavBar from './components/NavBar.vue';
 
 export default {
   name: 'App',
   components: {
-    LiveScoreApp,
     NavBar
   },
   methods: {
