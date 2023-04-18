@@ -1,40 +1,36 @@
 <template>
   <div class="live">
-    <h1>Your favorites:</h1>
-    <ul>
+    <div class="favorites">
+      <h1>Your favorites:</h1>
+        <ul>
+          <li class="match" v-for="match in matchesFav" :key="match.id">
+            <p>{{ match }}</p>
+            <!-- <p class="date">Date: {{ match.utcDate.substring(0, 10) }} </p> -->
+            <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
+            <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{ getTime(match)
+              + ' CEST' }} - <p class="timeLive">LIVE</p> first half </div>
+            <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{ getTime(match)
+              + ' CEST' }} - <p class="timeLive">LIVE</p> second half </div>
+            <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
+            <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
 
 
-
-<li class="match" v-for="match in matchesFav" :key="match.id">
-  <p>{{ match }}</p>
-  <!-- <p class="date">Date: {{ match.utcDate.substring(0, 10) }} </p> -->
-  <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
-  <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{ getTime(match)
-    + ' CEST' }} - <p class="timeLive">LIVE</p> first half </div>
-  <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{ getTime(match)
-    + ' CEST' }} - <p class="timeLive">LIVE</p> second half </div>
-  <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
-  <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
-
-
-  <div class="homeTeam">
-    <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.homeTeam.id, match.homeTeam.name)" />
-    <!-- <img v-bind:src="match.homeTeam.crest" class="crest" /> -->
-    {{ match.homeTeam.name }}
-  </div>
-  <div class="score">
-    {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }}
-  </div>
-  <div class="awayTeam">
-    {{ match.awayTeam.name }}
-    <!-- <img v-bind:src="match.awayTeam.crest" class="crest" /> -->
-    <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.awayTeam.id, match.awayTeam.name)" />
-  </div>
-
-
-</li>
-</ul>
-
+            <div class="homeTeam">
+              <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.homeTeam.id, match.homeTeam.name)" />
+              <!-- <img v-bind:src="match.homeTeam.crest" class="crest" /> -->
+              {{ match.homeTeam.name }}
+            </div>
+            <div class="score">
+              {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }}
+            </div>
+            <div class="awayTeam">
+              {{ match.awayTeam.name }}
+              <!-- <img v-bind:src="match.awayTeam.crest" class="crest" /> -->
+              <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.awayTeam.id, match.awayTeam.name)" />
+            </div>
+          </li>
+        </ul>
+    </div>
 
 
     <div class="topMenu">
@@ -47,41 +43,37 @@
 
     <h1>{{ state }}'s matches:</h1>
 
+    <div class="todaysMatches">
+      <ul v-if="matchesToday.length > 0">
+        <li class="match" v-for="match in matchesToday" :key="match.id">
 
+          <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
+          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{ getTime(match)
+            + ' CEST' }} - <p class="timeLive">LIVE</p> first half </div>
+          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{ getTime(match)
+            + ' CEST' }} - <p class="timeLive">LIVE</p> second half </div>
+          <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
+          <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
 
+          <div class="homeTeam">
+            <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.homeTeam.id, match.homeTeam.name)" />
+            <img v-bind:src="match.homeTeam.crest" class="crest" />
+            {{ match.homeTeam.name }}
+          </div>
+          <div class="score">
+            {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }}
+          </div>
+          <div class="awayTeam">
+            {{ match.awayTeam.name }}
+            <img v-bind:src="match.awayTeam.crest" class="crest" />
+            <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.awayTeam.id, match.awayTeam.name)" />
+          </div>
 
-    <ul>
-
-
-
-      <li class="match" v-for="match in matchesToday" :key="match.id">
-
-        <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
-        <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{ getTime(match)
-          + ' CEST' }} - <p class="timeLive">LIVE</p> first half </div>
-        <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{ getTime(match)
-          + ' CEST' }} - <p class="timeLive">LIVE</p> second half </div>
-        <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
-        <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
-
-
-        <div class="homeTeam">
-          <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.homeTeam.id, match.homeTeam.name)" />
-          <img v-bind:src="match.homeTeam.crest" class="crest" />
-          {{ match.homeTeam.name }}
-        </div>
-        <div class="score">
-          {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }}
-        </div>
-        <div class="awayTeam">
-          {{ match.awayTeam.name }}
-          <img v-bind:src="match.awayTeam.crest" class="crest" />
-          <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.awayTeam.id, match.awayTeam.name)" />
-        </div>
-
-
-      </li>
-    </ul>
+        </li>
+      </ul>
+      <p v-else>No matches today</p>
+    </div>
+  
   </div>
 </template>
 
