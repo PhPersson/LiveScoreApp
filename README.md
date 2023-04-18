@@ -40,6 +40,7 @@ Se [jämförelsen här](jämförelse.md)
 * [Vue.js](https://vuejs.org/)
 * [axios](https://github.com/axios/axios)
 * [Football-data API](https://www.football-data.org/)
+* [Bootstrap 5.2](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
 
 
 
