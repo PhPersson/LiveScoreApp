@@ -1,5 +1,5 @@
 <template>
-  <img class="logo" alt="Vue logo" src="./assets/logo.jpg" @click="reloadPage">
+  <img class="logo" alt="logo" src="./assets/logo.jpg" @click="reloadPage">
   <LiveScoreApp/>
 
 </template>
@@ -31,4 +31,9 @@ export default {
   margin-right: auto;
   width: 10%;
 }
+
+.logo:hover {
+  cursor: pointer;
+}
+
 </style>
