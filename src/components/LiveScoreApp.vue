@@ -1,15 +1,11 @@
 <template>
   <div class="live">
 
-    <h2 class= "dropdown-headers">Top 5 Leagues:</h2>
-    <select class="dropdown-list" v-model="selectedTop5League" @change="fetchteams">
-      <option v-for="league in top5Leagues" :value="league" :key="league">{{ league }}</option>
+    <h2 class= "dropdown-headers">Leagues:</h2>
+    <select class="dropdown-list" v-model="selectedLeague" @change="this.fetchTeams">
+      <option v-for="league in topLeagues" :value="league" :key="league">{{ league }}</option>
     </select>
 
-    <h2 class= "dropdown-headers">Other Leagues:</h2>
-    <select class="dropdown-list" v-model="selectedOtherLeague" @change="fetchteams">
-      <option v-for="league in otherLeagues" :value="league" :key="league">{{ league }}</option>
-    </select>
     <h1>Your favorites:</h1>
 
 
@@ -24,8 +20,9 @@
     <h1>{{ state }}'s matches:</h1>
 
     <div class="todaysMatches">
-      <h1 v-if="selectedTop5League !== '' || selectedOtherLeague !== ''" v-html="filteredMatches.shift()"></h1>
+
       <ul v-if="matchesToday.length > 0">
+        <h3 v-if="selectedLeague !== ''" v-html="filteredMatches.shift()"></h3  >
         <li class="match" v-for="match in matchesToday" :key="match.id">
 
           <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
@@ -70,7 +67,7 @@ var State = {
 }
 
 
-var teamIDtemp;
+// var teamIDtemp;
 
 
 export default {
@@ -106,10 +103,8 @@ export default {
       //Specifikt team matcher https://api.football-data.org/v4/teams/99/matches?dateFrom=2023-04-16&dateTo=2023-04-30
 
       // Kommande matcher https://api.football-data.org/v4/teams/5890/matches?dateFrom=2023-04-16&dateTo=2023-04-30
-      top5Leagues: ["Premier League", "La Liga", "Serie A", "Bundesliga", "Ligue A"],
-      otherLeagues: [""],
-      selectedTop5League: '',
-      selectedOtherLeague: '',
+      topLeagues: ["Premier League", "La Liga", "Serie A", "Bundesliga", "Ligue A", "CL"],
+      selectedLeague: '',
       teams: [],
       matchesToday: [],
       matchesFav: [],
@@ -119,17 +114,17 @@ export default {
 
   async mounted() {
     //this.getTodaysDate();
-    teamIDtemp = await this.getTeam();
+    // teamIDtemp = await this.getTeam();
     await this.fetchApiData(this.apiUrl);
-    await this.fetchApiDataFav(this.apiUrlFav1, this.apiUrlFav2, teamIDtemp[0].teamID);
+    // await this.fetchApiDataFav(this.apiUrlFav1, this.apiUrlFav2, teamIDtemp[0].teamID);
     await this.fetchTeams();
   },
 
   computed: {
   filteredMatches() {
-    const selectedLeague = this.selectedTop5League || this.selectedOtherLeague;
+    const selectedLeague = this.selectedLeague ;
 
-    if (this.selectedTop5League === '' && this.selectedOtherLeague === '') {
+    if (this.selectedLeague === '') {
       return this.matchesToday;
     } else {
       return [
@@ -194,14 +189,12 @@ export default {
       };
       url = url + fav + url2;
 
-      console.log(url);
-
       try {
         const response = await axios.get(url, options);
         //this.matchesToday = response.data.matches;
         console.log(response.data.matches);
         this.matchesFav = response.data.matches[0];
-        console.log(this.matchesFav);
+
       } catch (error) {
         console.error(error.message);
       }
@@ -261,9 +254,22 @@ export default {
 
     async fetchTeams() {
       let leagueName;
-      if (this.selectedTop5League !== '') {
-        leagueName = this.selectedOtherLeague;
-      } else {
+      if (this.selectedLeague == "Premier League") {
+        leagueName = 'PL';
+      }
+      else if (this.selectedLeague == "Serie A") {
+        leagueName = 'SA';
+      }
+      else if (this.selectedLeague == "Bundesliga") {
+        leagueName = 'BL1';
+      }
+      else if (this.selectedLeague == "Ligue A") {
+        leagueName = 'FL1';
+      }
+      else if (this.selectedLeague == "CL") {
+        leagueName = 'CL';
+      }
+      else{
         return;
       }
 
@@ -271,15 +277,11 @@ export default {
         headers: {
           'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
         },
-        params: {
-          areas: '2077',
-          plan: 'TIER_ONE',
-          name: leagueName
-        }
       };
       try {
-        const response = await axios.get(`https://api.football-data.org/v2/competitions/${leagueName}/teams`, options);
-        console.log(response.data.teams);
+        
+        const response = await axios.get(`https://api.football-data.org/v4/matches?competitions=${leagueName}`, options);
+        this.matchesToday = response.data.matches;
       } catch (error) {
         console.error(error);
       }
