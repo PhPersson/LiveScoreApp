@@ -1,36 +1,16 @@
 <template>
   <div class="live">
-    <div class="favorites">
-      <h1>Your favorites:</h1>
-        <ul>
-          <li class="match" v-for="match in matchesFav" :key="match.id">
-            <p>{{ match }}</p>
-            <!-- <p class="date">Date: {{ match.utcDate.substring(0, 10) }} </p> -->
-            <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
-            <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{ getTime(match)
-              + ' CEST' }} - <p class="timeLive">LIVE</p> first half </div>
-            <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{ getTime(match)
-              + ' CEST' }} - <p class="timeLive">LIVE</p> second half </div>
-            <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
-            <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
 
+    <h2 class= "dropdown-headers">Top 5 Leagues:</h2>
+    <select class="dropdown-list" v-model="selectedTop5League" @change="fetchteams">
+      <option v-for="league in top5Leagues" :value="league" :key="league">{{ league }}</option>
+    </select>
 
-            <div class="homeTeam">
-              <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.homeTeam.id, match.homeTeam.name)" />
-              <!-- <img v-bind:src="match.homeTeam.crest" class="crest" /> -->
-              {{ match.homeTeam.name }}
-            </div>
-            <div class="score">
-              {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }}
-            </div>
-            <div class="awayTeam">
-              {{ match.awayTeam.name }}
-              <!-- <img v-bind:src="match.awayTeam.crest" class="crest" /> -->
-              <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.awayTeam.id, match.awayTeam.name)" />
-            </div>
-          </li>
-        </ul>
-    </div>
+    <h2 class= "dropdown-headers">Other Leagues:</h2>
+    <select class="dropdown-list" v-model="selectedOtherLeague" @change="fetchteams">
+      <option v-for="league in otherLeagues" :value="league" :key="league">{{ league }}</option>
+    </select>
+    <h1>Your favorites:</h1>
 
 
     <div class="topMenu">
@@ -44,6 +24,7 @@
     <h1>{{ state }}'s matches:</h1>
 
     <div class="todaysMatches">
+      <h1 v-if="selectedTop5League !== '' || selectedOtherLeague !== ''" v-html="filteredMatches.shift()"></h1>
       <ul v-if="matchesToday.length > 0">
         <li class="match" v-for="match in matchesToday" :key="match.id">
 
@@ -125,9 +106,11 @@ export default {
       //Specifikt team matcher https://api.football-data.org/v4/teams/99/matches?dateFrom=2023-04-16&dateTo=2023-04-30
 
       // Kommande matcher https://api.football-data.org/v4/teams/5890/matches?dateFrom=2023-04-16&dateTo=2023-04-30
-
-
-
+      top5Leagues: ["Premier League", "La Liga", "Serie A", "Bundesliga", "Ligue A"],
+      otherLeagues: [""],
+      selectedTop5League: '',
+      selectedOtherLeague: '',
+      teams: [],
       matchesToday: [],
       matchesFav: [],
       todaysDate: ''
@@ -139,7 +122,25 @@ export default {
     teamIDtemp = await this.getTeam();
     await this.fetchApiData(this.apiUrl);
     await this.fetchApiDataFav(this.apiUrlFav1, this.apiUrlFav2, teamIDtemp[0].teamID);
+    await this.fetchTeams();
   },
+
+  computed: {
+  filteredMatches() {
+    const selectedLeague = this.selectedTop5League || this.selectedOtherLeague;
+
+    if (this.selectedTop5League === '' && this.selectedOtherLeague === '') {
+      return this.matchesToday;
+    } else {
+      return [
+        `<h1>${selectedLeague}</h1>`,
+        ...this.matchesToday.filter(match => match.competition.name === selectedLeague),
+      ];
+    }
+  }
+},
+
+
 
 
   methods: {
@@ -254,15 +255,36 @@ export default {
 
     saveTeam(teamID, teamName) {
       const teamList = JSON.parse(localStorage.getItem('teamList')) || [];
-      teamList.push({ teamID, teamName });
+      teamList.push({  teamID, teamName  });
       localStorage.setItem('teamList', JSON.stringify(teamList));
+    },
 
-    }
+    async fetchTeams() {
+      let leagueName;
+      if (this.selectedTop5League !== '') {
+        leagueName = this.selectedOtherLeague;
+      } else {
+        return;
+      }
 
-
-  }
-
-
+      const options = {
+        headers: {
+          'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
+        },
+        params: {
+          areas: '2077',
+          plan: 'TIER_ONE',
+          name: leagueName
+        }
+      };
+      try {
+        const response = await axios.get(`https://api.football-data.org/v2/competitions/${leagueName}/teams`, options);
+        console.log(response.data.teams);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+}
 }
 </script>
 
