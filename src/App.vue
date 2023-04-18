@@ -1,10 +1,5 @@
 <template>
-<<<<<<< HEAD
-  
-  <img class="logo" alt="Vue logo" src="./assets/logo.jpg">
-=======
   <img class="logo" alt="Vue logo" src="./assets/logo.jpg" @click="reloadPage">
->>>>>>> Dropdowns
   <LiveScoreApp/>
 
 </template>
