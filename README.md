@@ -4,7 +4,15 @@ En Vue.js-applikation  visar live-resultat och matchinformation för fotbollsmat
 Tillåter även dig som användare att spara dina favoritlag. 
 
 ## Installation
-Klona detta repository.
+* Klona detta repository.
+
+* Se till att du har node.js installerat på din dator genom att köra nedan kommando i valfri terminal
+```javascript
+node -v
+```
+* Om du fick att node.js inte kunde hittas så kan du ladda ner det [här](https://nodejs.org/en/download)
+
+
 * Kör nedan kommando i projektets katalog för att installera nödvändiga paket.
 ```javascript
 npm install
