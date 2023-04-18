@@ -1,1 +1,1 @@
-Trots att React var det mest [populära ramverket](https://survey.stackoverflow.co/2022/#most-loved-dreaded-and-wanted-webframe-want) valet år 2022 så har vi valt att skriva denna applikation i Vue.js istället. 
+Trots att React var det mest [populära ramverket](https://survey.stackoverflow.co/2022/#most-loved-dreaded-and-wanted-webframe-want) valet år 2022 så har vi valt att skriva denna applikation i Vue.js istället.
