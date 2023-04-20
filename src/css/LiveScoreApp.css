@@ -119,3 +119,9 @@ ul {
   text-align: center;
   color: red;
 }
+
+#LeagueTable{
+  max-width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
