@@ -1,8 +1,7 @@
 <template>
-
   <div class="live">
 
-    <h2 class= "dropdown-headers">Leagues:</h2>
+    <h2 class="dropdown-headers">Leagues:</h2>
     <select class="dropdown-list" v-model="selectedLeague" @change="this.fetchTeams">
       <option v-for="league in topLeagues" :value="league" :key="league">{{ league }}</option>
     </select>
@@ -23,19 +22,22 @@
     <div class="todaysMatches">
 
       <ul v-if="matchesToday.length > 0">
-        <h3 v-if="selectedLeague !== ''" v-html="filteredMatches.shift()"></h3  >
+        <h3 v-if="selectedLeague !== ''" v-html="filteredMatches.shift()"></h3>
         <li class="match" v-for="match in matchesToday" :key="match.id">
 
           <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
-          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{ getTime(match)
+          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{
+            getTime(match)
             + ' CEST' }} - <p class="timeLive">LIVE</p> first half </div>
-          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{ getTime(match)
+          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{
+            getTime(match)
             + ' CEST' }} - <p class="timeLive">LIVE</p> second half </div>
           <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
           <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
 
           <div class="homeTeam">
-            <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.homeTeam.id, match.homeTeam.name)" />
+            <Icon class="faicon" icon="ic:outline-star-border"
+              @click="saveTeam(match.homeTeam.id, match.homeTeam.name)" />
             <img v-bind:src="match.homeTeam.crest" class="crest" />
             {{ match.homeTeam.name }}
           </div>
@@ -45,14 +47,15 @@
           <div class="awayTeam">
             {{ match.awayTeam.name }}
             <img v-bind:src="match.awayTeam.crest" class="crest" />
-            <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.awayTeam.id, match.awayTeam.name)" />
+            <Icon class="faicon" icon="ic:outline-star-border"
+              @click="saveTeam(match.awayTeam.id, match.awayTeam.name)" />
           </div>
 
         </li>
       </ul>
       <p v-else>No matches today</p>
     </div>
-  
+
   </div>
 </template>
 
@@ -122,19 +125,19 @@ export default {
   },
 
   computed: {
-  filteredMatches() {
-    const selectedLeague = this.selectedLeague ;
+    filteredMatches() {
+      const selectedLeague = this.selectedLeague;
 
-    if (this.selectedLeague === '') {
-      return this.matchesToday;
-    } else {
-      return [
-        `<h1>${selectedLeague}</h1>`,
-        ...this.matchesToday.filter(match => match.competition.name === selectedLeague),
-      ];
+      if (this.selectedLeague === '') {
+        return this.matchesToday;
+      } else {
+        return [
+          `<h1>${selectedLeague}</h1>`,
+          ...this.matchesToday.filter(match => match.competition.name === selectedLeague),
+        ];
+      }
     }
-  }
-},
+  },
 
 
 
@@ -150,9 +153,9 @@ export default {
 
     async getTeam() {
 
-    return Promise.resolve().then(function () {
-            return JSON.parse(localStorage.getItem("teamList"));
-        });
+      return Promise.resolve().then(function () {
+        return JSON.parse(localStorage.getItem("teamList"));
+      });
     },
 
     getTodaysDate2(state) {
@@ -185,7 +188,7 @@ export default {
           'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
         },
         params: {
-          
+
         }
       };
       url = url + fav + url2;
@@ -249,7 +252,7 @@ export default {
 
     saveTeam(teamID, teamName) {
       const teamList = JSON.parse(localStorage.getItem('teamList')) || [];
-      teamList.push({  teamID, teamName  });
+      teamList.push({ teamID, teamName });
       localStorage.setItem('teamList', JSON.stringify(teamList));
     },
 
@@ -270,7 +273,7 @@ export default {
       else if (this.selectedLeague == "CL") {
         leagueName = 'CL';
       }
-      else{
+      else {
         return;
       }
 
@@ -280,14 +283,14 @@ export default {
         },
       };
       try {
-        
+
         const response = await axios.get(`https://api.football-data.org/v4/matches?competitions=${leagueName}`, options);
         this.matchesToday = response.data.matches;
       } catch (error) {
         console.error(error);
       }
     },
-}
+  }
 }
 </script>
 
