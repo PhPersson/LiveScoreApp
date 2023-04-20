@@ -1,5 +1,5 @@
 <template>
-    <h1> League Table {{ league }}</h1>
+    <h1> {{ leagueTable.name }}</h1>
 
     <div>
     <table class="table table-bordered" id="LeagueTable">
@@ -63,8 +63,7 @@ export default {
             apiUrl1: `https://api.football-data.org/v4/competitions/`,
             apiUrl2: `/standings`,
             teams: [],
-            fields: ['first_name', 'last_name', 'age'],
-            test: [{hello: 'asd'}],
+            leagueTable: [],
             
 
 
@@ -105,9 +104,12 @@ export default {
             try {
                 const response = await axios.get(url, options);
                 console.log(response.data);
+                this.leagueTable = response.data.competition;
                 this.matchesToday = response.data.standings[0].table;
                 this.teams = response.data.standings[0].table;
                 console.log(this.matchesToday);
+                console.log(this.leagueTable);
+
 
 
             } catch (error) {
