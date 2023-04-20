@@ -7,6 +7,7 @@
             <tr>
                 <th scope="col">Position</th>
                 <th scope="col">Name</th>
+                <th scope="col">GP</th>
                 <th scope="col">Won</th>
                 <th scope="col">Draw</th>
                 <th scope="col">Loss</th>
@@ -25,6 +26,7 @@
             <tr v-for="team in teams">
                 <td>{{ team.position }}</td>
                 <td><img v-bind:src="team.team.crest" alt="logo" width="40" height="40">{{ team.team.name }}</td>
+                <td>{{ team.playedGames }}</td>
                 <td>{{ team.won }}</td>
                 <td>{{ team.draw }}</td>
                 <td>{{ team.lost }}</td>

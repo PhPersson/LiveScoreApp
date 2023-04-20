@@ -27,7 +27,7 @@
                           <li><a class="dropdown-item" id="PL" v-bind:href="'/live/'+ this.link" @click="select($event)">Premier League</a></li>
                           <li><a class="dropdown-item" id="PD" v-bind:href="'/live/'+ this.link" @click="select($event)">La Liga</a></li>
                           <li><a class="dropdown-item" id="SA" v-bind:href="'/live/'+ this.link" @click="select($event)">Serie A</a></li>
-                          <li><a class="dropdown-item" id="Bl1" v-bind:href="'/live/'+ this.link" @click="select($event)">BundesLiga</a></li>
+                          <li><a class="dropdown-item" id="BL1" v-bind:href="'/live/'+ this.link" @click="select($event)">BundesLiga</a></li>
                           <li><a class="dropdown-item" id="FL1" v-bind:href="'/live/'+ this.link" @click="select($event)">League 1</a></li>
 
                       </ul>
@@ -41,7 +41,7 @@
                           <li><a class="dropdown-item" id="PL" v-bind:href="'/table/'+ this.link" @click="select($event)">Premier League</a></li>
                           <li><a class="dropdown-item" id="PD" v-bind:href="'/table/'+ this.link" @click="select($event)">La Liga</a></li>
                           <li><a class="dropdown-item" id="SA" v-bind:href="'/table/'+ this.link" @click="select($event)">Serie A</a></li>
-                          <li><a class="dropdown-item" id="Bl1" v-bind:href="'/table/'+ this.link" @click="select($event)">BundesLiga</a></li>
+                          <li><a class="dropdown-item" id="BL1" v-bind:href="'/table/'+ this.link" @click="select($event)">BundesLiga</a></li>
                           <li><a class="dropdown-item" id="FL1" v-bind:href="'/table/'+ this.link" @click="select($event)">League 1</a></li>
                       </ul>
                   </li>
