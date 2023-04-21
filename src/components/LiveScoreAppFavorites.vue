@@ -77,7 +77,9 @@
   
     async mounted() {
       this.getFavoriteTeams();
-      this.fetchApiDataFav(this.apiUrlFav1, this.apiUrlFav2, this.favTeams[0].team.id)
+
+      this.getFavMatches()
+      // this.fetchApiDataFav(this.apiUrlFav1, this.apiUrlFav2, this.favTeams[0].team.id)
     },
   
   
@@ -94,6 +96,13 @@
         this.favTeams = JSON.parse(localStorage.getItem("teamList"));
     },
 
+      getFavMatches() {
+      this.favTeams.forEach(element => {
+        console.log(element.team.id);
+         this.fetchApiDataFav(this.apiUrlFav1, this.apiUrlFav2, element.team.id)
+      });
+      
+    },
 
     deleteFavoriteTeam(teamToRemove) {
       const index = this.favTeams.findIndex((item) => item.team === teamToRemove);
@@ -120,8 +129,7 @@
  async fetchApiDataFav(url, url2, fav) { //Hantera om favoriter är null
 
 
-  
-  const options = {
+  var options = {
       headers: {
           'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
         },
@@ -129,19 +137,22 @@
 
         }
       };
-    url = url + fav + url2;
+        url = url + fav + url2;
+      
     try {
-      const response = await axios.get(url, options);
-      this.favTeamsMatchesToday = response.data.matches;
-
+      var response = await axios.get(url, options);
+      this.favTeamsMatchesToday.push(response.data.matches[0])
+      console.log(this.favTeamsMatchesToday);
     } catch (error) {
       console.error(error.message);
     }
+
+
+
   },
 
-
-    }
+}
+  }
   
 
-  }
-  </script>
+</script>
