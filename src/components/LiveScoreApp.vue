@@ -1,12 +1,5 @@
 <template>
   <div class="live">
-<!-- 
-    <h2 class="dropdown-headers">Leagues:</h2>
-    <select class="dropdown-list" v-model="selectedLeague" @change="this.fetchTeams">
-      <option v-for="league in topLeagues" :value="league" :key="league">{{ league }}</option>
-    </select> -->
-<!-- 
-    <h1>Your favorites:</h1> -->
 
 
     <div class="topMenu">
@@ -22,7 +15,6 @@
     <div class="todaysMatches">
 
       <ul v-if="matchesToday.length > 0">
-        <!-- <h3 v-if="selectedLeague !== ''" v-html="filteredMatches.shift()"></h3> -->
         <li class="match" v-for="match in matchesToday" :key="match.id">
 
           <p class="competition">{{ match.competition.name }}</p>
@@ -81,9 +73,6 @@ export default {
   data() {
     return {
       state: State.Today,
-      // PLurl: 'https://api.football-data.org/v4/competitions/PL/matches',
-      // SerieAUrl: `https://api.football-data.org/v4/competitions/SA/matches`,
-      // BundesUrl: `https://api.football-data.org/v4/competitions/BL1/matches`,
       apiUrl: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021`,
       apiUrlYesterday: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=YESTERDAY`,
       apiUrlTomorrow: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=TOMORROW`,
@@ -98,35 +87,15 @@ export default {
 
       // Kommande matcher https://api.football-data.org/v4/teams/5890/matches?dateFrom=2023-04-16&dateTo=2023-04-30
       // topLeagues: ["Premier League", "La Liga", "Serie A", "Bundesliga", "Ligue A", "CL"],
-      // selectedLeague: '',
       teams: [],
       matchesToday: [],
-      // matchesFav: [],
       todaysDate: ''
     }
   },
 
   async mounted() {
     await this.fetchApiData(this.apiUrl);
-    // await this.fetchTeams();
   },
-
-  // computed: {
-  //   filteredMatches() {
-  //     const selectedLeague = this.selectedLeague;
-
-  //     if (this.selectedLeague === '') {
-  //       return this.matchesToday;
-  //     } else {
-  //       return [
-  //         `<h1>${selectedLeague}</h1>`,
-  //         ...this.matchesToday.filter(match => match.competition.name === selectedLeague),
-  //       ];
-  //     }
-  //   }
-  // },
-
-
 
 
   methods: {
@@ -204,47 +173,11 @@ export default {
 
 
     saveTeam(team) {
-      // console.log(team);
-      const teamList = JSON.parse(localStorage.getItem('teamList')) || [];
+      var teamList = JSON.parse(localStorage.getItem('teamList')) || [];
       teamList.push({ team });
       localStorage.setItem('teamList', JSON.stringify(teamList));
-      console.log(teamList);
     },
 
-    // async fetchTeams() {
-    //   let leagueName;
-    //   if (this.selectedLeague == "Premier League") {
-    //     leagueName = 'PL';
-    //   }
-    //   else if (this.selectedLeague == "Serie A") {
-    //     leagueName = 'SA';
-    //   }
-    //   else if (this.selectedLeague == "Bundesliga") {
-    //     leagueName = 'BL1';
-    //   }
-    //   else if (this.selectedLeague == "Ligue A") {
-    //     leagueName = 'FL1';
-    //   }
-    //   else if (this.selectedLeague == "CL") {
-    //     leagueName = 'CL';
-    //   }
-    //   else {
-    //     return;
-    //   }
-
-    //   const options = {
-    //     headers: {
-    //       'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
-    //     },
-    //   };
-    //   try {
-
-    //     const response = await axios.get(`https://api.football-data.org/v4/matches?competitions=${leagueName}`, options);
-    //     this.matchesToday = response.data.matches;
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // },
   }
 }
 </script>

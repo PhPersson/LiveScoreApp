@@ -35,7 +35,7 @@
                       </ul>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" href="#" role="button" aria-expanded="false"> Favorites </a>
+                      <a class="nav-link" href="/favorites" role="button" aria-expanded="false"> Favorites </a>
                   </li>
               </ul>
           </div>

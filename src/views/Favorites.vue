@@ -1,11 +1,7 @@
-
-
 <template>
     <LiveScoreAppFavorites/>
 </template>
 
-
-  
   
 <script>
 import LiveScoreAppFavorites from '@/components/LiveScoreAppFavorites.vue';
