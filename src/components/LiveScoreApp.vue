@@ -84,9 +84,9 @@ export default {
       // PLurl: 'https://api.football-data.org/v4/competitions/PL/matches',
       // SerieAUrl: `https://api.football-data.org/v4/competitions/SA/matches`,
       // BundesUrl: `https://api.football-data.org/v4/competitions/BL1/matches`,
-      apiUrl: `https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021`,
-      apiUrlYesterday: `https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=YESTERDAY`,
-      apiUrlTomorrow: `https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=TOMORROW`,
+      apiUrl: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021`,
+      apiUrlYesterday: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=YESTERDAY`,
+      apiUrlTomorrow: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=TOMORROW`,
       apiUrlFav1: `https://api.football-data.org/v4/teams/`,
       apiUrlFav2: `/matches?dateFrom=2023-04-16&dateTo=2023-04-30`,
 
