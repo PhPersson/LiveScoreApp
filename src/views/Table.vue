@@ -16,10 +16,6 @@
                 <th scope="col">GD</th>
                 <th scope="col">Points</th>
 
-
-
-
-
             </tr>
         </thead>
         <tbody>

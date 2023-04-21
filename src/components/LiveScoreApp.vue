@@ -1,12 +1,12 @@
 <template>
   <div class="live">
-
+<!-- 
     <h2 class="dropdown-headers">Leagues:</h2>
     <select class="dropdown-list" v-model="selectedLeague" @change="this.fetchTeams">
       <option v-for="league in topLeagues" :value="league" :key="league">{{ league }}</option>
-    </select>
-
-    <h1>Your favorites:</h1>
+    </select> -->
+<!-- 
+    <h1>Your favorites:</h1> -->
 
 
     <div class="topMenu">
@@ -22,7 +22,7 @@
     <div class="todaysMatches">
 
       <ul v-if="matchesToday.length > 0">
-        <h3 v-if="selectedLeague !== ''" v-html="filteredMatches.shift()"></h3>
+        <!-- <h3 v-if="selectedLeague !== ''" v-html="filteredMatches.shift()"></h3> -->
         <li class="match" v-for="match in matchesToday" :key="match.id">
 
           <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
@@ -70,25 +70,15 @@ var State = {
   Tomorrow: "Tomorrow"
 }
 
-
-// var teamIDtemp;
-
-
 export default {
   name: 'LiveScoreApp',
   components: {
     Icon,
   },
 
-
   data() {
     return {
-
-
       state: State.Today,
-
-
-
       // PLurl: 'https://api.football-data.org/v4/competitions/PL/matches',
       // SerieAUrl: `https://api.football-data.org/v4/competitions/SA/matches`,
       // BundesUrl: `https://api.football-data.org/v4/competitions/BL1/matches`,
@@ -102,42 +92,37 @@ export default {
       //Gårdagens resultat https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=YESTERDAY
       //morgondagens matcher https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021&date=TOMORRROW
 
-
-
       //Specifikt team matcher https://api.football-data.org/v4/teams/99/matches?dateFrom=2023-04-16&dateTo=2023-04-30
 
       // Kommande matcher https://api.football-data.org/v4/teams/5890/matches?dateFrom=2023-04-16&dateTo=2023-04-30
-      topLeagues: ["Premier League", "La Liga", "Serie A", "Bundesliga", "Ligue A", "CL"],
-      selectedLeague: '',
+      // topLeagues: ["Premier League", "La Liga", "Serie A", "Bundesliga", "Ligue A", "CL"],
+      // selectedLeague: '',
       teams: [],
       matchesToday: [],
-      matchesFav: [],
+      // matchesFav: [],
       todaysDate: ''
     }
   },
 
   async mounted() {
-    //this.getTodaysDate();
-    // teamIDtemp = await this.getTeam();
     await this.fetchApiData(this.apiUrl);
-    // await this.fetchApiDataFav(this.apiUrlFav1, this.apiUrlFav2, teamIDtemp[0].teamID);
-    await this.fetchTeams();
+    // await this.fetchTeams();
   },
 
-  computed: {
-    filteredMatches() {
-      const selectedLeague = this.selectedLeague;
+  // computed: {
+  //   filteredMatches() {
+  //     const selectedLeague = this.selectedLeague;
 
-      if (this.selectedLeague === '') {
-        return this.matchesToday;
-      } else {
-        return [
-          `<h1>${selectedLeague}</h1>`,
-          ...this.matchesToday.filter(match => match.competition.name === selectedLeague),
-        ];
-      }
-    }
-  },
+  //     if (this.selectedLeague === '') {
+  //       return this.matchesToday;
+  //     } else {
+  //       return [
+  //         `<h1>${selectedLeague}</h1>`,
+  //         ...this.matchesToday.filter(match => match.competition.name === selectedLeague),
+  //       ];
+  //     }
+  //   }
+  // },
 
 
 
@@ -180,35 +165,6 @@ export default {
       return time + match.utcDate.substring(13, 16);
     },
 
-
-    async fetchApiDataFav(url, url2, fav) { //Hantera om favoriter är null
-
-      const options = {
-        headers: {
-          'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
-        },
-        params: {
-
-        }
-      };
-      url = url + fav + url2;
-
-      try {
-        const response = await axios.get(url, options);
-        //this.matchesToday = response.data.matches;
-        console.log(response.data.matches);
-        this.matchesFav = response.data.matches[0];
-
-      } catch (error) {
-        console.error(error.message);
-      }
-    },
-
-
-
-
-
-
     async fetchApiData(state, dir) {
 
       var url;
@@ -222,10 +178,7 @@ export default {
       } else {
         url = this.apiUrl;
         this.state = State.Today;
-
-
       }
-
       const options = {
         headers: {
           'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
@@ -246,53 +199,48 @@ export default {
     },
 
 
-
-
-
-
     saveTeam(teamID, teamName) {
       const teamList = JSON.parse(localStorage.getItem('teamList')) || [];
       teamList.push({ teamID, teamName });
       localStorage.setItem('teamList', JSON.stringify(teamList));
     },
 
-    async fetchTeams() {
-      let leagueName;
-      if (this.selectedLeague == "Premier League") {
-        leagueName = 'PL';
-      }
-      else if (this.selectedLeague == "Serie A") {
-        leagueName = 'SA';
-      }
-      else if (this.selectedLeague == "Bundesliga") {
-        leagueName = 'BL1';
-      }
-      else if (this.selectedLeague == "Ligue A") {
-        leagueName = 'FL1';
-      }
-      else if (this.selectedLeague == "CL") {
-        leagueName = 'CL';
-      }
-      else {
-        return;
-      }
+    // async fetchTeams() {
+    //   let leagueName;
+    //   if (this.selectedLeague == "Premier League") {
+    //     leagueName = 'PL';
+    //   }
+    //   else if (this.selectedLeague == "Serie A") {
+    //     leagueName = 'SA';
+    //   }
+    //   else if (this.selectedLeague == "Bundesliga") {
+    //     leagueName = 'BL1';
+    //   }
+    //   else if (this.selectedLeague == "Ligue A") {
+    //     leagueName = 'FL1';
+    //   }
+    //   else if (this.selectedLeague == "CL") {
+    //     leagueName = 'CL';
+    //   }
+    //   else {
+    //     return;
+    //   }
 
-      const options = {
-        headers: {
-          'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
-        },
-      };
-      try {
+    //   const options = {
+    //     headers: {
+    //       'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
+    //     },
+    //   };
+    //   try {
 
-        const response = await axios.get(`https://api.football-data.org/v4/matches?competitions=${leagueName}`, options);
-        this.matchesToday = response.data.matches;
-      } catch (error) {
-        console.error(error);
-      }
-    },
+    //     const response = await axios.get(`https://api.football-data.org/v4/matches?competitions=${leagueName}`, options);
+    //     this.matchesToday = response.data.matches;
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // },
   }
 }
 </script>
-
 
 <style src="..\css\LiveScoreApp.css"></style>
