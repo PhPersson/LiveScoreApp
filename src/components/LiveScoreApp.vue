@@ -39,7 +39,7 @@
 
           <div class="homeTeam">
             <Icon class="faicon" icon="ic:outline-star-border"
-              @click="saveTeam(match.homeTeam.id, match.homeTeam.name)" />
+              @click="saveTeam(match.homeTeam)" />
             <img v-bind:src="match.homeTeam.crest" class="crest" />
             {{ match.homeTeam.name }}
           </div>
@@ -50,7 +50,7 @@
             {{ match.awayTeam.name }}
             <img v-bind:src="match.awayTeam.crest" class="crest" />
             <Icon class="faicon" icon="ic:outline-star-border"
-              @click="saveTeam(match.awayTeam.id, match.awayTeam.name)" />
+              @click="saveTeam(match.awayTeam)" />
           </div>
 
         </li>
@@ -203,10 +203,12 @@ export default {
     },
 
 
-    saveTeam(teamID, teamName) {
+    saveTeam(team) {
+      // console.log(team);
       const teamList = JSON.parse(localStorage.getItem('teamList')) || [];
-      teamList.push({ teamID, teamName });
+      teamList.push({ team });
       localStorage.setItem('teamList', JSON.stringify(teamList));
+      console.log(teamList);
     },
 
     // async fetchTeams() {
