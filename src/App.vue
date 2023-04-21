@@ -2,22 +2,7 @@
   <NavBar/>
   
   <router-view />
-  <!--
 
-      <NavBar/>
-
-  -->
-  
-   <!--
-    <img class="logo" alt="logo" src="./assets/logo.jpg" @click="reloadPage">
-   -->
-
-
-    <!--
-
-  <LiveScoreApp/>
-
-  -->
 
 </template>
 
