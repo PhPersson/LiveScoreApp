@@ -31,9 +31,6 @@
                 <td>{{ team.goalDifference }}</td>
                 <td>{{ team.points }}</td>
 
-
-
-
             </tr>
         </tbody>
     </table>
@@ -45,7 +42,6 @@
 import LiveScoreApp from '@/components/LiveScoreApp.vue'
 import axios from 'axios';
 
-
 export default {
     name: 'App',
     components: {
@@ -55,51 +51,43 @@ export default {
     data() {
         return {
             league: this.$route.params.league,
-            // apiUrl: `https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021`,
-            apiUrl1: `https://api.football-data.org/v4/competitions/`,
-            apiUrl2: `/standings`,
             teams: [],
             leagueTable: [],
         }
-
     },
 
     async mounted() {
         await this.fetchApiData(this.apiUrl1,this.apiUrl2);
     },
 
-
     methods: {
-        reloadPage() {
-            location.reload();
+    reloadPage() {
+        location.reload();
+    },
+
+    async fetchApiData() {
+    const options = {
+        headers: {
+            'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
         },
-    
-    async fetchApiData(apiUrl1, apiUrl2) {
+        params: {
+            season: 2022,
+            dateFrom: this.todaysDate,
+            dateTo: this.todaysDate
+        }
+    };
+    var url = `https://api.football-data.org/v4/competitions/${this.league}/standings`;
 
-            const options = {
-                headers: {
-                    'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
-                },
-                params: {
-                    season: 2022,
-                    dateFrom: this.todaysDate,
-                    dateTo: this.todaysDate
-                }
-            };
-            var url = apiUrl1 + this.league + apiUrl2;
-
-            try {
-                const response = await axios.get(url, options);
-                console.log(response.data);
-                this.leagueTable = response.data.competition;
-                this.matchesToday = response.data.standings[0].table;
-                this.teams = response.data.standings[0].table;
-            } catch (error) {
-                console.error(error.message);
-            }
-        },
-
+    try {
+        const response = await axios.get(url, options);
+        this.leagueTable = response.data.competition.name;
+        this.matchesToday = response.data.standings[0].table;
+        this.teams = response.data.standings[0].table;
+    } catch (error) {
+        console.error(error.message);
     }
+    },
+}
 }
 
 
