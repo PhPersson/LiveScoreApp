@@ -45,6 +45,12 @@
                           <li><a class="dropdown-item" id="FL1" v-bind:href="'/table/'+ this.link" @click="select($event)">League 1</a></li>
                       </ul>
                   </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="#" role="button"
+                          aria-expanded="false">
+                          Favorites
+                      </a>
+                  </li>
               </ul>
           </div>
       </div>
