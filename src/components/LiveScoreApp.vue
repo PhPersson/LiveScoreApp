@@ -25,6 +25,8 @@
         <h3 v-if="selectedLeague !== ''" v-html="filteredMatches.shift()"></h3>
         <li class="match" v-for="match in matchesToday" :key="match.id">
 
+          <p class="competition">{{ match.competition.name }}</p>
+
           <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
           <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{
             getTime(match)
@@ -240,6 +242,8 @@ export default {
       try {
         const response = await axios.get(url, options);
         this.matchesToday = response.data.matches;
+        console.log(response.data);
+
       } catch (error) {
         console.error(error.message);
       }
