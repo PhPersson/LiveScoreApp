@@ -55,22 +55,17 @@ export default {
     data() {
         return {
             league: this.$route.params.league,
-            apiUrl: `https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021`,
+            // apiUrl: `https://api.football-data.org/v4/matches?competitions=2002,2019,2014,2015,2021`,
             apiUrl1: `https://api.football-data.org/v4/competitions/`,
             apiUrl2: `/standings`,
             teams: [],
             leagueTable: [],
-            
-
-
         }
 
     },
 
     async mounted() {
-
         await this.fetchApiData(this.apiUrl1,this.apiUrl2);
-
     },
 
 
@@ -79,11 +74,7 @@ export default {
             location.reload();
         },
     
-    async fetchApiData(url1, url2) {
-
-
-
-
+    async fetchApiData(apiUrl1, apiUrl2) {
 
             const options = {
                 headers: {
@@ -95,7 +86,7 @@ export default {
                     dateTo: this.todaysDate
                 }
             };
-            var url = url1 + this.league + url2;
+            var url = apiUrl1 + this.league + apiUrl2;
 
             try {
                 const response = await axios.get(url, options);
@@ -103,11 +94,6 @@ export default {
                 this.leagueTable = response.data.competition;
                 this.matchesToday = response.data.standings[0].table;
                 this.teams = response.data.standings[0].table;
-                console.log(this.matchesToday);
-                console.log(this.leagueTable);
-
-
-
             } catch (error) {
                 console.error(error.message);
             }
