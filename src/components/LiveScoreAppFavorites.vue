@@ -13,10 +13,6 @@
         </ul>
         <h2 class="no-fav" v-else>U dont have any favorites yet!</h2>
 
-
-
-
-
       <div class="favoritesfavTeamsMatchesToday">
         <ul v-if="favTeams.length != 0">
           <li class="match" v-for="match in favTeamsMatchesToday" :key="match.id">
@@ -53,106 +49,98 @@
     </div>
 </template>
   
-  <script>
-  
-  import axios from 'axios';
-  import { Icon } from '@iconify/vue';
-  
-  
-  export default {
-    name: 'LiveScoreAppFavorites',
-    components: {
-      Icon,
-    },
-  
-    data() {
-      return {
-        apiUrlFav1: `https://api.football-data.org/v4/teams/`,
-        apiUrlFav2: `/matches?dateFrom=2023-04-21&dateTo=2023-04-24`,
-        favTeams: [],
-        favTeamsMatchesToday: [],
-        todaysDate: ''
-      }
-    },
-  
-    async mounted() {
-      this.getFavoriteTeams();
+<script>
 
-      this.getFavMatches()
-      // this.fetchApiDataFav(this.apiUrlFav1, this.apiUrlFav2, this.favTeams[0].team.id)
+import axios from 'axios';
+import { Icon } from '@iconify/vue';
+  
+export default {
+  name: 'LiveScoreAppFavorites',
+  components: {
+    Icon,
+  },
+  
+  data() {
+    return {
+      apiUrlFav1: `https://api.football-data.org/v4/teams/`,
+      favTeams: [],
+      favTeamsMatchesToday: [],
+      todaysDate: ''
+    }
+  },
+
+  async mounted() {
+    this.getFavoriteTeams();
+    this.getTodaysDate();
+    this.getFavMatches()
+  },
+  
+  
+  methods: {
+    getTodaysDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      this.todaysDate = `${year}-${month}-${day}`;
     },
-  
-  
-    methods: {
-      getTodaysDate() {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
-        this.todaysDate = `${year}-${month}-${day}`;
-      },
   
     getFavoriteTeams() {
         this.favTeams = JSON.parse(localStorage.getItem("teamList"));
     },
 
-      getFavMatches() {
-      this.favTeams.forEach(element => {
-        console.log(element.team.id);
-         this.fetchApiDataFav(this.apiUrlFav1, this.apiUrlFav2, element.team.id)
-      });
-      
-    },
-
-    deleteFavoriteTeam(teamToRemove) {
-      const index = this.favTeams.findIndex((item) => item.team === teamToRemove);
-
-      // Ta bort laget om det hittades
-      if (index !== -1) {
-        this.favTeams.splice(index, 1);
-
-        // Uppdatera localStorage med den nya arrayen
-        localStorage.setItem('teamList', JSON.stringify(this.favTeams));
-        this.getFavoriteTeams();
-      }
-    },
-  
-    getTime(match) {
-      var time = match.utcDate.substring(11, 13)
-      time = parseInt(time) + 2
-      return time + match.utcDate.substring(13, 16);
-    },
-  
-
-
-
- async fetchApiDataFav(url, url2, fav) { //Hantera om favoriter är null
-
-
-  var options = {
-      headers: {
-          'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
-        },
-      params: {
-
-        }
-      };
-        url = url + fav + url2;
-      
-    try {
-      var response = await axios.get(url, options);
-      this.favTeamsMatchesToday.push(response.data.matches[0])
-      console.log(this.favTeamsMatchesToday);
-    } catch (error) {
-      console.error(error.message);
-    }
-
-
-
+    getFavMatches() {
+    this.favTeams.forEach(element => {
+      console.log(element.team.id);
+        this.fetchApiDataFav(this.apiUrlFav1, element.team.id)
+    });
+    
   },
 
-}
-  }
+  deleteFavoriteTeam(teamToRemove) {
+    const index = this.favTeams.findIndex((item) => item.team === teamToRemove);
+
+    // Ta bort laget om det hittades
+    if (index !== -1) {
+      this.favTeams.splice(index, 1);
+
+      // Uppdatera localStorage med den nya arrayen
+      localStorage.setItem('teamList', JSON.stringify(this.favTeams));
+      this.getFavoriteTeams();
+    }
+  },
   
+  getTime(match) {
+    var time = match.utcDate.substring(11, 13)
+    time = parseInt(time) + 2
+    return time + match.utcDate.substring(13, 16);
+  },
+  
+
+
+
+  async fetchApiDataFav(url, fav) { //Hantera om favoriter är null
+
+    var options = {
+        headers: {
+            'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
+          },
+        params: {
+          dateFrom: this.todaysDate,
+          dateTo: "2023-12-31"
+          }
+        };
+        url = url + fav + "/matches";
+;
+      try {
+        var response = await axios.get(url, options);
+        this.favTeamsMatchesToday.push(response.data.matches[0])
+      } catch (error) {
+        console.error(error.message);
+      }
+  },
+
+  }
+}
 
 </script>
