@@ -75,13 +75,14 @@ export default {
           },
           params: {
               season: 2022,
-              dateFrom: "2023-04-21",
-              dateTo: "2023-04-21"
+              dateFrom: "2023-04-22",
+              dateTo: "2023-04-22"
           }
       };
       var url = `https://api.football-data.org/v4/competitions/${this.league}/matches`;
       try {
           const response = await axios.get(url, options);
+          // console.log(response.data.matches);
           this.leagueTable = response.data.competition;
           this.matchesToday = response.data.matches;
       } catch (error) {
