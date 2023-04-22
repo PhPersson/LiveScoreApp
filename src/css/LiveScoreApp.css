@@ -166,3 +166,9 @@ li > .favTeamsName{
   margin-left: auto;
   margin-right: auto;
 }
+
+
+#postponed {
+  font-style: italic;
+  color: red;
+}

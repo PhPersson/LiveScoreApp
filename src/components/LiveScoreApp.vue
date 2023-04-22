@@ -29,7 +29,7 @@
           <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
           <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
           <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
-          <p class="time" v-else-if="match.status === 'POSTPONED'"> POSTPONED</p>
+          <p class="time" id="postponed" v-else-if="match.status === 'POSTPONED'"> POSTPONED</p>
 
           <div class="homeTeam">
             <Icon class="faicon" icon="ic:outline-star-border"
