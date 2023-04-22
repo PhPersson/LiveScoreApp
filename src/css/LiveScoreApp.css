@@ -123,11 +123,27 @@ li > .favTeamsName{
     color: yellow;
   }
 
-  .timeLive{
-    color:red;
+
+  .timeLive {
     text-align: center;
     display: inline-block;
+    animation: pulsate 2s ease-in-out infinite;
   }
+  
+  @keyframes pulsate {
+    0% {
+      background-color: green;
+    }
+    50% {
+      background-color: transparent;
+    }
+    100% {
+      background-color: green;
+    }
+  }
+
+
+
 
   .homeTeam ,.awayTeam {
     display: inline;
@@ -172,3 +188,5 @@ li > .favTeamsName{
   font-style: italic;
   color: red;
 }
+
+

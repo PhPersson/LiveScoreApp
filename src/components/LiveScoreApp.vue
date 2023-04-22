@@ -20,15 +20,15 @@
           <p class="competition">{{ match.competition.name }}</p>
 
           <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
-          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{
+          <div class="time"  v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{
             getTime(match)
-            + ' CEST' }} - <p class="timeLive">LIVE</p> first half </div>
-          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{
+            + ' CEST' }} - <p class="timeLive" id="inplay" >LIVE</p> first half </div>
+          <div class="time"  v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{
             getTime(match)
-            + ' CEST' }} - <p class="timeLive">LIVE</p> second half </div>
+            + ' CEST' }} - <p class="timeLive" id="inplay">LIVE</p> second half </div>
           <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
           <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
-          <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
+
           <p class="time" id="postponed" v-else-if="match.status === 'POSTPONED'"> POSTPONED</p>
 
           <div class="homeTeam">
