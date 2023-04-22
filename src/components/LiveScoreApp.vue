@@ -28,6 +28,8 @@
             + ' CEST' }} - <p class="timeLive">LIVE</p> second half </div>
           <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
           <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
+          <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
+          <p class="time" v-else-if="match.status === 'POSTPONED'"> POSTPONED</p>
 
           <div class="homeTeam">
             <Icon class="faicon" icon="ic:outline-star-border"
@@ -86,7 +88,6 @@ export default {
       //Specifikt team matcher https://api.football-data.org/v4/teams/99/matches?dateFrom=2023-04-16&dateTo=2023-04-30
 
       // Kommande matcher https://api.football-data.org/v4/teams/5890/matches?dateFrom=2023-04-16&dateTo=2023-04-30
-      // topLeagues: ["Premier League", "La Liga", "Serie A", "Bundesliga", "Ligue A", "CL"],
       teams: [],
       matchesToday: [],
       todaysDate: ''
