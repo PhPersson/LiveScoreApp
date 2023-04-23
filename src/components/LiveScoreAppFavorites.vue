@@ -2,21 +2,24 @@
     <div class="fav-live">
     
 
-        <ul v-if="this.favTeams != 0">
-          <h2 id="usersFav">Your favorites</h2>
-          <div class="favoritesTeams">
-            <li class="favTeams" v-for="fav in favTeams" :key="fav.id">
-              <p class="favTeamsName"> <img v-bind:src="fav.team.crest" class="teamLogo" /> {{ fav.team.name }}</p>
-                <Icon class="deleteIcon" icon="iwwa:delete" @click="this.deleteFavoriteTeam(fav.team)" />
-            </li>
-          </div>
-        </ul>
-        <h2 class="no-fav" v-else>U dont have any favorites yet!</h2>
+      <ul v-if="favTeams.length > 0">
+        <h2  class="usersFav">Your favorites</h2>
+        <div class="favoritesTeams">
+          <li class="favTeams" v-for="fav in favTeams" :key="fav.id">
+            <p class="favTeamsName"> <img v-bind:src="fav.crest" class="teamLogo" /> {{ fav.name }}</p>
+              <Icon class="deleteIcon" icon="iwwa:delete" @click="this.deleteFavoriteTeam(fav.team)" />
+          </li>
+        </div>
+      </ul>
+      <h2 class="usersFav" v-else>U dont have any favorites!</h2>
+  
+
+
 
       <div class="favoritesfavTeamsMatchesToday">
         <ul v-if="favTeams.length != 0">
           <li class="match" v-for="match in favTeamsMatchesToday" :key="match.id">
-  
+
             <p class="competition">{{ match.competition.name }}</p>
   
             <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
@@ -43,10 +46,11 @@
   
           </li>
         </ul>
-        <p v-else>No matches today</p>
+        <!-- <p v-else>No matches today</p> -->
       </div>
-  
+
     </div>
+
 </template>
   
 <script>
@@ -59,6 +63,7 @@ export default {
   components: {
     Icon,
   },
+
   
   data() {
     return {
@@ -90,11 +95,9 @@ export default {
     },
 
     getFavMatches() {
-    this.favTeams.forEach(element => {
-      console.log(element.team.id);
-        this.fetchApiDataFav(this.apiUrlFav1, element.team.id)
-    });
-    
+      this.favTeams.forEach(element => {
+          this.fetchApiDataFav(this.apiUrlFav1, element.id)
+      });
   },
 
   deleteFavoriteTeam(teamToRemove) {
@@ -131,9 +134,12 @@ export default {
           }
         };
         url = url + fav + "/matches";
-;
       try {
         var response = await axios.get(url, options);
+        if (response.status === 429) {
+          alert("Testa igen om en stund")
+          return;
+        }
         this.favTeamsMatchesToday.push(response.data.matches[0])
       } catch (error) {
         console.error(error.message);

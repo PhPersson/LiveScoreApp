@@ -1,10 +1,5 @@
 <template>
 
-
-
-
-
-
   <div class="live">
     
     <div class="topMenu">
