@@ -1,6 +1,6 @@
 # LiveScore
 
-En Vue.js-applikation  visar live-resultat och matchinformation för fotbollsmatcher för top 5 ligor Europa. Komponenten använder en sig av [Football-data API](https://www.football-data.org/). 
+En Vue.js-applikation  visar live-resultat och matchinformation för fotbollsmatcher för top 5 ligorna i Europa. Även Champions League visas. Komponenten använder sig av [Football-data API](https://www.football-data.org/). 
 Tillåter även dig som användare att spara dina favoritlag. 
 
 ## Installation
