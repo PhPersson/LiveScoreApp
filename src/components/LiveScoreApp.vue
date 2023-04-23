@@ -1,7 +1,6 @@
 <template>
   <div class="live">
-
-
+    
     <div class="topMenu">
       <Icon class="dateIcon" v-if="state !== 'Yesterday'" icon="material-symbols:arrow-back-ios-new-rounded"
         @click="fetchApiData(state, 'back')" />
@@ -53,12 +52,14 @@
     </div>
 
   </div>
+
 </template>
 
 <script>
 
 import axios from 'axios';
 import { Icon } from '@iconify/vue';
+
 
 var State = {
   Yesterday: "Yesterday",
@@ -90,7 +91,8 @@ export default {
       // Kommande matcher https://api.football-data.org/v4/teams/5890/matches?dateFrom=2023-04-16&dateTo=2023-04-30
       teams: [],
       matchesToday: [],
-      todaysDate: ''
+      todaysDate: '',
+      errorMessage: "",
     }
   },
 
@@ -175,8 +177,31 @@ export default {
 
     saveTeam(team) {
       var teamList = JSON.parse(localStorage.getItem('teamList')) || [];
-      teamList.push({ team });
-      localStorage.setItem('teamList', JSON.stringify(teamList));
+
+      // Check if the team already exists in the list
+      var teamExists = false;
+      for (var i = 0; i < teamList.length; i++) {
+        if (teamList[i].id === team.id) {
+          teamExists = true;
+          break;
+        }
+      }
+
+      // Check if there is room to add the team
+      if (teamList.length >= 9) {
+        this.errorMessage = "Max " + 9 + " teams allowed as favorites";
+        alert(this.errorMessage);
+      }
+      // Check if the team already exists in the list
+      else if (teamExists) {
+        this.errorMessage = "Team already exists in favorites";
+        alert(this.errorMessage);
+      } 
+      // Add the team to the list
+      else {
+        teamList.push(team);
+        localStorage.setItem('teamList', JSON.stringify(teamList));
+      }
     },
 
   }
