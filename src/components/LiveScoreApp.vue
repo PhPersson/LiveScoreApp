@@ -1,4 +1,10 @@
 <template>
+
+
+
+
+
+
   <div class="live">
     
     <div class="topMenu">
@@ -56,10 +62,8 @@
 </template>
 
 <script>
-
 import axios from 'axios';
 import { Icon } from '@iconify/vue';
-
 
 var State = {
   Yesterday: "Yesterday",
@@ -93,6 +97,7 @@ export default {
       matchesToday: [],
       todaysDate: '',
       errorMessage: "",
+      showModal: true,
     }
   },
 
