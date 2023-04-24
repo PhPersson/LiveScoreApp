@@ -21,7 +21,7 @@
           <li class="match" v-for="match in favTeamsMatchesToday" :key="match.id">
 
             <p class="competition">{{ match.competition.name }}</p>
-            <p>{{ match.utcDate }}</p>
+
             <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
             <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{
               getTime(match)
@@ -30,7 +30,7 @@
               getTime(match)
               + ' CEST' }} - <p class="timeLive">LIVE</p> second half </div>
             <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
-            <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
+            <p class="time" v-else-if="match.status === 'TIMED'"> {{ formatFavTime(match.utcDate) }} {{ getTime(match) }} CEST</p>
   
             <div class="homeTeam">
               <img v-bind:src="match.homeTeam.crest" class="crest" />
@@ -46,7 +46,7 @@
   
           </li>
         </ul>
-        <!-- <p v-else>No matches today</p> -->
+        <p v-else>No matches today</p>
       </div>
 
     </div>
@@ -98,54 +98,53 @@ export default {
       this.favTeams.forEach(element => {
           this.fetchApiDataFav(this.apiUrlFav1, element.id)
       });
-  },
+    },
 
-  deleteFavoriteTeam(teamToRemove) {
-    const index = this.favTeams.findIndex((item) => item.team === teamToRemove);
+    deleteFavoriteTeam(teamToRemove) {
+      const index = this.favTeams.findIndex((item) => item.team === teamToRemove);
 
-    // Ta bort laget om det hittades
-    if (index !== -1) {
-      this.favTeams.splice(index, 1);
+      // Ta bort laget om det hittades
+      if (index !== -1) {
+        this.favTeams.splice(index, 1);
 
-      // Uppdatera localStorage med den nya arrayen
-      localStorage.setItem('teamList', JSON.stringify(this.favTeams));
-      this.getFavoriteTeams();
-    }
-  },
-  
-  getTime(match) {
-    var time = match.utcDate.substring(11, 13)
-    time = parseInt(time) + 2
-    return time + match.utcDate.substring(13, 16);
-  },
-  
-
-
-
-  async fetchApiDataFav(url, fav) { //Hantera om favoriter är null
-
-    var options = {
-        headers: {
-            'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
-          },
-        params: {
-          dateFrom: this.todaysDate,
-          dateTo: "2023-12-31"
-          }
-        };
-        url = url + fav + "/matches";
-      try {
-        var response = await axios.get(url, options);
-        if (response.status === 429) {
-          alert("Testa igen om en stund")
-          return;
-        }
-        this.favTeamsMatchesToday.push(response.data.matches[0])
-      } catch (error) {
-        console.error(error.message);
+        // Uppdatera localStorage med den nya arrayen
+        localStorage.setItem('teamList', JSON.stringify(this.favTeams));
+        this.getFavoriteTeams();
       }
-  },
+    },
+    formatFavTime(matchTime){
+      return matchTime.substring(0, 10)
+    },
 
+    getTime(match) {
+      var time = match.utcDate.substring(11, 13)
+      time = parseInt(time) + 2
+      return time + match.utcDate.substring(13, 16);
+    },
+    
+    async fetchApiDataFav(url, fav) { //Hantera om favoriter är null
+
+      var options = {
+          headers: {
+              'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
+            },
+          params: {
+            dateFrom: this.todaysDate,
+            dateTo: "2023-12-31"
+            }
+          };
+          url = url + fav + "/matches";
+        try {
+          var response = await axios.get(url, options);
+          if (response.status === 429) {
+            alert("Testa igen om en stund")
+            return;
+          }
+          this.favTeamsMatchesToday.push(response.data.matches[0])
+        } catch (error) {
+          console.error(error.message);
+        }
+    },
   }
 }
 

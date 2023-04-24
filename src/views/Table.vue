@@ -15,7 +15,6 @@
                 <th scope="col">GA</th>
                 <th scope="col">GD</th>
                 <th scope="col">Points</th>
-
             </tr>
         </thead>
         <tbody>
@@ -30,7 +29,6 @@
                 <td>{{ team.goalsAgainst }}</td>
                 <td>{{ team.goalDifference }}</td>
                 <td>{{ team.points }}</td>
-
             </tr>
         </tbody>
     </table>
@@ -57,7 +55,7 @@ export default {
     },
 
     async mounted() {
-        await this.fetchApiData(this.apiUrl1,this.apiUrl2);
+        await this.fetchApiData();
     },
 
     methods: {
@@ -83,7 +81,8 @@ export default {
         this.leagueTable = response.data.competition.name;
         this.matchesToday = response.data.standings[0].table;
         this.teams = response.data.standings[0].table;
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error.message);
     }
     },

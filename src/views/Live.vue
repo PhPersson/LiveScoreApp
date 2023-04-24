@@ -82,7 +82,6 @@ export default {
       var url = `https://api.football-data.org/v4/competitions/${this.league}/matches`;
       try {
           const response = await axios.get(url, options);
-          // console.log(response.data.matches);
           this.leagueTable = response.data.competition;
           this.matchesToday = response.data.matches;
       } catch (error) {
