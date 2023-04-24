@@ -21,7 +21,7 @@
           <li class="match" v-for="match in favTeamsMatchesToday" :key="match.id">
 
             <p class="competition">{{ match.competition.name }}</p>
-  
+            <p>{{ match.utcDate }}</p>
             <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
             <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{
               getTime(match)

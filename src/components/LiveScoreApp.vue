@@ -92,7 +92,6 @@ export default {
       matchesToday: [],
       todaysDate: '',
       errorMessage: "",
-      showModal: true,
     }
   },
 
