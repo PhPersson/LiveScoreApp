@@ -7,7 +7,7 @@
         <div class="favoritesTeams">
           <li class="favTeams" v-for="fav in favTeams" :key="fav.id">
             <p class="favTeamsName"> <img v-bind:src="fav.crest" class="teamLogo" /> {{ fav.name }}</p>
-              <Icon class="deleteIcon" icon="iwwa:delete" @click="this.deleteFavoriteTeam(fav.team)" />
+              <Icon class="deleteIcon" icon="iwwa:delete" @click="this.deleteFavoriteTeam(fav)" />
           </li>
         </div>
       </ul>
@@ -15,10 +15,11 @@
   
 
 
-
+    <hr>
+    <h3  class="usersFav">Your favorite team's matches</h3>
       <div class="favoritesfavTeamsMatchesToday">
-        <ul v-if="favTeams.length != 0">
-          <li class="match" v-for="match in favTeamsMatchesToday" :key="match.id">
+        <ul v-if="filteredFavTeamsMatchesToday != 0">
+          <li class="match" v-for="match in filteredFavTeamsMatchesToday" :key="match.id">
 
             <p class="competition">{{ match.competition.name }}</p>
 
@@ -79,6 +80,12 @@ export default {
     this.getTodaysDate();
     this.getFavMatches()
   },
+
+  computed: {
+  filteredFavTeamsMatchesToday: function() {
+    return this.favTeamsMatchesToday
+  }
+},
   
   
   methods: {
@@ -101,15 +108,18 @@ export default {
     },
 
     deleteFavoriteTeam(teamToRemove) {
-      const index = this.favTeams.findIndex((item) => item.team === teamToRemove);
+      var teamIndex = this.favTeams.findteamIndex((item) => item.id === teamToRemove.id);
+      var matchIdIndex = this.favTeamsMatchesToday.findteamIndex((matchIdIndex) => matchIdIndex.awayTeam.id === teamToRemove.id || matchIdIndex.homeTeam.id === teamToRemove.id );
 
-      // Ta bort laget om det hittades
-      if (index !== -1) {
-        this.favTeams.splice(index, 1);
-
+      if (teamIndex !== -1 ) {
+        this.favTeams.splice(teamIndex, 1);
+      
         // Uppdatera localStorage med den nya arrayen
         localStorage.setItem('teamList', JSON.stringify(this.favTeams));
         this.getFavoriteTeams();
+      }
+      if (matchIdIndex !== -1) {
+        this.favTeamsMatchesToday.splice(matchIdIndex,1);
       }
     },
     formatFavTime(matchTime){
