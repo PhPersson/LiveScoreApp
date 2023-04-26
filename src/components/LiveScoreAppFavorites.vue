@@ -7,7 +7,7 @@
         <div class="favoritesTeams">
           <li class="favTeams" v-for="fav in favTeams" :key="fav.id">
             <p class="favTeamsName"> <img v-bind:src="fav.crest" class="teamLogo" /> {{ fav.name }}</p>
-              <Icon class="deleteIcon" icon="iwwa:delete" @click="this.deleteFavoriteTeam(fav.team)" />
+              <Icon class="deleteIcon" icon="iwwa:delete" @click="this.deleteFavoriteTeam(fav)" />
           </li>
         </div>
       </ul>
@@ -101,7 +101,7 @@ export default {
     },
 
     deleteFavoriteTeam(teamToRemove) {
-      const index = this.favTeams.findIndex((item) => item.team === teamToRemove);
+      const index = this.favTeams.findIndex((item) => item.id === teamToRemove.id);
 
       // Ta bort laget om det hittades
       if (index !== -1) {
