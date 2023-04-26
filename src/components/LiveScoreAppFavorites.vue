@@ -15,9 +15,11 @@
   
 
 
-
+      <hr>
+      
       <div class="favoritesfavTeamsMatchesToday">
         <ul v-if="favTeams.length != 0">
+          <h2 class="usersFav">Your favorite teams matches</h2>
           <li class="match" v-for="match in favTeamsMatchesToday" :key="match.id">
 
             <p class="competition">{{ match.competition.name }}</p>
@@ -101,17 +103,21 @@ export default {
     },
 
     deleteFavoriteTeam(teamToRemove) {
-      const index = this.favTeams.findIndex((item) => item.id === teamToRemove.id);
+      var teamIndex = this.favTeams.findIndex((item) => item.id === teamToRemove.id);
+      var matchIdIndex = this.favTeamsMatchesToday.findIndex((matchIdIndex) => matchIdIndex.awayTeam.id === teamToRemove.id || matchIdIndex.homeTeam.id === teamToRemove.id );
 
-      // Ta bort laget om det hittades
-      if (index !== -1) {
-        this.favTeams.splice(index, 1);
-
+      if (teamIndex !== -1 ) {
+        this.favTeams.splice(teamIndex, 1);
+      
         // Uppdatera localStorage med den nya arrayen
         localStorage.setItem('teamList', JSON.stringify(this.favTeams));
         this.getFavoriteTeams();
       }
+      if (matchIdIndex !== -1) {
+        this.favTeamsMatchesToday.splice(matchIdIndex,1);
+      }
     },
+
     formatFavTime(matchTime){
       return matchTime.substring(0, 10)
     },
