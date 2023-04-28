@@ -17,6 +17,8 @@
 
     <hr>
     <h3  class="usersFav">Your favorite team's matches</h3>
+      <hr>
+      
       <div class="favoritesfavTeamsMatchesToday">
         <ul v-if="favTeamsMatchesToday != 0">
           <li class="match" v-for="match in favTeamsMatchesToday" :key="match.id">
@@ -117,6 +119,7 @@ export default {
         this.favTeamsMatchesToday.splice(matchIdIndex,1);
       }
     },
+
     formatFavTime(matchTime){
       return matchTime.substring(0, 10)
     },

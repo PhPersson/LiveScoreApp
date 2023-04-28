@@ -29,10 +29,6 @@ npm install
 npm run serve
 ```
 
-
-## Demo
-_TODO_
-
 ## Varför Vue.js?
 Se [jämförelsen här](jämförelse.md)
 
