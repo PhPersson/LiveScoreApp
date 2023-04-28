@@ -159,6 +159,7 @@ export default {
         console.log(response.data);
 
       } catch (error) {
+        alert("Could not fetch API-data. The error was " + error.message)
         console.error(error.message);
       }
     },

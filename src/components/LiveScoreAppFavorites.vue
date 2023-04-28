@@ -18,8 +18,8 @@
     <hr>
     <h3  class="usersFav">Your favorite team's matches</h3>
       <div class="favoritesfavTeamsMatchesToday">
-        <ul v-if="filteredFavTeamsMatchesToday != 0">
-          <li class="match" v-for="match in filteredFavTeamsMatchesToday" :key="match.id">
+        <ul v-if="favTeamsMatchesToday != 0">
+          <li class="match" v-for="match in favTeamsMatchesToday" :key="match.id">
 
             <p class="competition">{{ match.competition.name }}</p>
 
@@ -81,11 +81,6 @@ export default {
     this.getFavMatches()
   },
 
-  computed: {
-  filteredFavTeamsMatchesToday: function() {
-    return this.favTeamsMatchesToday
-  }
-},
   
   
   methods: {
@@ -108,8 +103,8 @@ export default {
     },
 
     deleteFavoriteTeam(teamToRemove) {
-      var teamIndex = this.favTeams.findteamIndex((item) => item.id === teamToRemove.id);
-      var matchIdIndex = this.favTeamsMatchesToday.findteamIndex((matchIdIndex) => matchIdIndex.awayTeam.id === teamToRemove.id || matchIdIndex.homeTeam.id === teamToRemove.id );
+      var teamIndex = this.favTeams.findIndex((item) => item.id === teamToRemove.id);
+      var matchIdIndex = this.favTeamsMatchesToday.findIndex((matchIdIndex) => matchIdIndex.awayTeam.id === teamToRemove.id || matchIdIndex.homeTeam.id === teamToRemove.id );
 
       if (teamIndex !== -1 ) {
         this.favTeams.splice(teamIndex, 1);
@@ -147,7 +142,7 @@ export default {
         try {
           var response = await axios.get(url, options);
           if (response.status === 429) {
-            alert("Testa igen om en stund")
+            alert("Too many API calls. Please try again in a short while.")
             return;
           }
           this.favTeamsMatchesToday.push(response.data.matches[0])
