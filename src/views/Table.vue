@@ -1,5 +1,10 @@
 <template>
-    <h1> {{ leagueTable.name }}</h1>
+    <!-- <h1> {{ leagueTable.name }}</h1> -->
+
+    <div v-if="showAlert" class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="showAlert=false"></button>
+          {{errorMessage}}
+    </div>
 
     <div>
     <table class="table table-bordered" id="LeagueTable">
@@ -54,6 +59,8 @@ export default {
             league: this.$route.params.league,
             teams: [],
             leagueTable: [],
+            showAlert: false,
+            errorMessage: "",
         }
     },
 
@@ -81,12 +88,14 @@ export default {
       // Check if there is room to add the team
       if (teamList.length >= 9) {
         this.errorMessage = "Max " + 9 + " teams allowed as favorites";
-        alert(this.errorMessage);
+        this.showAlert = true;
+        // alert(this.errorMessage);
       }
       // Check if the team already exists in the list
       else if (teamExists) {
         this.errorMessage = "Team already exists in favorites";
-        alert(this.errorMessage);
+        this.showAlert = true;
+        // alert(this.errorMessage);
       } 
       // Add the team to the list
       else {
