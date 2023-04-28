@@ -14,7 +14,7 @@
                       <a class="nav-link active" aria-current="page" href="/"> Home </a>
                   </li>
                   <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Live games </a>
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Today's matches </a>
                       <ul class="dropdown-menu">
                           <li><a class="dropdown-item" id="PL" v-bind:href="'/live/'+ this.link" @click="select($event)">Premier League</a></li>
                           <li><a class="dropdown-item" id="PD" v-bind:href="'/live/'+ this.link" @click="select($event)">La Liga</a></li>

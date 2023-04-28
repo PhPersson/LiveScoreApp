@@ -66,7 +66,17 @@ export default {
       var time = match.utcDate.substring(11, 13)
       time = parseInt(time) + 2
       return time + match.utcDate.substring(13, 16);
-    },      
+    },
+    
+    getTodaysDate() {
+      var todaysDate = "";
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      todaysDate = `${year}-${month}-${day}`;
+      return todaysDate;
+    },
 
     async fetchApiData() {
       const options = {
@@ -75,8 +85,8 @@ export default {
           },
           params: {
               season: 2022,
-              dateFrom: "2023-04-22",
-              dateTo: "2023-04-22"
+              dateFrom: this.getTodaysDate(),
+              dateTo: this.getTodaysDate()
           }
       };
       var url = `https://api.football-data.org/v4/competitions/${this.league}/matches`;
