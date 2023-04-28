@@ -29,6 +29,7 @@
                 <td>{{ team.goalsAgainst }}</td>
                 <td>{{ team.goalDifference }}</td>
                 <td>{{ team.points }}</td>
+                <td><Icon class="faicon" icon="ic:outline-star-border" @click="this.saveTeam(team.team)" /></td>
             </tr>
         </tbody>
     </table>
@@ -39,11 +40,13 @@
 <script>
 import LiveScoreApp from '@/components/LiveScoreApp.vue'
 import axios from 'axios';
+import { Icon } from '@iconify/vue';
 
 export default {
     name: 'App',
     components: {
-        LiveScoreApp
+        LiveScoreApp,
+        Icon,
     },
 
     data() {
@@ -61,6 +64,35 @@ export default {
     methods: {
     reloadPage() {
         location.reload();
+    },
+
+    saveTeam(team) {
+      var teamList = JSON.parse(localStorage.getItem('teamList')) || [];
+    
+    //   Check if the team already exists in the list
+      var teamExists = false;
+      for (var i = 0; i < teamList.length; i++) {
+        if (teamList[i].id === team.id) {
+          teamExists = true;
+          break;
+        }
+      }
+
+      // Check if there is room to add the team
+      if (teamList.length >= 9) {
+        this.errorMessage = "Max " + 9 + " teams allowed as favorites";
+        alert(this.errorMessage);
+      }
+      // Check if the team already exists in the list
+      else if (teamExists) {
+        this.errorMessage = "Team already exists in favorites";
+        alert(this.errorMessage);
+      } 
+      // Add the team to the list
+      else {
+        teamList.push(team);
+        localStorage.setItem('teamList', JSON.stringify(teamList));
+      }
     },
 
     async fetchApiData() {
