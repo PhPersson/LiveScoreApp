@@ -78,12 +78,15 @@ export default {
     
     //   Check if the team already exists in the list
       var teamExists = false;
-      for (var i = 0; i < teamList.length; i++) {
-        if (teamList[i].id === team.id) {
-          teamExists = true;
-          break;
-        }
-      }
+
+      teamList.forEach(teamToFind => {
+            if (teamToFind.id === team.id) {
+                teamExists = true
+
+            }
+        });
+
+
 
       // Check if there is room to add the team
       if (teamList.length >= 9) {
