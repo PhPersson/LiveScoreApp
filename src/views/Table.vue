@@ -89,13 +89,19 @@ export default {
       if (teamList.length >= 9) {
         this.errorMessage = "Max " + 9 + " teams allowed as favorites";
         this.showAlert = true;
-        // alert(this.errorMessage);
+        setTimeout(() => {
+            this.showAlert = false;
+            }, 4000);
+        return;
       }
       // Check if the team already exists in the list
       else if (teamExists) {
         this.errorMessage = "Team already exists in favorites";
         this.showAlert = true;
-        // alert(this.errorMessage);
+        setTimeout(() => {
+            this.showAlert = false;
+            }, 4000);
+        return;
       } 
       // Add the team to the list
       else {
