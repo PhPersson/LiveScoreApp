@@ -37,6 +37,9 @@
                   <li class="nav-item">
                       <a class="nav-link" href="/favorites" role="button" aria-expanded="false"> Favorites </a>
                   </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/search" role="button" aria-expanded="false"> Search Team </a>
+                  </li>
               </ul>
           </div>
       </div>
