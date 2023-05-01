@@ -3,19 +3,28 @@
       <form>
         <input type="text" v-model="searchTerm" />
       </form>
-      <ul>
-        <li v-for="team in filteredTeams" :key="team.id">
-          {{ team.name }}
-        </li>
+      <ul v-if="filteredTeams.length > 0">
+
+        <div >
+          <li  v-for="team in filteredTeams" :key="team.id">
+            <p style="color: black;"> <img v-bind:src="team.crest" class="teamLogo" /> {{ team.name }}</p>
+            <Icon class="faicon" icon="ic:outline-star-border" @click="saveTeam(match.awayTeam)" />
+          </li>
+        </div>
       </ul>
+
     </div>
 </template>
   
 <script>
 
 import axios from 'axios';
-
+import { Icon } from '@iconify/vue';
 export default {
+    components: {
+        Icon,
+    },
+    
     data() {
         return {
             allTeams: [],
@@ -51,7 +60,35 @@ export default {
             } catch (error) {
                 console.error(error.message);
             }
-        },     
+        },
+        saveTeam(team) {
+            var teamList = JSON.parse(localStorage.getItem('teamList')) || [];
+
+            // Check if the team already exists in the list
+            var teamExists = false;
+            for (var i = 0; i < teamList.length; i++) {
+                if (teamList[i].id === team.id) {
+                teamExists = true;
+                break;
+                }
+            }
+
+            // Check if there is room to add the team
+            if (teamList.length >= 9) {
+                this.errorMessage = "Max " + 9 + " teams allowed as favorites";
+                alert(this.errorMessage);
+            }
+            // Check if the team already exists in the list
+            else if (teamExists) {
+                this.errorMessage = "Team already exists in favorites";
+                alert(this.errorMessage);
+            } 
+            // Add the team to the list
+            else {
+                teamList.push(team);
+                localStorage.setItem('teamList', JSON.stringify(teamList));
+            }
+    },  
     }
 };
 </script>
