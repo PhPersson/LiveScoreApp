@@ -32,7 +32,7 @@
           <p class="time" id="postponed" v-else-if="match.status === 'POSTPONED'"> POSTPONED</p>
 
           <div class="homeTeam">
-            <Icon class="faicon" icon="ic:outline-star-border"
+            <Icon :class="{ 'favorite': favorites.includes(match.homeTeam) }" class="faicon" icon="ic:outline-star-border" 
               @click="saveTeam(match.homeTeam)" />
             <img v-bind:src="match.homeTeam.crest" class="crest" />
             {{ match.homeTeam.name }}
@@ -43,7 +43,7 @@
           <div class="awayTeam">
             {{ match.awayTeam.name }}
             <img v-bind:src="match.awayTeam.crest" class="crest" />
-            <Icon class="faicon" icon="ic:outline-star-border"
+            <Icon :class="{ 'favorite': favorites.includes(match.awayTeam) }" class="faicon" icon="ic:outline-star-border"
               @click="saveTeam(match.awayTeam)" />
           </div>
 
@@ -80,6 +80,7 @@ export default {
       apiUrlTomorrow: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=TOMORROW`,
       teams: [],
       matchesToday: [],
+      favorites: [],
       todaysDate: '',
       errorMessage: "",
     }
@@ -87,6 +88,7 @@ export default {
 
   async mounted() {
     await this.fetchApiData(this.apiUrl);
+    await this.getFavoriteTeams();
   },
 
 
@@ -190,8 +192,12 @@ export default {
       // Add the team to the list
       else {
         teamList.push(team);
+        this.favorites.push(team);
         localStorage.setItem('teamList', JSON.stringify(teamList));
       }
+    },
+    getFavoriteTeams() {
+        this.favorites = JSON.parse(localStorage.getItem("teamList"));
     },
 
   }
