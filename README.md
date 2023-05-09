@@ -6,8 +6,8 @@ Tillåter även dig som användare att spara dina favoritlag.
 ## Installation
 * Klona detta repository.
 ```bash
-git clone https://github.com/mau-webb/mau-webb.github.io.git
-cd mau-webb.github.io
+git clone https://github.com/PhPersson/LiveScoreApp
+cd LiveScoreApp
 ```
 
 * Se till att du har node.js installerat på din dator genom att köra nedan kommando i valfri terminal
