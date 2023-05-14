@@ -1,7 +1,5 @@
 <template>
     <div class="fav-live">
-    
-
       <ul v-if="favTeams.length > 0">
         <h2  class="usersFav">Your favorites</h2>
         <div class="favoritesTeams">
@@ -12,8 +10,6 @@
         </div>
       </ul>
       <h2 class="usersFav" v-else>U dont have any favorites!</h2>
-  
-
 
     <hr>
     <h3  class="usersFav">Your favorite team's matches</h3>
@@ -73,7 +69,8 @@ export default {
       apiUrlFav1: `https://api.football-data.org/v4/teams/`,
       favTeams: [],
       favTeamsMatchesToday: [],
-      todaysDate: ''
+      todaysDate: '',
+      isError: false
     }
   },
 
@@ -99,9 +96,11 @@ export default {
     },
 
     getFavMatches() {
-      this.favTeams.forEach(element => {
-          this.fetchApiDataFav(this.apiUrlFav1, element.id)
-      });
+      if(this.favTeams != null) {         
+        this.favTeams.forEach(element => {
+            this.fetchApiDataFav(this.apiUrlFav1, element.id)
+        });
+      }
     },
 
     deleteFavoriteTeam(teamToRemove) {
@@ -150,9 +149,11 @@ export default {
           }
           this.favTeamsMatchesToday.push(response.data.matches[0])
         } catch (error) {
+          this.showModal = true;
           console.error(error.message);
         }
     },
+
   }
 }
 
