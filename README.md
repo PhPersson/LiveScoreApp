@@ -1,10 +1,14 @@
-# LiveScore
+# LiveScoreApp <img src="https://www.svgrepo.com/show/17072/football.svg" width=4% height=4%>
 
 En Vue.js-applikation  visar live-resultat och matchinformation för fotbollsmatcher för top 5 ligorna i Europa. Även Champions League visas. Komponenten använder sig av [Football-data API](https://www.football-data.org/). 
 Tillåter även dig som användare att spara dina favoritlag. 
 
 ## Installation
 * Klona detta repository.
+```bash
+git clone https://github.com/PhPersson/LiveScoreApp
+cd LiveScoreApp
+```
 
 * Se till att du har node.js installerat på din dator genom att köra nedan kommando i valfri terminal
 ```javascript

@@ -7,7 +7,7 @@ Vue.js använder sig av en enda fil där HTML, javascript funktioner samt CSS sa
 Men tack vare detta känndes inlärningkurvan till vue.js inte så brant. 
 
 Då vue.js inte är sponsrat av något stor tech-företag (så som React eller Angualr är) så är vue.js beroende av sitt community för att utvecklas och hållas uppdaterat. Detta innebär både positiva aspekter samt negativa. Communityn brukar ofta vara snabba och smidiga att utveckla och underhålla nya saker, dock saknas ofta ett ekonimskt kapital för att göra detta under en längre tid. <br />
-
+Trots detta så utvecklas vue.js [konstant](https://github.com/orgs/vuejs/repositories?page=1&type=all) 
 
 Detta syns även på stjärnor varje specifick ramverk har på Github. 
  <br/> ![Github](https://www.zartis.com/wp-content/uploads/2022/06/angular-vs-react-github-rating.png.webp)
