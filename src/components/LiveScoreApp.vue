@@ -107,19 +107,19 @@ export default {
     },
 
     getTodaysDate2(state) {
-      var d;
+      var date;
       if (state == State.Today) {
-        d = new Date().toLocaleDateString("en-UK").replace(/\//g, '-');
+        date = new Date().toLocaleDateString("en-UK").replace(/\//g, '-');
       } else if (state == State.Yesterday) {
-        d = new Date();
-        d.setDate(d.getDate() - 1);
-        d = d.toLocaleDateString("en-UK").replace(/\//g, '-');
+        date = new Date();
+        date.setDate(date.getDate() - 1);
+        date = date.toLocaleDateString("en-UK").replace(/\//g, '-');
       } else {
-        d = new Date();
-        d.setDate(d.getDate() + 1);
-        d = d.toLocaleDateString("en-UK").replace(/\//g, '-');
+        date = new Date();
+        date.setDate(d.getDate() + 1);
+        date = date.toLocaleDateString("en-UK").replace(/\//g, '-');
       }
-      return d;
+      return date;
     },
 
     getTime(match) {
