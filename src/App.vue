@@ -2,12 +2,10 @@
   <NavBar/>
   <router-view />
   <footer class="bg-light text-center text-lg-start fixed-bottom">
-  <!-- Copyright -->
   <div class="text-center p-1" style="background-color: rgba(0, 0, 0, 0.2);">
     <p class="text-dark" > LiveScoreApp <a class="btn" href="https://github.com/PhPersson/LiveScoreApp" role="button"> 
           <Icon icon="icon-park:github" /></a></p>
   </div>
-  <!-- Copyright -->
 </footer>
 </template>
 
@@ -20,11 +18,6 @@ export default {
     NavBar,
     Icon
   },
-  methods: {
-    reloadPage() {
-      location.reload();
-    }
-  }
 }
 </script>
 
