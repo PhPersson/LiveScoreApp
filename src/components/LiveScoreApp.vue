@@ -13,8 +13,7 @@
     <h1>{{ state }}'s matches:</h1>
 
     <div class="todaysMatches">
-
-      <ul v-if="matchesToday.length > 0">
+      <ul  v-if="matchesToday.length > 0">
         <li class="match" v-for="match in matchesToday" :key="match.id">
 
           <p class="competition">{{ match.competition.name }}</p>
@@ -116,7 +115,7 @@ export default {
         date = date.toLocaleDateString("en-UK").replace(/\//g, '-');
       } else {
         date = new Date();
-        date.setDate(d.getDate() + 1);
+        date.setDate(date.getDate() + 1);
         date = date.toLocaleDateString("en-UK").replace(/\//g, '-');
       }
       return date;
