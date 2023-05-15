@@ -1,5 +1,5 @@
 <template>
-
+    <modal :show="showModal"  :errorMessage="this.errorMessage" @close="showModal = false"> </modal>
   <div class="live">
     
     <div class="topMenu">
@@ -59,6 +59,7 @@
 <script>
 import axios from 'axios';
 import { Icon } from '@iconify/vue';
+import Modal from '@/components/Modal.vue'
 
 var State = {
   Yesterday: "Yesterday",
@@ -70,6 +71,7 @@ export default {
   name: 'LiveScoreApp',
   components: {
     Icon,
+    Modal,
   },
 
   data() {
@@ -82,6 +84,7 @@ export default {
       matchesToday: [],
       todaysDate: '',
       errorMessage: "",
+      showModal: false,
     }
   },
 
@@ -156,10 +159,10 @@ export default {
       try {
         const response = await axios.get(url, options);
         this.matchesToday = response.data.matches;
-        console.log(response.data);
 
       } catch (error) {
-        alert("Could not fetch API-data. The error was " + error.message)
+        this.errorMessage = "Could not fetch API-data. The error was " + error.message;
+        this.showModal = true;
         console.error(error.message);
       }
     },
@@ -180,12 +183,18 @@ export default {
       // Check if there is room to add the team
       if (teamList.length >= 9) {
         this.errorMessage = "Max " + 9 + " teams allowed as favorites";
-        alert(this.errorMessage);
+        this.showModal = true;
+        setTimeout(() => {
+          this.showModal = false;
+        }, 4000);
       }
       // Check if the team already exists in the list
       else if (teamExists) {
         this.errorMessage = "Team already exists in favorites";
-        alert(this.errorMessage);
+        this.showModal = true;
+        setTimeout(() => {
+          this.showModal = false;
+        }, 4000);
       } 
       // Add the team to the list
       else {

@@ -1,7 +1,6 @@
 <template>
+  <modal :show="showModal"  :errorMessage="this.errorMessage" @close="showModal = false"> </modal>
     <div class="fav-live">
-    
-
       <ul v-if="favTeams.length > 0">
         <h2  class="usersFav">Your favorites</h2>
         <div class="favoritesTeams">
@@ -12,8 +11,6 @@
         </div>
       </ul>
       <h2 class="usersFav" v-else>U dont have any favorites!</h2>
-  
-
 
     <hr>
     <h3  class="usersFav">Your favorite team's matches</h3>
@@ -60,11 +57,13 @@
 
 import axios from 'axios';
 import { Icon } from '@iconify/vue';
+import Modal from '@/components/Modal.vue'
   
 export default {
   name: 'LiveScoreAppFavorites',
   components: {
     Icon,
+    Modal,
   },
 
   
@@ -73,7 +72,9 @@ export default {
       apiUrlFav1: `https://api.football-data.org/v4/teams/`,
       favTeams: [],
       favTeamsMatchesToday: [],
-      todaysDate: ''
+      todaysDate: '',
+      showModal: false,
+      errorMessage: "",
     }
   },
 
@@ -99,9 +100,11 @@ export default {
     },
 
     getFavMatches() {
-      this.favTeams.forEach(element => {
-          this.fetchApiDataFav(this.apiUrlFav1, element.id)
-      });
+      if(this.favTeams != null) {         
+        this.favTeams.forEach(element => {
+            this.fetchApiDataFav(this.apiUrlFav1, element.id)
+        });
+      }
     },
 
     deleteFavoriteTeam(teamToRemove) {
@@ -110,8 +113,6 @@ export default {
 
       if (teamIndex !== -1 ) {
         this.favTeams.splice(teamIndex, 1);
-      
-        // Uppdatera localStorage med den nya arrayen
         localStorage.setItem('teamList', JSON.stringify(this.favTeams));
         this.getFavoriteTeams();
       }
@@ -139,20 +140,30 @@ export default {
           params: {
             dateFrom: this.todaysDate,
             dateTo: "2023-12-31"
-            }
-          };
+          }
+      };
           url = url + fav + "/matches";
         try {
           var response = await axios.get(url, options);
           if (response.status === 429) {
-            alert("Too many API calls. Please try again in a short while.")
+            this.errorMessage = "Too many API calls. Please try again in a short while.";
+            this.showModal = true;
+            setTimeout(() => {
+                this.showModal = false;
+            }, 4000);
             return;
           }
           this.favTeamsMatchesToday.push(response.data.matches[0])
         } catch (error) {
+          this.errorMessage = error.message;
+          this.showModal = true;
+          setTimeout(() => {
+                this.showModal = false;
+          }, 4000);
           console.error(error.message);
         }
     },
+
   }
 }
 

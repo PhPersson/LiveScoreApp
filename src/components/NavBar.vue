@@ -58,7 +58,6 @@ export default {
   methods: {
     select: function(event){
       this.link = event.target.id;
-      console.log(this.link);
     },
   }
 
