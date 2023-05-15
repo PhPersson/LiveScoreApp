@@ -1,36 +1,31 @@
-<script>
-export default {
-  props: {
-    show: Boolean,
-  }
-}
-</script>
-
 <template>
   <Transition name="modal">
     <div v-if="show" class="modal-mask">
       <div class="modal-container">
-        <div class="modal-header">
-          <slot name="header">default header</slot>
-        </div>
 
         <div class="modal-body">
-          <slot name="body">Error</slot>
+          <slot name="body">{{this.errorMessage}}</slot>
         </div>
 
         <div class="modal-footer">
-          <slot name="footer">
-            default footer
-            <button
-              class="modal-default-button"
-              @click="$emit('close')"
-            >OK</button>
-          </slot>
+
+            <button class="modal-default-button"  @click="$emit('close')">OK</button>
+
         </div>
       </div>
     </div>
   </Transition>
 </template>
+
+
+<script>
+export default {
+  props: {
+    show: Boolean,
+    errorMessage: String,
+  }
+}
+</script>
 
 <style>
 .modal-mask {
