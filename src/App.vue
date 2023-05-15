@@ -1,10 +1,13 @@
 <template>
   <NavBar/>
   <router-view />
-  <footer class="bg-light text-center text-lg-start fixed-bottom">
-  <div class="text-center p-1" style="background-color: rgba(0, 0, 0, 0.2);">
-    <p class="text-dark" > LiveScoreApp <a class="btn" href="https://github.com/PhPersson/LiveScoreApp" role="button"> 
-          <Icon icon="icon-park:github" /></a></p>
+  <footer class="bg-light text-center text-start ">
+  <div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">
+    <p class="text-dark" > LiveScoreApp 
+      <a class="btn" href="https://github.com/PhPersson/LiveScoreApp" target="_blank" role="button"> 
+          <Icon icon="icon-park:github" />
+      </a>
+    </p>
   </div>
 </footer>
 </template>
