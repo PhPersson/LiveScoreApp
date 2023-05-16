@@ -156,7 +156,7 @@ export default {
       };
 
       try {
-        const response = await axios.get(url, options);
+        var response = await axios.get(url, options);
         this.matchesToday = response.data.matches;
 
       } catch (error) {
@@ -172,12 +172,13 @@ export default {
 
       // Check if the team already exists in the list
       var teamExists = false;
-      for (var i = 0; i < teamList.length; i++) {
-        if (teamList[i].id === team.id) {
+
+      teamList.forEach(teamInList => {
+        if (teamInList.id === team.id) {
           teamExists = true;
-          break;
+          return;
         }
-      }
+      });
 
       // Check if there is room to add the team
       if (teamList.length >= 9) {
