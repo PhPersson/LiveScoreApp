@@ -21,7 +21,7 @@
                           <li><a class="dropdown-item" id="SA" v-bind:href="'/live/'+ this.link" @click="select($event)">Serie A</a></li>
                           <li><a class="dropdown-item" id="BL1" v-bind:href="'/live/'+ this.link" @click="select($event)">BundesLiga</a></li>
                           <li><a class="dropdown-item" id="FL1" v-bind:href="'/live/'+ this.link" @click="select($event)">League 1</a></li>
-
+                          <li><a class="dropdown-item" id="CL" v-bind:href="'/live/'+ this.link" @click="select($event)">Champions League</a></li>
                       </ul>
                   </li>
                   <li class="nav-item dropdown">

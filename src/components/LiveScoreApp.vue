@@ -79,7 +79,6 @@ export default {
       apiUrl: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021`,
       apiUrlYesterday: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=YESTERDAY`,
       apiUrlTomorrow: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=TOMORROW`,
-      teams: [],
       matchesToday: [],
       todaysDate: '',
       errorMessage: "",
@@ -102,7 +101,6 @@ export default {
     },
 
     async getTeam() {
-
       return Promise.resolve().then(function () {
         return JSON.parse(localStorage.getItem("teamList"));
       });
@@ -157,6 +155,7 @@ export default {
 
       try {
         var response = await axios.get(url, options);
+        console.log(response.data.matches);
         this.matchesToday = response.data.matches;
 
       } catch (error) {
@@ -182,7 +181,7 @@ export default {
 
       // Check if there is room to add the team
       if (teamList.length >= 9) {
-        this.errorMessage = "Max " + 9 + " teams allowed as favorites";
+        this.errorMessage = "Max 9 teams allowed as favorites";
         this.showModal = true;
         setTimeout(() => {
           this.showModal = false;
