@@ -11,11 +11,6 @@ export default {
   components: {
     LiveScoreApp
   },
-  methods: {
-    reloadPage() {
-      location.reload();
-    }
-  }
 }
 
 </script>

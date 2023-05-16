@@ -185,3 +185,10 @@ li > .favTeamsName{
   font-style: italic;
   color: red;
 }
+
+
+
+#no-live-today{
+  color: red;
+  text-align: center;
+}

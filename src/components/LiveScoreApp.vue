@@ -155,7 +155,6 @@ export default {
 
       try {
         var response = await axios.get(url, options);
-        console.log(response.data.matches);
         this.matchesToday = response.data.matches;
 
       } catch (error) {

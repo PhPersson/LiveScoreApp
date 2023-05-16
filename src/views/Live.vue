@@ -30,7 +30,7 @@
 
       </li>
     </ul>
-    <p v-else>No matches today</p>
+    <p id="no-live-today" v-else>No matches today</p>
 
 </template>
   
@@ -58,9 +58,6 @@ export default {
     },
 
     methods: {
-      reloadPage() {
-        location.reload();
-      },
 
     getTime(match) {
       var time = match.utcDate.substring(11, 13)
@@ -102,4 +99,4 @@ export default {
     }
   }
   
-  </script>
+</script>
