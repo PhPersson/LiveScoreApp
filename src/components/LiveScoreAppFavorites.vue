@@ -1,6 +1,6 @@
 <template>
   <modal :show="showModal"  :errorMessage="this.errorMessage" @close="showModal = false"> </modal>
-    <div class="fav-live">
+    <div class="live">
       <ul v-if="favTeams.length > 0">
         <h2  class="usersFav">Your favorites</h2>
         <div class="favoritesTeams">
@@ -14,7 +14,7 @@
 
     <hr>
     <h3  class="usersFav">Your favorite team's matches</h3>
-      <hr>
+
       
       <div class="favoritesfavTeamsMatchesToday">
         <ul v-if="favTeamsMatchesToday != 0">

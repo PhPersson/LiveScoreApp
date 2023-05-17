@@ -1,5 +1,5 @@
 <template>
-
+  <div class="live">
   <h1> {{ this.leagueTable.name }}</h1>
     <ul v-if="matchesToday.length > 0">
       <li class="match" v-for="match in matchesToday" :key="match.id">
@@ -31,7 +31,7 @@
       </li>
     </ul>
     <p id="no-live-today" v-else>No matches today</p>
-
+  </div>
 </template>
   
   

@@ -1,6 +1,11 @@
 .live{
   background-color: lightgray;
+  min-height: 90vh;
 }
+.table {
+  min-height: 90vh;
+}
+
 
 h3 {
     margin: 40px 0 0;

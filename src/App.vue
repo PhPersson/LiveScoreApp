@@ -23,21 +23,3 @@ export default {
   },
 }
 </script>
-
-<style>
-
-.head{
-  background-color: lightgray;
-}
-.logo{
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 10%;
-}
-
-.logo:hover {
-  cursor: pointer;
-}
-
-</style>

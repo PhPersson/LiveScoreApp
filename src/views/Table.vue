@@ -1,7 +1,7 @@
 <template>
     <!-- <h1> {{ leagueTable.name }}</h1> -->
     <modal :show="showModal"  :errorMessage="this.errorMessage" @close="showModal = false"> </modal>
-    <div>
+    <div class="table">
     <table class="table table-bordered" id="LeagueTable">
         <thead>
             <tr>

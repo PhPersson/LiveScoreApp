@@ -205,4 +205,4 @@ export default {
 }
 </script>
 
-<style src="..\css\LiveScoreApp.css"></style>
+<style scoped src="..\css\LiveScoreApp.css"></style>
