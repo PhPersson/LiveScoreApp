@@ -198,6 +198,11 @@ export default {
       else {
         teamList.push(team);
         localStorage.setItem('teamList', JSON.stringify(teamList));
+        this.errorMessage = "Added to favorites";
+        this.showModal = true;
+        setTimeout(() => {
+          this.showModal = false;
+        }, 4000);
       }
     },
 
