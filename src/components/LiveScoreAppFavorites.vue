@@ -10,7 +10,7 @@
           </li>
         </div>
       </ul>
-      <h2 class="usersFav" v-else>U dont have any favorites!</h2>
+      <h2 class="usersFav" v-else>You dont have any favorites!</h2>
 
     <hr>
     <h3  class="usersFav">Your favorite team's matches</h3>

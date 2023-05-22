@@ -25,7 +25,7 @@
                       </ul>
                   </li>
                   <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> League Tables </a>
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> League tables </a>
                       <ul class="dropdown-menu">
                           <li><a class="dropdown-item" id="PL" v-bind:href="'/table/'+ this.link" @click="select($event)">Premier League</a></li>
                           <li><a class="dropdown-item" id="PD" v-bind:href="'/table/'+ this.link" @click="select($event)">La Liga</a></li>
