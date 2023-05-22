@@ -202,7 +202,7 @@ export default {
         this.showModal = true;
         setTimeout(() => {
           this.showModal = false;
-        }, 4000);
+        }, 2500);
       }
     },
 
