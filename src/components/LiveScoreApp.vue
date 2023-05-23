@@ -3,11 +3,9 @@
   <div class="live">
 
     <div class="topMenu">
-      <Icon class="dateIcon" v-if="state !== 'Yesterday'" icon="material-symbols:arrow-back-ios-new-rounded"
-        @click="fetchApiData(state, 'back')" />
+      <v-icon v-if="state !== 'Yesterday'" @click="fetchApiData(state, 'back')" icon right>{{ iconLeft }}</v-icon>
       {{ getTodaysDate2(state) }}
-      <Icon class="dateIcon" v-if="state !== 'Tomorrow'" icon="material-symbols:arrow-forward-ios-rounded"
-        @click="fetchApiData(state, 'forward')" />
+      <v-icon v-if="state !== 'Tomorrow'" @click="fetchApiData(state, 'forward')" icon right>{{ iconRight }}</v-icon>
     </div>
 
     <h1>{{ state }}'s matches:</h1>
@@ -87,6 +85,8 @@ export default {
       errorMessage: "",
       showModal: false,
       favoriteTeams: [],
+      iconLeft: 'mdi-chevron-left',
+      iconRight: 'mdi-chevron-right',
     }
   },
 
