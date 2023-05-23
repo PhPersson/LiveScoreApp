@@ -50,9 +50,9 @@ export default {
   name: "NavBar",
 
   data() {
-      return {    
-        link: ""    
-      }
+    return {    
+       link: ""    
+    }
   },
  
   methods: {

@@ -38,11 +38,12 @@
 <script>
 import LiveScoreApp from '@/components/LiveScoreApp.vue'
 import axios from 'axios';
-
+import VIcon from 'vuetify';
 export default {
   name: 'App',
   components: {
-    LiveScoreApp
+    LiveScoreApp,
+    VIcon
   },
 
   data() {

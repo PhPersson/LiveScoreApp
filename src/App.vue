@@ -5,7 +5,7 @@
   <div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">
     <p class="text-dark" > LiveScoreApp 
       <a class="btn" href="https://github.com/PhPersson/LiveScoreApp" target="_blank" role="button"> 
-          <!-- <Icon icon="icon-park:github" /> -->
+        <v-icon dark right>{{ icon }}</v-icon>
       </a>
     </p>
   </div>
@@ -14,11 +14,18 @@
 
 <script>
 import NavBar from './components/NavBar.vue';
-// import { Icon } from '@iconify/vue';
+import VIcon from 'vuetify';
 export default {
   name: 'App',
   components: {
     NavBar,
+    VIcon
+  },
+  data() {
+    return {
+      icon: 'mdi-github'
+    }
+
   },
 }
 </script>

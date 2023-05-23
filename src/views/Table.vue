@@ -29,7 +29,12 @@
                 <td>{{ team.goalsAgainst }}</td>
                 <td>{{ team.goalDifference }}</td>
                 <td>{{ team.points }}</td>
-                <td><Icon class="faicon" icon="ic:outline-star-border" @click="this.saveTeam(team.team)" /></td>
+                <td>
+                    <v-btn outline @click="saveTeam(team.team)" color="white">
+                        <v-icon icon right>{{ getFavoriteIcon(team.team) }}</v-icon>
+                    </v-btn>    
+                    
+                </td>
             </tr>
         </tbody>
     </table>
@@ -40,14 +45,12 @@
 <script>
 import LiveScoreApp from '@/components/LiveScoreApp.vue'
 import axios from 'axios';
-import { Icon } from '@iconify/vue';
 import Modal from '@/components/Modal.vue'
 
 export default {
     name: 'App',
     components: {
         LiveScoreApp,
-        Icon,
         Modal,
     },
 
@@ -58,11 +61,13 @@ export default {
             leagueTable: [],
             showModal: false,
             errorMessage: "",
+            favoriteTeams: [],
         }
     },
 
     async mounted() {
         await this.fetchApiData();
+        this.favoriteTeams = JSON.parse(localStorage.getItem("teamList"));
     },
 
     methods: {
@@ -89,19 +94,28 @@ export default {
         }
         // Check if the team already exists in the list
         else if (teamExists) {
-            this.errorMessage = "Team already exists in favorites";
+            var teamIndex = teamList.findIndex((item) => item.id === team.id);
+            teamList.splice(teamIndex, 1);
+            localStorage.setItem('teamList', JSON.stringify(teamList));
+            this.errorMessage = `Removed ${team.name} as favorite`;
             this.showModal = true;
             setTimeout(() => {
                 this.showModal = false;
-                }, 4000);
-            return;
+            }, 2500);
         } 
         // Add the team to the list
         else {
             teamList.push(team);
             localStorage.setItem('teamList', JSON.stringify(teamList));
+            this.errorMessage = `Added ${team.name} as favorite`;
+            this.showModal = true;
+            setTimeout(() => {
+                this.showModal = false;
+            }, 2500);
         }
-        },
+        this.favoriteTeams = teamList;
+        
+    },
 
         async fetchApiData() {
             const options = {
@@ -126,6 +140,15 @@ export default {
                 showModal = true;
                 console.error(error.message);
             }
+        },
+
+
+        getFavoriteIcon(team) {
+            var favoriteTeams = JSON.parse(localStorage.getItem('teamList')) || [];
+            // Check if the team is already marked as a favorite
+            const isFavorite = favoriteTeams.some(favorite => favorite.id === team.id);
+            // Return the appropriate icon based on whether it is a favorite or not
+            return isFavorite ? 'mdi-star' : 'mdi-star-outline';
         },
     }
 }

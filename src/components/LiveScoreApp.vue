@@ -88,7 +88,6 @@ export default {
       errorMessage: "",
       showModal: false,
       favoriteTeams: [],
-      icon: "mdi-star-outline"
     }
   },
 
