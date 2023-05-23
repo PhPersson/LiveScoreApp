@@ -31,7 +31,7 @@
           <p class="time" id="postponed" v-else-if="match.status === 'POSTPONED'"> POSTPONED</p>
 
           <div class="homeTeam">
-            <Icon class="faicon" icon="ic:outline-star-border"
+            <Icon class="faicon" :icon="getFavoriteIcon(match.homeTeam)"
               @click="saveTeam(match.homeTeam)" />
             <img v-bind:src="match.homeTeam.crest" class="crest" />
             {{ match.homeTeam.name }}
@@ -66,6 +66,8 @@ var State = {
   Tomorrow: "Tomorrow"
 }
 
+
+
 export default {
   name: 'LiveScoreApp',
   components: {
@@ -83,11 +85,13 @@ export default {
       todaysDate: '',
       errorMessage: "",
       showModal: false,
+      favoriteTeams: [],
     }
   },
 
   async mounted() {
     await this.fetchApiData(this.apiUrl);
+    this.favoriteTeams = JSON.parse(localStorage.getItem("teamList"));
   },
 
 
@@ -198,12 +202,22 @@ export default {
       else {
         teamList.push(team);
         localStorage.setItem('teamList', JSON.stringify(teamList));
-        this.errorMessage = "Added to favorites";
+        this.errorMessage = `Added ${team.name} to favorites`;
         this.showModal = true;
         setTimeout(() => {
           this.showModal = false;
         }, 2500);
       }
+    },
+
+    checkIfFavorite(team) {
+      return this.favoriteTeams.includes(team.id);
+    },
+    getFavoriteIcon(team) {
+      // Check if the team is already marked as a favorite
+      const isFavorite = this.checkIfFavorite(team);
+      // Return the icon based on whether it is a favorite or not
+      return isFavorite ? 'ic:outline-star' : 'ic:outline-star-border';
     },
 
   }
