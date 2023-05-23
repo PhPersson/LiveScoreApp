@@ -18,7 +18,9 @@ ul {
   padding: 0;
 }
 
-
+.v-input__control {
+  width: 200px;
+}
 
 
 
@@ -29,6 +31,34 @@ li {
   list-style: none;
   display: block;
 }
+
+li.nav-item {
+  display: flex;
+  align-items: center;
+
+}
+
+button#Search {
+  margin-left: 15px;
+}
+
+.v-input__details {
+  
+   min-height: 0px; 
+   padding: 0px;
+  
+}
+
+.v-input__details {
+  min-height: 0px !important;
+  padding: 0px !important;
+}
+
+div#input-0-messages {
+  min-height: 0px;
+}
+
+
 a {
   color: #42b983;
 }
