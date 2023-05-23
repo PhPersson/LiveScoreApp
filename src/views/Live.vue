@@ -17,6 +17,7 @@
         <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
 
         <div class="homeTeam">
+          <v-icon icon right>{{ getFavoriteIcon(match.homeTeam) }}</v-icon>
           <img v-bind:src="match.homeTeam.crest" class="crest" />
           {{ match.homeTeam.name }}
         </div>
@@ -26,6 +27,7 @@
         <div class="awayTeam">
           {{ match.awayTeam.name }}
           <img v-bind:src="match.awayTeam.crest" class="crest" />
+          <v-icon icon right>{{ getFavoriteIcon(match.awayTeam) }}</v-icon>
         </div>
 
       </li>
@@ -51,11 +53,13 @@ export default {
       league: this.$route.params.league,
       matchesToday: [],
       leagueTable: [],
+      favoriteTeams: [],
     }
   },
 
   async mounted() {
     await this.fetchApiData();
+    this.favoriteTeams = JSON.parse(localStorage.getItem("teamList"));
   },
 
   methods: {
@@ -96,7 +100,12 @@ export default {
         console.error(error.message);
       }
     },
-
+    getFavoriteIcon(team) {
+      // Check if the team is already marked as a favorite
+      const isFavorite = this.favoriteTeams.some(favorite => favorite.id === team.id);
+      // Return the appropriate icon based on whether it is a favorite or not
+      return isFavorite ? 'mdi-star' : 'mdi-star-outline';
+    },
   }
 }
 

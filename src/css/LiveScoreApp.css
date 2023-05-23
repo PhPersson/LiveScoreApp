@@ -19,11 +19,7 @@ ul {
 }
 
 
-li > .favTeamsName{
 
-  text-align: left;
-  display: inline;
-}
 
 
 li {
@@ -91,23 +87,6 @@ a {
 
 
 
-
-  .favTeams{
-    background-color: #42b983;
-    margin-right: 44%;
-    margin-left: 44%;
-    border-radius: 25px;
-    padding: 8px;
-
-  }
-  
-  .no-fav {
-    text-align: center;
-  }
-  .usersFav {
-    text-align: center;
-  }
-
   .teamLogo{
     margin-left: auto;
     margin-right: auto;
@@ -120,10 +99,6 @@ a {
     float: right;
   }
 
-  .favTeams > .deleteIcon:hover{
-    cursor: pointer;
-    color: red;
-  }
   
   p{
     color: aliceblue;
@@ -133,11 +108,6 @@ a {
     color: white;
     text-align: center;
     
-  }
-
-  .faicon:hover {
-    cursor: pointer;
-    color: yellow;
   }
 
 

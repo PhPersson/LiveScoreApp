@@ -1,16 +1,17 @@
 <template>
   <modal :show="showModal" :errorMessage="this.errorMessage" @close="showModal = false"> </modal>
   <div class="live">
-    <ul v-if="favTeams.length > 0">
-      <h2 class="usersFav">Your favorites</h2>
-      <div class="favoritesTeams">
-        <li class="favTeams" v-for="fav in favTeams" :key="fav.id">
-          <p class="favTeamsName"> <img v-bind:src="fav.crest" class="teamLogo" /> {{ fav.name }}</p>
-          <Icon class="deleteIcon" icon="iwwa:delete" @click="this.deleteFavoriteTeam(fav)" />
-        </li>
-      </div>
+    <h2 class="usersFav" v-if="favTeams.length > 0">Your favorites</h2>
+    <ul class="favoritesTeams" v-if="favTeams.length > 0">
+      <li class="favTeams" v-for="fav in favTeams" :key="fav.id">
+        <p class="favTeamsName">
+          <img :src="fav.crest" class="teamLogo" />
+          {{ fav.name }}
+          <v-icon color="black" @click="deleteFavoriteTeam(fav)">{{ deleteIcon }}</v-icon>
+        </p>
+      </li>
     </ul>
-    <h2 class="usersFav" v-else>You dont have any favorites!</h2>
+    <h2 class="usersFav" v-else>You don't have any favorites!</h2>
 
     <hr>
     <h3 class="usersFav">Your favorite team's matches</h3>
@@ -56,13 +57,13 @@
 <script>
 
 import axios from 'axios';
-import { Icon } from '@iconify/vue';
+import VIcon from 'vuetify';
 import Modal from '@/components/Modal.vue'
 
 export default {
   name: 'LiveScoreAppFavorites',
   components: {
-    Icon,
+    VIcon,
     Modal,
   },
 
@@ -75,6 +76,7 @@ export default {
       todaysDate: '',
       showModal: false,
       errorMessage: "",
+      deleteIcon: 'mdi-close'
     }
   },
 
@@ -112,6 +114,11 @@ export default {
       var matchIdIndex = this.favTeamsMatchesToday.findIndex((matchIdIndex) => matchIdIndex.awayTeam.id === teamToRemove.id || matchIdIndex.homeTeam.id === teamToRemove.id);
 
       if (teamIndex !== -1) {
+        this.errorMessage = `Removed ${teamToRemove.name} as favorite`;
+        this.showModal = true;
+        setTimeout(() => {
+          this.showModal = false;
+        }, 3000);
         this.favTeams.splice(teamIndex, 1);
         localStorage.setItem('teamList', JSON.stringify(this.favTeams));
         this.getFavoriteTeams();
@@ -131,7 +138,7 @@ export default {
       return time + match.utcDate.substring(13, 16);
     },
 
-    async fetchApiDataFav(url, fav) { //Hantera om favoriter är null
+    async fetchApiDataFav(url, fav) {
 
       var options = {
         headers: {
@@ -168,3 +175,50 @@ export default {
 }
 
 </script>
+
+
+<style scoped>
+
+  .no-fav {
+    text-align: center;
+  }
+  .usersFav {
+    text-align: center;
+  }
+
+  li > .favTeamsName{
+    text-align: center;
+    display: inline;
+    flex: 1;
+    margin: 0;
+}
+
+.favTeams {
+  margin-left: 20%;
+  margin-right: 20%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  border-radius: 10px;
+  background-color: #42b983;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+
+
+.teamLogo{
+    margin-left: auto;
+    margin-right: auto;
+    width: 7%;
+    padding:1%;
+  }
+
+</style>
