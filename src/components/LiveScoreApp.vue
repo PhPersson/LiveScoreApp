@@ -31,8 +31,9 @@
           <p class="time" id="postponed" v-else-if="match.status === 'POSTPONED'"> POSTPONED</p>
 
           <div class="homeTeam">
-            <Icon class="faicon" icon="ic:outline-star-border"
-              @click="saveTeam(match.homeTeam)" />
+            <v-btn outline @click="saveTeam(match.homeTeam)" color="black">
+              <v-icon icon right>{{ getFavoriteIcon(match.homeTeam) }}</v-icon>
+            </v-btn>
             <img v-bind:src="match.homeTeam.crest" class="crest" />
             {{ match.homeTeam.name }}
           </div>
@@ -42,8 +43,9 @@
           <div class="awayTeam">
             {{ match.awayTeam.name }}
             <img v-bind:src="match.awayTeam.crest" class="crest" />
-            <Icon class="faicon" icon="ic:outline-star-border"
-              @click="saveTeam(match.awayTeam)" />
+            <v-btn outline @click="saveTeam(match.awayTeam)" color="black">
+              <v-icon icon right>{{ getFavoriteIcon(match.awayTeam) }}</v-icon>
+            </v-btn>
           </div>
 
         </li>
@@ -57,8 +59,8 @@
 
 <script>
 import axios from 'axios';
-import { Icon } from '@iconify/vue';
 import Modal from '@/components/Modal.vue'
+import VIcon from 'vuetify';
 
 var State = {
   Yesterday: "Yesterday",
@@ -71,8 +73,8 @@ var State = {
 export default {
   name: 'LiveScoreApp',
   components: {
-    Icon,
     Modal,
+    VIcon
   },
 
   data() {
@@ -86,6 +88,7 @@ export default {
       errorMessage: "",
       showModal: false,
       favoriteTeams: [],
+      icon: "mdi-star-outline"
     }
   },
 
@@ -96,6 +99,7 @@ export default {
 
 
   methods: {
+    
     getTodaysDate() {
       const today = new Date();
       const year = today.getFullYear();
@@ -172,16 +176,6 @@ export default {
     saveTeam(team) {
       var teamList = JSON.parse(localStorage.getItem('teamList')) || [];
 
-      // Check if the team already exists in the list
-      var teamExists = false;
-
-      teamList.forEach(teamInList => {
-        if (teamInList.id === team.id) {
-          teamExists = true;
-          return;
-        }
-      });
-
       // Check if there is room to add the team
       if (teamList.length >= 9) {
         this.errorMessage = "Max 9 teams allowed as favorites";
@@ -190,15 +184,29 @@ export default {
           this.showModal = false;
         }, 4000);
       }
+      var teamExists = false;
+      var teamId = 0;
+      teamList.forEach(teamInList => {
+        if (teamInList.id === team.id) {
+          teamExists = true;
+          teamId = teamInList.id;
+          return;
+        }
+      });
       // Check if the team already exists in the list
-      else if (teamExists) {
-        this.errorMessage = "Team already exists in favorites";
+      // if the team exits, remove it
+      if (teamExists) {
+        var teamIndex = teamList.findIndex((item) => item.id === team.id);
+        teamList.splice(teamIndex, 1);
+        localStorage.setItem('teamList', JSON.stringify(teamList));
+        this.errorMessage = `Removed ${team.name} as favorite`;
         this.showModal = true;
         setTimeout(() => {
           this.showModal = false;
-        }, 4000);
+        }, 2500);
       } 
-      // Add the team to the list
+
+      // Add the team to the list of favorites
       else {
         teamList.push(team);
         localStorage.setItem('teamList', JSON.stringify(teamList));
@@ -208,9 +216,19 @@ export default {
           this.showModal = false;
         }, 2500);
       }
+      this.favoriteTeams = teamList;
+    },
+
+    getFavoriteIcon(team) {
+      // Check if the team is already marked as a favorite
+      const isFavorite = this.favoriteTeams.some(favorite => favorite.id === team.id);
+      // Return the appropriate icon based on whether it is a favorite or not
+      return isFavorite ? 'mdi-star' : 'mdi-star-outline';
     },
   }
 }
+
+
 </script>
 
 <style scoped src="..\css\LiveScoreApp.css"></style>
