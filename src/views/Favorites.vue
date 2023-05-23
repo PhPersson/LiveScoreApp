@@ -1,15 +1,15 @@
 <template>
-    <LiveScoreAppFavorites/>
+  <LiveScoreAppFavorites />
 </template>
 
 <script>
 import LiveScoreAppFavorites from '@/components/LiveScoreAppFavorites.vue';
-  
-  export default {
-    name: 'App',
-    components: {
-      LiveScoreAppFavorites
-    },
-  }
-  
-  </script>
+
+export default {
+  name: 'App',
+  components: {
+    LiveScoreAppFavorites
+  },
+}
+
+</script>

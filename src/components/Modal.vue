@@ -4,12 +4,12 @@
       <div class="modal-container">
 
         <div class="modal-body">
-          <slot name="body">{{this.errorMessage}}</slot>
+          <slot name="body">{{ this.errorMessage }}</slot>
         </div>
 
         <div class="modal-footer">
 
-            <button class="modal-default-button"  @click="$emit('close')">OK</button>
+          <button class="modal-default-button" @click="$emit('close')">OK</button>
 
         </div>
       </div>

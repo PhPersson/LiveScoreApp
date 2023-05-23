@@ -1,44 +1,44 @@
 <template>
     <!-- <h1> {{ leagueTable.name }}</h1> -->
-    <modal :show="showModal"  :errorMessage="this.errorMessage" @close="showModal = false"> </modal>
+    <modal :show="showModal" :errorMessage="this.errorMessage" @close="showModal = false"> </modal>
     <div class="table">
-    <table class="table table-bordered" id="LeagueTable">
-        <thead>
-            <tr>
-                <th scope="col">Position</th>
-                <th scope="col">Name</th>
-                <th scope="col">GP</th>
-                <th scope="col">Won</th>
-                <th scope="col">Draw</th>
-                <th scope="col">Loss</th>
-                <th scope="col">GF</th>
-                <th scope="col">GA</th>
-                <th scope="col">GD</th>
-                <th scope="col">Points</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="team in teams">
-                <td>{{ team.position }}</td>
-                <td><img v-bind:src="team.team.crest" alt="logo" width="40" height="40">{{ team.team.name }}</td>
-                <td>{{ team.playedGames }}</td>
-                <td>{{ team.won }}</td>
-                <td>{{ team.draw }}</td>
-                <td>{{ team.lost }}</td>
-                <td>{{ team.goalsFor }}</td>
-                <td>{{ team.goalsAgainst }}</td>
-                <td>{{ team.goalDifference }}</td>
-                <td>{{ team.points }}</td>
-                <td>
-                    <v-btn outline @click="saveTeam(team.team)" color="white">
-                        <v-icon icon right>{{ getFavoriteIcon(team.team) }}</v-icon>
-                    </v-btn>    
-                    
-                </td>
-            </tr>
-        </tbody>
-    </table>
-  </div>
+        <table class="table table-bordered" id="LeagueTable">
+            <thead>
+                <tr>
+                    <th scope="col">Position</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">GP</th>
+                    <th scope="col">Won</th>
+                    <th scope="col">Draw</th>
+                    <th scope="col">Loss</th>
+                    <th scope="col">GF</th>
+                    <th scope="col">GA</th>
+                    <th scope="col">GD</th>
+                    <th scope="col">Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="team in teams">
+                    <td>{{ team.position }}</td>
+                    <td><img v-bind:src="team.team.crest" alt="logo" width="40" height="40">{{ team.team.name }}</td>
+                    <td>{{ team.playedGames }}</td>
+                    <td>{{ team.won }}</td>
+                    <td>{{ team.draw }}</td>
+                    <td>{{ team.lost }}</td>
+                    <td>{{ team.goalsFor }}</td>
+                    <td>{{ team.goalsAgainst }}</td>
+                    <td>{{ team.goalDifference }}</td>
+                    <td>{{ team.points }}</td>
+                    <td>
+                        <v-btn outline @click="saveTeam(team.team)" color="white">
+                            <v-icon icon right>{{ getFavoriteIcon(team.team) }}</v-icon>
+                        </v-btn>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </template>
   
   
@@ -72,50 +72,50 @@ export default {
 
     methods: {
         saveTeam(team) {
-        var teamList = JSON.parse(localStorage.getItem('teamList')) || [];
-        
-        //   Check if the team already exists in the list
-        var teamExists = false;
+            var teamList = JSON.parse(localStorage.getItem('teamList')) || [];
 
-        teamList.forEach(teamToFind => {
+            //   Check if the team already exists in the list
+            var teamExists = false;
+
+            teamList.forEach(teamToFind => {
                 if (teamToFind.id === team.id) {
                     teamExists = true;
                 }
             });
 
-        // Check if there is room to add the team
-        if (teamList.length >= 9) {
-            this.errorMessage = "Max " + 9 + " teams allowed as favorites";
-            this.showModal = true;
-            setTimeout(() => {
-                this.showModal = false;
+            // Check if there is room to add the team
+            if (teamList.length >= 9) {
+                this.errorMessage = "Max " + 9 + " teams allowed as favorites";
+                this.showModal = true;
+                setTimeout(() => {
+                    this.showModal = false;
                 }, 4000);
-            return;
-        }
-        // Check if the team already exists in the list
-        else if (teamExists) {
-            var teamIndex = teamList.findIndex((item) => item.id === team.id);
-            teamList.splice(teamIndex, 1);
-            localStorage.setItem('teamList', JSON.stringify(teamList));
-            this.errorMessage = `Removed ${team.name} as favorite`;
-            this.showModal = true;
-            setTimeout(() => {
-                this.showModal = false;
-            }, 2500);
-        } 
-        // Add the team to the list
-        else {
-            teamList.push(team);
-            localStorage.setItem('teamList', JSON.stringify(teamList));
-            this.errorMessage = `Added ${team.name} as favorite`;
-            this.showModal = true;
-            setTimeout(() => {
-                this.showModal = false;
-            }, 2500);
-        }
-        this.favoriteTeams = teamList;
-        
-    },
+                return;
+            }
+            // Check if the team already exists in the list
+            else if (teamExists) {
+                var teamIndex = teamList.findIndex((item) => item.id === team.id);
+                teamList.splice(teamIndex, 1);
+                localStorage.setItem('teamList', JSON.stringify(teamList));
+                this.errorMessage = `Removed ${team.name} as favorite`;
+                this.showModal = true;
+                setTimeout(() => {
+                    this.showModal = false;
+                }, 2500);
+            }
+            // Add the team to the list
+            else {
+                teamList.push(team);
+                localStorage.setItem('teamList', JSON.stringify(teamList));
+                this.errorMessage = `Added ${team.name} as favorite`;
+                this.showModal = true;
+                setTimeout(() => {
+                    this.showModal = false;
+                }, 2500);
+            }
+            this.favoriteTeams = teamList;
+
+        },
 
         async fetchApiData() {
             const options = {

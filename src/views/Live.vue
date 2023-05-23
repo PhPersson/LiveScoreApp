@@ -1,6 +1,6 @@
 <template>
   <div class="live">
-  <h1> {{ this.leagueTable.name }}</h1>
+    <h1> {{ this.leagueTable.name }}</h1>
     <ul v-if="matchesToday.length > 0">
       <li class="match" v-for="match in matchesToday" :key="match.id">
 
@@ -47,25 +47,25 @@ export default {
   },
 
   data() {
-    return {    
+    return {
       league: this.$route.params.league,
       matchesToday: [],
       leagueTable: [],
     }
-    },
-    
-    async mounted() {
-        await this.fetchApiData();
-    },
+  },
 
-    methods: {
+  async mounted() {
+    await this.fetchApiData();
+  },
+
+  methods: {
 
     getTime(match) {
       var time = match.utcDate.substring(11, 13)
       time = parseInt(time) + 2
       return time + match.utcDate.substring(13, 16);
     },
-    
+
     getTodaysDate() {
       var todaysDate = "";
       const today = new Date();
@@ -78,26 +78,26 @@ export default {
 
     async fetchApiData() {
       const options = {
-          headers: {
-              'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
-          },
-          params: {
-              season: 2022,
-              dateFrom: this.getTodaysDate(),
-              dateTo: this.getTodaysDate()
-          }
+        headers: {
+          'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
+        },
+        params: {
+          season: 2022,
+          dateFrom: this.getTodaysDate(),
+          dateTo: this.getTodaysDate()
+        }
       };
       var url = `https://api.football-data.org/v4/competitions/${this.league}/matches`;
       try {
-          const response = await axios.get(url, options);
-          this.leagueTable = response.data.competition;
-          this.matchesToday = response.data.matches;
+        const response = await axios.get(url, options);
+        this.leagueTable = response.data.competition;
+        this.matchesToday = response.data.matches;
       } catch (error) {
-          console.error(error.message);
+        console.error(error.message);
       }
-      },      
+    },
 
-    }
   }
-  
+}
+
 </script>

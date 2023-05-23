@@ -1,7 +1,7 @@
 <template>
-    <modal :show="showModal"  :errorMessage="this.errorMessage" @close="showModal = false"> </modal>
+  <modal :show="showModal" :errorMessage="this.errorMessage" @close="showModal = false"> </modal>
   <div class="live">
-    
+
     <div class="topMenu">
       <Icon class="dateIcon" v-if="state !== 'Yesterday'" icon="material-symbols:arrow-back-ios-new-rounded"
         @click="fetchApiData(state, 'back')" />
@@ -13,16 +13,16 @@
     <h1>{{ state }}'s matches:</h1>
 
     <div class="todaysMatches">
-      <ul  v-if="matchesToday.length > 0">
+      <ul v-if="matchesToday.length > 0">
         <li class="match" v-for="match in matchesToday" :key="match.id">
 
           <p class="competition">{{ match.competition.name }}</p>
 
           <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
-          <div class="time"  v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{
+          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{
             getTime(match)
-            + ' CEST' }} - <p class="timeLive" id="inplay" >LIVE</p> first half </div>
-          <div class="time"  v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{
+            + ' CEST' }} - <p class="timeLive" id="inplay">LIVE</p> first half </div>
+          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{
             getTime(match)
             + ' CEST' }} - <p class="timeLive" id="inplay">LIVE</p> second half </div>
           <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
@@ -54,7 +54,6 @@
     </div>
 
   </div>
-
 </template>
 
 <script>
@@ -98,7 +97,7 @@ export default {
 
 
   methods: {
-    
+
     getTodaysDate() {
       const today = new Date();
       const year = today.getFullYear();
@@ -203,7 +202,7 @@ export default {
         setTimeout(() => {
           this.showModal = false;
         }, 2500);
-      } 
+      }
 
       // Add the team to the list of favorites
       else {

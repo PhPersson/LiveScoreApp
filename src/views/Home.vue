@@ -1,7 +1,6 @@
 <template>
-  <LiveScoreApp/>
+  <LiveScoreApp />
 </template>
-
 
 <script>
 import LiveScoreApp from '@/components/LiveScoreApp.vue'
