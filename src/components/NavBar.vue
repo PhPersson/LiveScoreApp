@@ -72,6 +72,7 @@
 <script>
 
 import axios from 'axios';
+import router from '@/router';
 
 
 export default {
@@ -82,7 +83,7 @@ export default {
       link: "",
       url: `https://api.football-data.org/v4/teams/`,
       search: null,
-      select: null,
+      selectVal: null,
       teamList: [],
 
       selectedClub: { id: null, name: null }
@@ -93,7 +94,7 @@ export default {
 
   watch: {
     search(val) {
-      val && val !== this.select && this.querySelections(val)
+      val && val !== this.selectVal && this.querySelections(val)
     },
   },
 
@@ -109,7 +110,14 @@ export default {
 
 
     submit() {
-      console.log(this.selectedClub.id)
+
+      if(this.selectedClub.id != null){
+        router.push('/team/' + this.selectedClub.id)
+
+      }else{
+        console.log(this.selectedClub.id + " null")
+
+      }
     },
 
     async fetchApiData(url) {

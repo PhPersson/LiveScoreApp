@@ -49,6 +49,21 @@ button#Search {
   
 }
 
+/*
+Team CSS
+*/
+.teamInfo {
+  text-align: center;
+}
+
+.teamInfo > p {
+  color: black;
+}
+
+/*
+
+*/
+
 .v-input__details {
   min-height: 0px !important;
   padding: 0px !important;
