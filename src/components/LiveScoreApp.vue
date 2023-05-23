@@ -31,7 +31,7 @@
           <p class="time" id="postponed" v-else-if="match.status === 'POSTPONED'"> POSTPONED</p>
 
           <div class="homeTeam">
-            <Icon class="faicon" :icon="getFavoriteIcon(match.homeTeam)"
+            <Icon class="faicon" icon="ic:outline-star-border"
               @click="saveTeam(match.homeTeam)" />
             <img v-bind:src="match.homeTeam.crest" class="crest" />
             {{ match.homeTeam.name }}
@@ -209,17 +209,6 @@ export default {
         }, 2500);
       }
     },
-
-    checkIfFavorite(team) {
-      return this.favoriteTeams.includes(team.id);
-    },
-    getFavoriteIcon(team) {
-      // Check if the team is already marked as a favorite
-      const isFavorite = this.checkIfFavorite(team);
-      // Return the icon based on whether it is a favorite or not
-      return isFavorite ? 'ic:outline-star' : 'ic:outline-star-border';
-    },
-
   }
 }
 </script>
