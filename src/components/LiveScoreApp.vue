@@ -2,10 +2,10 @@
   <modal :show="showModal" :errorMessage="this.errorMessage" @close="showModal = false"> </modal>
   <div class="live">
 
-    
+
     <div class="topMenu">
       <v-icon v-if="state !== 'Yesterday'" @click="fetchApiData(state, 'back')" icon right>{{ iconLeft }}</v-icon>
-      {{ getTodaysDate2(state) }}
+      {{ getTodaysDate(state) }}
       <v-icon v-if="state !== 'Tomorrow'" @click="fetchApiData(state, 'forward')" icon right>{{ iconRight }}</v-icon>
     </div>
 
@@ -88,7 +88,7 @@ export default {
       apiUrlYesterday: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=YESTERDAY`,
       apiUrlTomorrow: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=TOMORROW`,
       matchesToday: [],
-      todaysDate: '',
+
       errorMessage: "",
       showModal: false,
       favoriteTeams: [],
@@ -101,27 +101,17 @@ export default {
 
   async mounted() {
     await this.fetchApiData(this.apiUrl);
-    this.favoriteTeams = JSON.parse(localStorage.getItem("teamList"));
+    this.favoriteTeams = this.getFavoriteTeams();
   },
 
 
   methods: {
 
-    getTodaysDate() {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, '0');
-      const day = String(today.getDate()).padStart(2, '0');
-      this.todaysDate = `${year}-${month}-${day}`;
+    getFavoriteTeams() {
+      return JSON.parse(localStorage.getItem("teamList"));
     },
 
-    async getTeam() {
-      return Promise.resolve().then(function () {
-        return JSON.parse(localStorage.getItem("teamList"));
-      });
-    },
-
-    getTodaysDate2(state) {
+    getTodaysDate(state) {
       var date;
       if (state == State.Today) {
         date = new Date().toLocaleDateString("en-UK").replace(/\//g, '-');
@@ -164,8 +154,6 @@ export default {
         },
         params: {
           season: 2022,
-          dateFrom: this.todaysDate,
-          dateTo: this.todaysDate
         }
       };
 
