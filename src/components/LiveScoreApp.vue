@@ -2,6 +2,7 @@
   <modal :show="showModal" :errorMessage="this.errorMessage" @close="showModal = false"> </modal>
   <div class="live">
 
+    
     <div class="topMenu">
       <v-icon v-if="state !== 'Yesterday'" @click="fetchApiData(state, 'back')" icon right>{{ iconLeft }}</v-icon>
       {{ getTodaysDate2(state) }}
@@ -11,6 +12,8 @@
     <h1>{{ state }}'s matches:</h1>
 
     <div class="todaysMatches">
+      <loading-spinner v-if="isLoading"></loading-spinner>
+
       <ul v-if="matchesToday.length > 0">
         <li class="match" v-for="match in matchesToday" :key="match.id">
 
@@ -48,7 +51,9 @@
 
         </li>
       </ul>
-      <p v-else>No matches today</p>
+      <p v-else-if="isLoading">Loading...</p> <!-- Show loading message while data is being fetched from the API-->
+
+      <p v-else>No matches today</p> <!-- If matchesToday is empty, show an errortext-->
     </div>
 
   </div>
@@ -58,6 +63,7 @@
 import axios from 'axios';
 import Modal from '@/components/Modal.vue'
 import VIcon from 'vuetify';
+import LoadingSpinner from './Loading-Spinner.vue';
 
 var State = {
   Yesterday: "Yesterday",
@@ -71,7 +77,8 @@ export default {
   name: 'LiveScoreApp',
   components: {
     Modal,
-    VIcon
+    VIcon,
+    LoadingSpinner
   },
 
   data() {
@@ -87,6 +94,8 @@ export default {
       favoriteTeams: [],
       iconLeft: 'mdi-chevron-left',
       iconRight: 'mdi-chevron-right',
+      isLoading: false,
+
     }
   },
 
@@ -135,6 +144,7 @@ export default {
     },
 
     async fetchApiData(state, dir) {
+      this.isLoading = true;
 
       var url;
 
@@ -167,6 +177,10 @@ export default {
         this.errorMessage = "Could not fetch API-data. The error was " + error.message;
         this.showModal = true;
         console.error(error.message);
+      }
+      finally {
+        // Set the loading state to false after the API call is complete
+        this.isLoading = false;
       }
     },
 
