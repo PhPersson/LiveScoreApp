@@ -51,9 +51,9 @@
 
         </li>
       </ul>
-      <p v-else-if="isLoading">Loading...</p> <!-- Show loading message while data is being fetched from the API-->
+      <p class="loadingMatch" v-else-if="isLoading">Loading...</p> <!-- Show loading message while data is being fetched from the API-->
 
-      <p v-else>No matches today</p> <!-- If matchesToday is empty, show an errortext-->
+      <p class="noMatches" v-else>No matches today</p> <!-- If matchesToday is empty, show an errortext-->
     </div>
 
   </div>
@@ -235,4 +235,12 @@ export default {
 
 </script>
 
-<style scoped src="..\css\LiveScoreApp.css"></style>
+<style scoped src="..\css\LiveScoreApp.css">
+
+.noMatches, .loadingMatch {
+  color: red;
+  text-align: center;
+}
+
+
+</style>
