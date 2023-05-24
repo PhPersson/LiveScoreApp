@@ -1,7 +1,9 @@
 <template>
   <div class="live">
     <h1> {{ this.leagueTable.name }}</h1>
+    <loading-spinner v-if="isLoading"></loading-spinner>
     <ul v-if="matchesToday.length > 0">
+
       <li class="match" v-for="match in matchesToday" :key="match.id">
 
         <p class="competition">{{ match.competition.name }}</p>
@@ -32,7 +34,9 @@
 
       </li>
     </ul>
-    <p id="no-live-today" v-else>No matches today</p>
+      <p class="loadingMatch" v-else-if="isLoading">Loading...</p> <!-- Show loading message while data is being fetched from the API-->
+
+    <p class="noMatch" v-else>No matches today</p> <!-- If matchesToday is empty, show an errortext-->
   </div>
 </template>
   
@@ -41,11 +45,13 @@
 import LiveScoreApp from '@/components/LiveScoreApp.vue'
 import axios from 'axios';
 import VIcon from 'vuetify';
+import LoadingSpinner from '@/components/Loading-Spinner.vue';
 export default {
   name: 'App',
   components: {
     LiveScoreApp,
-    VIcon
+    VIcon,
+    LoadingSpinner
   },
 
   data() {
@@ -54,6 +60,8 @@ export default {
       matchesToday: [],
       leagueTable: [],
       favoriteTeams: [],
+      isLoading: false,
+
     }
   },
 
@@ -81,6 +89,7 @@ export default {
     },
 
     async fetchApiData() {
+      this.isLoading = true;
       const options = {
         headers: {
           'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
@@ -105,6 +114,9 @@ export default {
           }, 4000);
         }
         console.error(error.message);
+      } finally {
+        // Set the loading state to false after the API call is complete
+        this.isLoading = false;
       }
     },
     getFavoriteIcon(team) {
@@ -117,3 +129,12 @@ export default {
 }
 
 </script>
+
+<style scoped>
+
+.noMatch, .loadingMatch {
+  color: red;
+  text-align: center;
+}
+
+</style>

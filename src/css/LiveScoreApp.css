@@ -159,10 +159,7 @@ a {
     display:block;
   }
 
-.todaysMatches > p {
-  text-align: center;
-  color: red;
-}
+
 
 #LeagueTable{
   max-width: 50%;
