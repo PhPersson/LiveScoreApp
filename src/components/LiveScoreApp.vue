@@ -174,9 +174,13 @@ export default {
         this.matchesToday = response.data.matches;
 
       } catch (error) {
-        this.errorMessage = "Could not fetch API-data. The error was " + error.message;
-        this.showModal = true;
-        console.error(error.message);
+        if (error.response && error.response.status === 429) {
+          this.errorMessage = "Too many API calls. Please try again in a short while.";
+          this.showModal = true;
+          setTimeout(() => {
+            this.showModal = false;
+          }, 4000);
+        }
       }
       finally {
         // Set the loading state to false after the API call is complete

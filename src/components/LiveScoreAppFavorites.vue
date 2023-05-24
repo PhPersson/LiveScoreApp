@@ -162,12 +162,14 @@ export default {
         }
         this.favTeamsMatchesToday.push(response.data.matches[0])
       } catch (error) {
-        this.errorMessage = error.message;
-        this.showModal = true;
-        setTimeout(() => {
-          this.showModal = false;
-        }, 4000);
-        console.error(error.message);
+        if (error.response && error.response.status === 429) {
+          this.errorMessage = "Too many API calls. Please try again in a short while.";
+          this.showModal = true;
+          setTimeout(() => {
+            this.showModal = false;
+          }, 4000);
+        }
+        console.error(error);
       }
     },
 

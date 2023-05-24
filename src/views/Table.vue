@@ -137,8 +137,13 @@ export default {
                 this.teams = response.data.standings[0].table;
             }
             catch (error) {
-                showModal = true;
-                console.error(error.message);
+                if (error.response && error.response.status === 429) {
+                    this.errorMessage = "Too many API calls. Please try again in a short while.";
+                    this.showModal = true;
+                    setTimeout(() => {
+                        this.showModal = false;
+                    }, 4000);
+                }
             }
         },
 
