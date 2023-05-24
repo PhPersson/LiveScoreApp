@@ -97,6 +97,13 @@ export default {
         this.leagueTable = response.data.competition;
         this.matchesToday = response.data.matches;
       } catch (error) {
+        if (error.response && error.response.status === 429) {
+          this.errorMessage = "Too many API calls. Please try again in a short while.";
+          this.showModal = true;
+          setTimeout(() => {
+            this.showModal = false;
+          }, 4000);
+        }
         console.error(error.message);
       }
     },
