@@ -238,7 +238,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style scoped src="..\css\LiveScoreApp.css">
 
 .noMatches, .loadingMatch {
   color: red;
