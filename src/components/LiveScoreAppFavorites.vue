@@ -48,7 +48,7 @@
 
         </li>
       </ul>
-      <p class="noMatch" v-else>No matches today</p>
+      <p v-else>No matches today</p>
     </div>
 
   </div>
@@ -214,10 +214,7 @@ export default {
   text-align: center;
 }
 
-.noMatch {
-  color: red;
-  text-align: center;
-}
+
 
 .teamLogo{
     margin-left: auto;
