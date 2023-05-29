@@ -14,7 +14,7 @@
     <h2 class="noUsersFav" v-else>You don't have any favorites!</h2>
 
     <hr>
-    <h3 class="usersFav">Your favorite team's matches</h3>
+    <h3 class="usersFav">Your favorite team's upcoming matches</h3>
 
 
     <div class="favoritesfavTeamsMatchesToday">
@@ -164,6 +164,8 @@ export default {
           }, 4000);
         }
         console.error(error);
+        this.errorMessage = error.message + ' See the log for more information';
+        this.showModal = true;
       }
     },
 

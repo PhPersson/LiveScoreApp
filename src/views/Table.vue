@@ -144,6 +144,9 @@ export default {
                     this.showModal = false;
                 }, 4000);
             }
+            console.error(error);
+            this.errorMessage = error.message + ' See the log for more information';
+            this.showModal = true;
         }
     },
 

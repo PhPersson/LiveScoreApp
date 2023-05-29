@@ -169,6 +169,9 @@ export default {
             this.showModal = false;
           }, 4000);
         }
+        console.error(error);
+        this.errorMessage = error.message + ' See the log for more information';
+        this.showModal = true;
       }
       finally {
         // Set the loading state to false after the API call is complete

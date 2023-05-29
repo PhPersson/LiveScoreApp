@@ -110,12 +110,14 @@ import LoadingSpinner from '@/components/Loading-Spinner.vue';
           this.matchesToday = response.data.matches;
       } catch (error) {
           if (error.response && error.response.status === 429) {
-          this.errorMessage = "Too many API calls. Please try again in a short while.";
-          this.showModal = true;
-          setTimeout(() => {
+            this.errorMessage = "Too many API calls. Please try again in a short while.";
+            this.showModal = true;
+            setTimeout(() => {
               this.showModal = false;
-          }, 4000);
+            }, 4000);
           }
+          this.errorMessage = error.message + ' See the log for more information';
+          this.showModal = true;
       }
       finally {
         // Set the loading state to false after the API call is complete
