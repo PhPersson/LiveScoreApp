@@ -225,10 +225,13 @@ export default {
 
     getFavoriteIcon(team) {
       // Check if the team is already marked as a favorite
-      const isFavorite = this.favoriteTeams.some(favorite => favorite.id === team.id);
+      let isFavorite = null;
+      if(this.favoriteTeams != null){
+              isFavorite = this.favoriteTeams.some(favorite => favorite.id === team.id);
+      }
       // Return the appropriate icon based on whether it is a favorite or not
       return isFavorite ? 'mdi-star' : 'mdi-star-outline';
-    },
+    }, 
   }
 }
 
