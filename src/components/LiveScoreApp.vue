@@ -4,9 +4,9 @@
 
 
     <div class="topMenu">
-      <v-icon v-if="state !== 'Yesterday'" @click="fetchApiData(state, 'back')" icon right>{{ iconLeft }}</v-icon>
+      <v-icon id="dateIcon" v-if="state !== 'Yesterday'" @click="fetchApiData(state, 'back')" icon right>{{ iconLeft }}</v-icon>
       {{ getTodaysDate(state) }}
-      <v-icon v-if="state !== 'Tomorrow'" @click="fetchApiData(state, 'forward')" icon right>{{ iconRight }}</v-icon>
+      <v-icon id="dateIcon" v-if="state !== 'Tomorrow'" @click="fetchApiData(state, 'forward')" icon right>{{ iconRight }}</v-icon>
     </div>
 
     <h1>{{ state }}'s matches:</h1>
@@ -51,9 +51,9 @@
 
         </li>
       </ul>
-      <p v-else-if="isLoading">Loading...</p> <!-- Show loading message while data is being fetched from the API-->
+      <p class="loading" v-else-if="isLoading">Loading...</p> <!-- Show loading message while data is being fetched from the API-->
 
-      <p v-else>No matches today</p> <!-- If matchesToday is empty, show an errortext-->
+      <p class="noMatches" v-else>No matches today</p> <!-- If matchesToday is empty, show an errortext-->
     </div>
 
   </div>
@@ -235,4 +235,138 @@ export default {
 
 </script>
 
-<style scoped src="..\css\LiveScoreApp.css"></style>
+<style scoped>
+
+h3 {
+    margin: 40px 0 0;
+  }
+h1 {
+  text-align: center;  
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  font-size: large;
+  display: inline-block;
+  margin: 10px 10px;
+  list-style: none;
+  display: block;
+}
+
+
+.live{
+  background-color: lightgray;
+  min-height: 90vh;
+}
+
+.topMenu {
+  font-size: 25px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  text-align: center;
+  padding-top: 5%;
+}
+
+.todaysMatches {
+  text-align: center;
+}
+
+.match {
+  background-color: rgb(0, 0, 0);
+  color: aliceblue;
+  margin-left: 20%;
+  margin-right: 20%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.5s ease;
+  animation: fade-in 1s ease;
+}
+
+.match:hover {
+  transform: translateY(-5px);
+}
+
+.time{
+  color: white;
+  text-align: center;
+}
+
+.homeTeam ,.awayTeam {
+  display: inline;
+  text-align: center;
+}
+
+
+
+.score {
+  color: red;
+  font-size: 3vw;
+  display: inline-block;
+  text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+  
+.loading, .noMatches
+{
+    color: red;
+    text-align: center;
+}
+
+#postponed {
+  font-style: italic;
+  color: red;
+}
+
+.timeLive {
+    text-align: center;
+    display: inline-block;
+    animation: pulsate 2s ease-in-out infinite;
+}
+@keyframes pulsate {
+    0% {
+      background-color: green;
+    }
+    50% {
+      background-color: transparent;
+    }
+    100% {
+      background-color: green;
+    }
+  }
+
+
+.crest{
+    vertical-align: super;
+    margin-left: auto;
+    margin-right: auto;
+    width: 7%;
+    margin-bottom: -20px;
+    padding:1%;
+    background-color: whitesmoke;
+    border-radius: 25px;
+}
+
+#dateIcon:hover {
+  color: grey;
+  cursor: pointer;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+
+li.match {
+  margin-left: 1%;
+  margin-right: 1%;
+}
+}
+
+</style>

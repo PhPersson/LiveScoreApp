@@ -96,8 +96,9 @@ export default {
         },
         params: {
           season: 2022,
-          dateFrom: this.getTodaysDate(),
-          dateTo: this.getTodaysDate()
+          date: '2023-05-28',
+          // dateFrom: this.getTodaysDate(),
+          // dateTo: this.getTodaysDate()
         }
       };
       var url = `https://api.football-data.org/v4/competitions/${this.league}/matches`;
@@ -121,7 +122,10 @@ export default {
     },
     getFavoriteIcon(team) {
       // Check if the team is already marked as a favorite
-      const isFavorite = this.favoriteTeams.some(favorite => favorite.id === team.id);
+      let isFavorite = null;
+      if(this.favoriteTeams != null){
+              isFavorite = this.favoriteTeams.some(favorite => favorite.id === team.id);
+      }
       // Return the appropriate icon based on whether it is a favorite or not
       return isFavorite ? 'mdi-star' : 'mdi-star-outline';
     },
@@ -131,6 +135,77 @@ export default {
 </script>
 
 <style scoped>
+
+h3 {
+    margin: 40px 0 0;
+  }
+h1 {
+  text-align: center;  
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  font-size: large;
+  display: inline-block;
+  margin: 10px 10px;
+  list-style: none;
+  display: block;
+}
+
+
+.live{
+  background-color: lightgray;
+  min-height: 90vh;
+}
+
+.match {
+  background-color: rgb(0, 0, 0);
+  color: aliceblue;
+  margin-left: 20%;
+  margin-right: 20%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.5s ease;
+  animation: fade-in 1s ease;
+}
+
+
+.time{
+  color: white;
+  text-align: center;
+}
+
+
+.homeTeam ,.awayTeam {
+  display: inline;
+  text-align: center;
+}
+
+.score {
+  color: red;
+  font-size: 3vw;
+  display: inline-block;
+  text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+}
+.crest{
+    vertical-align: super;
+    margin-left: auto;
+    margin-right: auto;
+    width: 7%;
+    margin-bottom: -20px;
+    padding:1%;
+    background-color: whitesmoke;
+    border-radius: 25px;
+}
 
 .noMatch, .loadingMatch {
   color: red;

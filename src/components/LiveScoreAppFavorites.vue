@@ -11,7 +11,7 @@
         </p>
       </li>
     </ul>
-    <h2 class="usersFav" v-else>You don't have any favorites!</h2>
+    <h2 class="noUsersFav" v-else>You don't have any favorites!</h2>
 
     <hr>
     <h3 class="usersFav">Your favorite team's matches</h3>
@@ -48,7 +48,7 @@
 
         </li>
       </ul>
-      <p v-else>No matches today</p>
+      <p class="noMatches" v-else>No matches today</p>
     </div>
 
   </div>
@@ -181,18 +181,40 @@ export default {
 
 <style scoped>
 
-  .no-fav {
-    text-align: center;
+h3 {
+    margin: 40px 0 0;
   }
-  .usersFav {
-    text-align: center;
-  }
+h1 {
+  text-align: center;  
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
 
-  li > .favTeamsName{
-    text-align: center;
-    display: inline;
-    flex: 1;
-    margin: 0;
+
+.live{
+  background-color: lightgray;
+  min-height: 90vh;
+}
+
+.no-fav {
+  text-align: center;
+}
+.usersFav {
+  text-align: center;
+}
+
+li > .favTeamsName{
+  text-align: center;
+  display: inline;
+  flex: 1;
+  margin: 0;
+}
+
+.noUsersFav {
+  text-align: center;
+  color: red;
 }
 
 .favTeams {
@@ -221,6 +243,87 @@ export default {
     margin-right: auto;
     width: 7%;
     padding:1%;
+}
+
+
+.todaysMatches {
+  text-align: center;
+}
+
+.match {
+  background-color: rgb(0, 0, 0);
+  color: aliceblue;
+  margin-left: 20%;
+  margin-right: 20%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.5s ease;
+  animation: fade-in 1s ease;
+}
+
+.match:hover {
+  transform: translateY(-5px);
+}
+
+.time{
+    color: white;
+    text-align: center;
+}
+
+.homeTeam ,.awayTeam {
+  display: inline;
+  text-align: center;
+}
+
+
+
+.score {
+  color: red;
+  font-size: 3vw;
+  display: inline-block;
+  text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+  
+.loading, .noMatches
+{
+    color: red;
+    text-align: center;
+}
+
+.timeLive {
+    text-align: center;
+    display: inline-block;
+    animation: pulsate 2s ease-in-out infinite;
+}
+@keyframes pulsate {
+    0% {
+      background-color: green;
+    }
+    50% {
+      background-color: transparent;
+    }
+    100% {
+      background-color: green;
+    }
   }
+
+
+.crest{
+    vertical-align: super;
+    margin-left: auto;
+    margin-right: auto;
+    width: 7%;
+    margin-bottom: -20px;
+    padding:1%;
+    background-color: whitesmoke;
+    border-radius: 25px;
+}
 
 </style>

@@ -158,4 +158,31 @@ export default {
     }
 }
 </script>
-<style src="..\css\LiveScoreApp.css"></style>
+<style scoped>
+.table {
+  min-height: 90vh;
+}
+
+#LeagueTable{
+  max-width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-x: auto;
+}
+
+@media only screen and (max-width: 600px) {
+
+    #LeagueTable {
+        margin: 0 auto; 
+        overflow-wrap: anywhere;
+        max-width: 100%;
+    }
+
+    tr {
+    font-size: 2vw;
+    }
+
+}
+
+
+</style>
