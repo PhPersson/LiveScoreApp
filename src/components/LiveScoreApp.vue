@@ -36,13 +36,13 @@
               <v-icon icon right>{{ getFavoriteIcon(match.homeTeam) }}</v-icon>
             </v-btn>
             <img v-bind:src="match.homeTeam.crest" class="crest" />
-            {{ match.homeTeam.name }}
+            {{ match.homeTeam.name + " " }}
           </div>
           <div class="score">
             {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }}
           </div>
           <div class="awayTeam">
-            {{ match.awayTeam.name }}
+            {{" " + match.awayTeam.name }}
             <img v-bind:src="match.awayTeam.crest" class="crest" />
             <v-btn outline @click="saveTeam(match.awayTeam)" color="black">
               <v-icon icon right>{{ getFavoriteIcon(match.awayTeam) }}</v-icon>
