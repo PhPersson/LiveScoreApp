@@ -36,13 +36,13 @@
               <v-icon icon right>{{ getFavoriteIcon(match.homeTeam) }}</v-icon>
             </v-btn>
             <img v-bind:src="match.homeTeam.crest" class="crest" />
-            {{ match.homeTeam.name }}
+            {{ match.homeTeam.name + " " }}
           </div>
           <div class="score">
             {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }}
           </div>
           <div class="awayTeam">
-            {{ match.awayTeam.name }}
+            {{" " + match.awayTeam.name }}
             <img v-bind:src="match.awayTeam.crest" class="crest" />
             <v-btn outline @click="saveTeam(match.awayTeam)" color="black">
               <v-icon icon right>{{ getFavoriteIcon(match.awayTeam) }}</v-icon>
@@ -225,7 +225,10 @@ export default {
 
     getFavoriteIcon(team) {
       // Check if the team is already marked as a favorite
-      const isFavorite = this.favoriteTeams.some(favorite => favorite.id === team.id);
+      let isFavorite = null;
+      if(this.favoriteTeams != null){
+              isFavorite = this.favoriteTeams.some(favorite => favorite.id === team.id);
+      }
       // Return the appropriate icon based on whether it is a favorite or not
       return isFavorite ? 'mdi-star' : 'mdi-star-outline';
     },
