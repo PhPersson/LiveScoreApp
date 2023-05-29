@@ -152,15 +152,9 @@ export default {
       url = url + fav + "/matches";
       try {
         var response = await axios.get(url, options);
-        if (response.status === 429) {
-          this.errorMessage = "Too many API calls. Please try again in a short while.";
-          this.showModal = true;
-          setTimeout(() => {
-            this.showModal = false;
-          }, 4000);
-          return;
+        if (response.data.matches !== undefined && response.data.matches.length > 0) {
+          this.favTeamsMatchesToday.push(response.data.matches[0]);
         }
-        this.favTeamsMatchesToday.push(response.data.matches[0])
       } catch (error) {
         if (error.response && error.response.status === 429) {
           this.errorMessage = "Too many API calls. Please try again in a short while.";
@@ -210,6 +204,14 @@ li > .favTeamsName{
   display: inline;
   flex: 1;
   margin: 0;
+}
+
+li {
+  font-size: large;
+  display: inline-block;
+  margin: 10px 10px;
+  list-style: none;
+  display: block;
 }
 
 .noUsersFav {
