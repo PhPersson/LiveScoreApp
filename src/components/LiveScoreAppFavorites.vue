@@ -31,7 +31,7 @@
             getTime(match)
             + ' CEST' }} - <p class="timeLive">LIVE</p> second half </div>
           <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
-          <p class="time" v-else-if="match.status === 'TIMED'"> {{ formatFavTime(match.utcDate) }} {{ getTime(match) }}
+          <p class="time" v-else-if="match.status === 'TIMED' || match.status === 'SCHEDULED'"> {{ formatFavTime(match.utcDate) }} {{ getTime(match) }}
             CEST</p>
 
           <div class="homeTeam">
