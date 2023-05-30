@@ -23,19 +23,19 @@
           <p class="time" id="postponed" v-else-if="match.status === 'POSTPONED'"> POSTPONED</p>
 
           <div class="homeTeam">
-            <v-btn outline @click="saveTeam(match.homeTeam)" color="black">
+            <v-btn variant="plain" @click="saveTeam(match.homeTeam)">
               <v-icon icon right>{{ getFavoriteIcon(match.homeTeam) }}</v-icon>
             </v-btn>
             <img v-bind:src="match.homeTeam.crest" class="crest" />
-            {{ match.homeTeam.name }}
+            {{ match.homeTeam.name + ' ' }}
           </div>
           <div class="score">
             {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }}
           </div>
           <div class="awayTeam">
-            {{ match.awayTeam.name }}
+            {{ ' ' + match.awayTeam.name }}
             <img v-bind:src="match.awayTeam.crest" class="crest" />
-            <v-btn outline @click="saveTeam(match.awayTeam)" color="black">
+            <v-btn variant="plain" @click="saveTeam(match.awayTeam)">
               <v-icon icon right>{{ getFavoriteIcon(match.awayTeam) }}</v-icon>
             </v-btn>
           </div>
@@ -196,16 +196,19 @@ ul {
 }
 
 li {
-  font-size: large;
   display: inline-block;
   margin: 10px 10px;
   list-style: none;
   display: block;
 }
 
+li.match {
+    font-size: 2vw;
+}
+
 
 .live{
-  background-color: lightgray;
+  background-color: white;
   min-height: 90vh;
 }
 
@@ -221,10 +224,10 @@ li {
 }
 
 .match {
-  background-color: rgb(0, 0, 0);
+  background-color: rgb(68 145 111);
   color: aliceblue;
-  margin-left: 20%;
-  margin-right: 20%;
+  margin-left: 15%;
+  margin-right: 15%;
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 1rem;
@@ -258,6 +261,7 @@ li {
   text-align: center;
   margin-right: auto;
   margin-left: auto;
+
 }
 
   

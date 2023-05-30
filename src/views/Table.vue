@@ -15,6 +15,8 @@
                     <th scope="col">GA</th>
                     <th scope="col">GD</th>
                     <th scope="col">Points</th>
+                    <th scope="col">Favorite</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -168,7 +170,7 @@ export default {
 }
 
 #LeagueTable{
-  max-width: 50%;
+  max-width: 80%;
   margin-left: auto;
   margin-right: auto;
   overflow-x: auto;

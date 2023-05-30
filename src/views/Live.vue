@@ -214,4 +214,12 @@ li {
   text-align: center;
 }
 
+@media only screen and (max-width: 600px) {
+
+li.match {
+  margin-left: 1%;
+  margin-right: 1%;
+}
+}
+
 </style>

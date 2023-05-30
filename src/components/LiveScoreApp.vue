@@ -280,7 +280,7 @@ li {
 }
 
 .match {
-  background-color: rgb(0, 0, 0);
+  background-color: rgb(68 145 111);
   color: aliceblue;
   margin-left: 20%;
   margin-right: 20%;
