@@ -36,13 +36,13 @@
 
           <div class="homeTeam">
             <img v-bind:src="match.homeTeam.crest" class="crest" />
-            {{ match.homeTeam.name }}
+            {{ match.homeTeam.name + " " }}
           </div>
           <div class="score">
             {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }}
           </div>
           <div class="awayTeam">
-            {{ match.awayTeam.name }}
+            {{ " " +  match.awayTeam.name }}
             <img v-bind:src="match.awayTeam.crest" class="crest" />
           </div>
 
@@ -190,7 +190,7 @@ ul {
 
 
 .live{
-  background-color: lightgray;
+  background-color: white;
   min-height: 90vh;
 }
 
@@ -229,7 +229,7 @@ li {
   padding-top: 1rem;
   padding-bottom: 2rem;
   border-radius: 10px;
-  background-color: #42b983;
+  background-color: rgb(68 145 111);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -255,10 +255,10 @@ li {
 }
 
 .match {
-  background-color: rgb(0, 0, 0);
+  background-color: rgb(68 145 111);
   color: aliceblue;
-  margin-left: 20%;
-  margin-right: 20%;
+  margin-left: 15%;
+  margin-right: 15%;
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 1rem;
@@ -319,6 +319,15 @@ li {
   }
 
 
+.score {
+  color: red;
+  font-size: 3vw;
+  display: inline-block;
+  text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 .crest{
     vertical-align: super;
     margin-left: auto;
@@ -328,6 +337,15 @@ li {
     padding:1%;
     background-color: whitesmoke;
     border-radius: 25px;
+}
+
+
+@media only screen and (max-width: 600px) {
+
+li.match {
+  margin-left: 1%;
+  margin-right: 1%;
+}
 }
 
 </style>

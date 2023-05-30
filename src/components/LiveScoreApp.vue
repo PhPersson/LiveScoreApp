@@ -255,16 +255,19 @@ ul {
 }
 
 li {
-  font-size: large;
   display: inline-block;
   margin: 10px 10px;
   list-style: none;
   display: block;
 }
 
+li.match {
+    font-size: 1.5vw;
+}
+
 
 .live{
-  background-color: lightgray;
+  background-color: white;
   min-height: 90vh;
 }
 
@@ -282,8 +285,8 @@ li {
 .match {
   background-color: rgb(68 145 111);
   color: aliceblue;
-  margin-left: 20%;
-  margin-right: 20%;
+  margin-left: 15%;
+  margin-right: 15%;
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 1rem;
@@ -312,18 +315,24 @@ li {
 
 .score {
   color: red;
-  font-size: 3vw;
+  font-size: 2.4vw;
   display: inline-block;
   text-align: center;
   margin-right: auto;
   margin-left: auto;
+
 }
 
   
-.loading, .noMatches
+.loading
 {
-    color: red;
+    color: black;
     text-align: center;
+}
+
+.noMatches {
+  color: red;
+  text-align: center;
 }
 
 #postponed {

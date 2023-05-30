@@ -203,7 +203,7 @@ li {
 }
 
 li.match {
-    font-size: 2vw;
+    font-size: 1.5vw;
 }
 
 
@@ -256,7 +256,7 @@ li.match {
 
 .score {
   color: red;
-  font-size: 3vw;
+  font-size: 2.4vw;
   display: inline-block;
   text-align: center;
   margin-right: auto;

@@ -1,6 +1,8 @@
 <template>
   <div class="live">
     <h1> {{ this.leagueTable.name }}</h1>
+        <div class="todaysMatches">
+
     <loading-spinner v-if="isLoading"></loading-spinner>
     <ul v-if="matchesToday.length > 0">
 
@@ -21,13 +23,13 @@
         <div class="homeTeam">
           <v-icon icon right>{{ getFavoriteIcon(match.homeTeam) }}</v-icon>
           <img v-bind:src="match.homeTeam.crest" class="crest" />
-          {{ match.homeTeam.name }}
+          {{ match.homeTeam.name + " " }}
         </div>
         <div class="score">
           {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }}
         </div>
         <div class="awayTeam">
-          {{ match.awayTeam.name }}
+          {{ " " + match.awayTeam.name }}
           <img v-bind:src="match.awayTeam.crest" class="crest" />
           <v-icon icon right>{{ getFavoriteIcon(match.awayTeam) }}</v-icon>
         </div>
@@ -37,6 +39,7 @@
       <p class="loadingMatch" v-else-if="isLoading">Loading...</p> <!-- Show loading message while data is being fetched from the API-->
 
     <p class="noMatch" v-else>No matches today</p> <!-- If matchesToday is empty, show an errortext-->
+    </div>
   </div>
 </template>
   
@@ -150,24 +153,38 @@ ul {
 }
 
 li {
-  font-size: large;
   display: inline-block;
   margin: 10px 10px;
   list-style: none;
   display: block;
 }
 
+li.match {
+    font-size: 1.5vw;
+}
+
 
 .live{
-  background-color: lightgray;
+  background-color: white;
   min-height: 90vh;
 }
 
+.topMenu {
+  font-size: 25px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  text-align: center;
+  padding-top: 5%;
+}
+
+.todaysMatches {
+  text-align: center;
+}
+
 .match {
-  background-color: rgb(0, 0, 0);
+  background-color: rgb(68 145 111);
   color: aliceblue;
-  margin-left: 20%;
-  margin-right: 20%;
+  margin-left: 15%;
+  margin-right: 15%;
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 1rem;
@@ -178,26 +195,62 @@ li {
   animation: fade-in 1s ease;
 }
 
+.match:hover {
+  transform: translateY(-5px);
+}
 
 .time{
   color: white;
   text-align: center;
 }
 
-
 .homeTeam ,.awayTeam {
   display: inline;
   text-align: center;
 }
 
+
+
 .score {
   color: red;
-  font-size: 3vw;
+  font-size: 2.4vw;
   display: inline-block;
   text-align: center;
   margin-right: auto;
   margin-left: auto;
+
 }
+
+  
+.loading, .noMatches
+{
+    color: red;
+    text-align: center;
+}
+
+#postponed {
+  font-style: italic;
+  color: red;
+}
+
+.timeLive {
+    text-align: center;
+    display: inline-block;
+    animation: pulsate 2s ease-in-out infinite;
+}
+@keyframes pulsate {
+    0% {
+      background-color: green;
+    }
+    50% {
+      background-color: transparent;
+    }
+    100% {
+      background-color: green;
+    }
+  }
+
+
 .crest{
     vertical-align: super;
     margin-left: auto;
@@ -209,10 +262,12 @@ li {
     border-radius: 25px;
 }
 
-.noMatch, .loadingMatch {
-  color: red;
-  text-align: center;
+#dateIcon:hover {
+  color: grey;
+  cursor: pointer;
 }
+
+
 
 @media only screen and (max-width: 600px) {
 
