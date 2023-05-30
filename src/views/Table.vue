@@ -15,6 +15,8 @@
                     <th scope="col">GA</th>
                     <th scope="col">GD</th>
                     <th scope="col">Points</th>
+                    <th scope="col">Favorite</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -71,86 +73,122 @@ export default {
     },
 
     methods: {
-        saveTeam(team) {
-            var teamList = JSON.parse(localStorage.getItem('teamList')) || [];
+    saveTeam(team) {
+        var teamList = JSON.parse(localStorage.getItem('teamList')) || [];
 
-            //   Check if the team already exists in the list
-            var teamExists = false;
+        //   Check if the team already exists in the list
+        var teamExists = false;
 
-            teamList.forEach(teamToFind => {
-                if (teamToFind.id === team.id) {
-                    teamExists = true;
-                }
-            });
+        teamList.forEach(teamToFind => {
+            if (teamToFind.id === team.id) {
+                teamExists = true;
+            }
+        });
 
-            // Check if there is room to add the team
-            if (teamList.length >= 9) {
-                this.errorMessage = "Max " + 9 + " teams allowed as favorites";
+        // Check if there is room to add the team
+        if (teamList.length >= 9) {
+            this.errorMessage = "Max " + 9 + " teams allowed as favorites";
+            this.showModal = true;
+            setTimeout(() => {
+                this.showModal = false;
+            }, 4000);
+            return;
+        }
+        // Check if the team already exists in the list
+        else if (teamExists) {
+            var teamIndex = teamList.findIndex((item) => item.id === team.id);
+            teamList.splice(teamIndex, 1);
+            localStorage.setItem('teamList', JSON.stringify(teamList));
+            this.errorMessage = `Removed ${team.name} as favorite`;
+            this.showModal = true;
+            setTimeout(() => {
+                this.showModal = false;
+            }, 2500);
+        }
+        // Add the team to the list
+        else {
+            teamList.push(team);
+            localStorage.setItem('teamList', JSON.stringify(teamList));
+            this.errorMessage = `Added ${team.name} as favorite`;
+            this.showModal = true;
+            setTimeout(() => {
+                this.showModal = false;
+            }, 2500);
+        }
+        this.favoriteTeams = teamList;
+
+    },
+
+    async fetchApiData() {
+        const options = {
+            headers: {
+                'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
+            },
+            params: {
+                season: 2022,
+                dateFrom: this.todaysDate,
+                dateTo: this.todaysDate
+            }
+        };
+        var url = `https://api.football-data.org/v4/competitions/${this.league}/standings`;
+
+        try {
+            const response = await axios.get(url, options);
+            this.leagueTable = response.data.competition.name;
+            this.matchesToday = response.data.standings[0].table;
+            this.teams = response.data.standings[0].table;
+        }
+        catch (error) {
+            if (error.response && error.response.status === 429) {
+                this.errorMessage = "Too many API calls. Please try again in a short while.";
                 this.showModal = true;
                 setTimeout(() => {
                     this.showModal = false;
                 }, 4000);
-                return;
             }
-            // Check if the team already exists in the list
-            else if (teamExists) {
-                var teamIndex = teamList.findIndex((item) => item.id === team.id);
-                teamList.splice(teamIndex, 1);
-                localStorage.setItem('teamList', JSON.stringify(teamList));
-                this.errorMessage = `Removed ${team.name} as favorite`;
-                this.showModal = true;
-                setTimeout(() => {
-                    this.showModal = false;
-                }, 2500);
-            }
-            // Add the team to the list
-            else {
-                teamList.push(team);
-                localStorage.setItem('teamList', JSON.stringify(teamList));
-                this.errorMessage = `Added ${team.name} as favorite`;
-                this.showModal = true;
-                setTimeout(() => {
-                    this.showModal = false;
-                }, 2500);
-            }
-            this.favoriteTeams = teamList;
+            console.error(error);
+            this.errorMessage = error.message + ' See the log for more information';
+            this.showModal = true;
+        }
+    },
 
-        },
-
-        async fetchApiData() {
-            const options = {
-                headers: {
-                    'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
-                },
-                params: {
-                    season: 2022,
-                    dateFrom: this.todaysDate,
-                    dateTo: this.todaysDate
-                }
-            };
-            var url = `https://api.football-data.org/v4/competitions/${this.league}/standings`;
-
-            try {
-                const response = await axios.get(url, options);
-                this.leagueTable = response.data.competition.name;
-                this.matchesToday = response.data.standings[0].table;
-                this.teams = response.data.standings[0].table;
-            }
-            catch (error) {
-                showModal = true;
-                console.error(error.message);
-            }
-        },
-
-
-        getFavoriteIcon(team) {
-            var favoriteTeams = JSON.parse(localStorage.getItem('teamList')) || [];
-            // Check if the team is already marked as a favorite
-            const isFavorite = favoriteTeams.some(favorite => favorite.id === team.id);
-            // Return the appropriate icon based on whether it is a favorite or not
-            return isFavorite ? 'mdi-star' : 'mdi-star-outline';
-        },
+    getFavoriteIcon(team) {
+      // Check if the team is already marked as a favorite
+      let isFavorite = null;
+      if(this.favoriteTeams != null){
+        isFavorite = this.favoriteTeams.some(favorite => favorite.id === team.id);
+      }
+      // Return the appropriate icon based on whether it is a favorite or not
+      return isFavorite ? 'mdi-star' : 'mdi-star-outline';
+      },
     }
 }
 </script>
-<style src="..\css\LiveScoreApp.css"></style>
+<style scoped>
+.table {
+  min-height: 90vh;
+}
+
+#LeagueTable{
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-x: auto;
+}
+
+@media only screen and (max-width: 600px) {
+
+    #LeagueTable {
+        margin: 0 auto; 
+        overflow-wrap: anywhere;
+        max-width: 100%;
+    }
+
+    tr {
+    font-size: 2vw;
+    }
+
+}
+
+
+</style>

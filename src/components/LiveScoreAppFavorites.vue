@@ -11,10 +11,10 @@
         </p>
       </li>
     </ul>
-    <h2 class="usersFav" v-else>You don't have any favorites!</h2>
+    <h2 class="noUsersFav" v-else>You don't have any favorites!</h2>
 
     <hr>
-    <h3 class="usersFav">Your favorite team's matches</h3>
+    <h3 class="usersFav">Your favorite team's upcoming matches</h3>
 
 
     <div class="favoritesfavTeamsMatchesToday">
@@ -31,24 +31,24 @@
             getTime(match)
             + ' CEST' }} - <p class="timeLive">LIVE</p> second half </div>
           <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
-          <p class="time" v-else-if="match.status === 'TIMED'"> {{ formatFavTime(match.utcDate) }} {{ getTime(match) }}
+          <p class="time" v-else-if="match.status === 'TIMED' || match.status === 'SCHEDULED'"> {{ formatFavTime(match.utcDate) }} {{ getTime(match) }}
             CEST</p>
 
           <div class="homeTeam">
             <img v-bind:src="match.homeTeam.crest" class="crest" />
-            {{ match.homeTeam.name }}
+            {{ match.homeTeam.name + " " }}
           </div>
           <div class="score">
             {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }}
           </div>
           <div class="awayTeam">
-            {{ match.awayTeam.name }}
+            {{ " " +  match.awayTeam.name }}
             <img v-bind:src="match.awayTeam.crest" class="crest" />
           </div>
 
         </li>
       </ul>
-      <p v-else>No matches today</p>
+      <p class="noMatches" v-else>No matches today</p>
     </div>
 
   </div>
@@ -152,22 +152,20 @@ export default {
       url = url + fav + "/matches";
       try {
         var response = await axios.get(url, options);
-        if (response.status === 429) {
+        if (response.data.matches !== undefined && response.data.matches.length > 0) {
+          this.favTeamsMatchesToday.push(response.data.matches[0]);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 429) {
           this.errorMessage = "Too many API calls. Please try again in a short while.";
           this.showModal = true;
           setTimeout(() => {
             this.showModal = false;
           }, 4000);
-          return;
         }
-        this.favTeamsMatchesToday.push(response.data.matches[0])
-      } catch (error) {
-        this.errorMessage = error.message;
+        console.error(error);
+        this.errorMessage = error.message + ' See the log for more information';
         this.showModal = true;
-        setTimeout(() => {
-          this.showModal = false;
-        }, 4000);
-        console.error(error.message);
       }
     },
 
@@ -179,18 +177,48 @@ export default {
 
 <style scoped>
 
-  .no-fav {
-    text-align: center;
+h3 {
+    margin: 40px 0 0;
   }
-  .usersFav {
-    text-align: center;
-  }
+h1 {
+  text-align: center;  
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
 
-  li > .favTeamsName{
-    text-align: center;
-    display: inline;
-    flex: 1;
-    margin: 0;
+
+.live{
+  background-color: white;
+  min-height: 90vh;
+}
+
+.no-fav {
+  text-align: center;
+}
+.usersFav {
+  text-align: center;
+}
+
+li > .favTeamsName{
+  text-align: center;
+  display: inline;
+  flex: 1;
+  margin: 0;
+}
+
+li {
+  font-size: large;
+  display: inline-block;
+  margin: 10px 10px;
+  list-style: none;
+  display: block;
+}
+
+.noUsersFav {
+  text-align: center;
+  color: red;
 }
 
 .favTeams {
@@ -201,7 +229,7 @@ export default {
   padding-top: 1rem;
   padding-bottom: 2rem;
   border-radius: 10px;
-  background-color: #42b983;
+  background-color: rgb(68 145 111);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -219,6 +247,105 @@ export default {
     margin-right: auto;
     width: 7%;
     padding:1%;
+}
+
+
+.todaysMatches {
+  text-align: center;
+}
+
+.match {
+  background-color: rgb(68 145 111);
+  color: aliceblue;
+  margin-left: 15%;
+  margin-right: 15%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.5s ease;
+  animation: fade-in 1s ease;
+}
+
+.match:hover {
+  transform: translateY(-5px);
+}
+
+.time{
+    color: white;
+    text-align: center;
+}
+
+.homeTeam ,.awayTeam {
+  display: inline;
+  text-align: center;
+}
+
+
+
+.score {
+  color: red;
+  font-size: 3vw;
+  display: inline-block;
+  text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+  
+.loading, .noMatches
+{
+    color: red;
+    text-align: center;
+}
+
+.timeLive {
+    text-align: center;
+    display: inline-block;
+    animation: pulsate 2s ease-in-out infinite;
+}
+@keyframes pulsate {
+    0% {
+      background-color: green;
+    }
+    50% {
+      background-color: transparent;
+    }
+    100% {
+      background-color: green;
+    }
   }
+
+
+.score {
+  color: red;
+  font-size: 3vw;
+  display: inline-block;
+  text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.crest{
+    vertical-align: super;
+    margin-left: auto;
+    margin-right: auto;
+    width: 7%;
+    margin-bottom: -20px;
+    padding:1%;
+    background-color: whitesmoke;
+    border-radius: 25px;
+}
+
+
+@media only screen and (max-width: 600px) {
+
+li.match {
+  margin-left: 1%;
+  margin-right: 1%;
+}
+}
 
 </style>

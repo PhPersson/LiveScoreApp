@@ -25,21 +25,31 @@ export default {
         }
     },
 
-    async mounted() {
+    
 
-        await this.fetchApiData();
-
-    },
+    watch: {
+    '$route.params.id': {
+    immediate: true,
+    handler(newTeam, oldTeam) {
+      this.fetchApiData();
+    }
+  }
+},
 
     methods: {
 
         async fetchApiData() {
+
+            this.teamInfo = [];
+
+            const team = this.$route.params.id;
+
             const options = {
                 headers: {
                     'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
                 },
             };
-            const url = `https://api.football-data.org/v4/teams/${this.team}`;
+            const url = `https://api.football-data.org/v4/teams/${team}`;
 
             try {
                 const response = await axios.get(url, options);
@@ -56,4 +66,22 @@ export default {
     },
 }
 </script>
-<style src="..\css\LiveScoreApp.css"></style>
+
+<style scoped>
+
+
+
+/*
+Team CSS
+*/
+.teamInfo {
+  text-align: center;
+}
+
+.teamInfo > p {
+  color: black;
+}
+
+
+
+</style>
