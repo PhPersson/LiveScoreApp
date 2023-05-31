@@ -206,7 +206,8 @@ export default {
             'X-Auth-Token': process.env.VUE_APP_API_KEY,
           },
           params: {
-            limit: 500,
+            limit: 200,
+            plan: 'TIER_FOUR',
           },
         };
         axios
@@ -219,7 +220,6 @@ export default {
                 name: team.name,
               });
             });
-            console.log(response.data.teams);
           })
           .catch((error) => {
             console.error('API request failed:', error.message);
