@@ -32,7 +32,7 @@
           <p class="time" id="postponed" v-else-if="match.status === 'POSTPONED'"> POSTPONED</p>
 
           <div class="homeTeam">
-            <v-btn outline @click="saveTeam(match.homeTeam)" color="black">
+            <v-btn variant="plain" @click="saveTeam(match.homeTeam)">
               <v-icon icon right>{{ getFavoriteIcon(match.homeTeam) }}</v-icon>
             </v-btn>
             <img v-bind:src="match.homeTeam.crest" class="crest" />
@@ -44,7 +44,7 @@
           <div class="awayTeam">
             {{" " + match.awayTeam.name }}
             <img v-bind:src="match.awayTeam.crest" class="crest" />
-            <v-btn outline @click="saveTeam(match.awayTeam)" color="black">
+            <v-btn variant="plain" @click="saveTeam(match.awayTeam)">
               <v-icon icon right>{{ getFavoriteIcon(match.awayTeam) }}</v-icon>
             </v-btn>
           </div>
@@ -84,9 +84,9 @@ export default {
   data() {
     return {
       state: State.Today,
-      apiUrl: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021`,
-      apiUrlYesterday: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=YESTERDAY`,
-      apiUrlTomorrow: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=TOMORROW`,
+      apiUrl: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=2023-05-20`,
+      apiUrlYesterday: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=2023-05-19`,
+      apiUrlTomorrow: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=2023-05-21`,
       matchesToday: [],
 
       errorMessage: "",
@@ -114,15 +114,20 @@ export default {
     getTodaysDate(state) {
       var date;
       if (state == State.Today) {
-        date = new Date().toLocaleDateString("en-UK").replace(/\//g, '-');
+        date = '2023-05-20'
+        //date = new Date();
+        //date = new Date().toLocaleDateString("en-UK").replace(/\//g, '-');
       } else if (state == State.Yesterday) {
-        date = new Date();
-        date.setDate(date.getDate() - 1);
-        date = date.toLocaleDateString("en-UK").replace(/\//g, '-');
+        date = '2023-05-19'
+
+        //date.setDate(date - 1);
+        //date = date.toLocaleDateString("en-UK").replace(/\//g, '-');
       } else {
-        date = new Date();
-        date.setDate(date.getDate() + 1);
-        date = date.toLocaleDateString("en-UK").replace(/\//g, '-');
+        date = '2023-05-21'
+
+        //date = new Date();
+        //date.setDate(date + 1);
+        //date = date.toLocaleDateString("en-UK").replace(/\//g, '-');
       }
       return date;
     },
@@ -158,6 +163,8 @@ export default {
       };
 
       try {
+
+        console.log(url);        
         var response = await axios.get(url, options);
         this.matchesToday = response.data.matches;
 
@@ -324,15 +331,10 @@ li.match {
 }
 
   
-.loading
+.loading, .noMatches
 {
-    color: black;
+    color: red;
     text-align: center;
-}
-
-.noMatches {
-  color: red;
-  text-align: center;
 }
 
 #postponed {
@@ -374,6 +376,10 @@ li.match {
   cursor: pointer;
 }
 
+i.mdi-star.mdi.v-icon.notranslate.v-theme--light.v-icon--size-default {
+    color: yellow;
+}
+
 
 
 @media only screen and (max-width: 600px) {
@@ -385,3 +391,4 @@ li.match {
 }
 
 </style>
+

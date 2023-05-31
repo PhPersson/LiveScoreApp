@@ -128,9 +128,11 @@
           <li class="nav-item">
             <a class="nav-link" href="/favorites" role="button" aria-expanded="false">Favorites</a>
           </li>
+          <!--
           <li class="nav-item">
             <a class="nav-link" href="/demo" role="button" aria-expanded="false">Demo</a>
           </li>
+          -->
         </ul>
         <ul class="navbar-nav ml-auto">
           <li class="nav-item" id="Searchbar">

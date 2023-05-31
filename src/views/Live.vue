@@ -99,8 +99,8 @@ export default {
         },
         params: {
           season: 2022,
-          dateFrom: this.getTodaysDate(),
-          dateTo: this.getTodaysDate()
+          dateFrom: '2023-05-20',
+          dateTo: '2023-05-20'
         }
       };
       var url = `https://api.football-data.org/v4/competitions/${this.league}/matches`;
@@ -264,6 +264,10 @@ li.match {
 #dateIcon:hover {
   color: grey;
   cursor: pointer;
+}
+
+i.mdi-star.mdi.v-icon.notranslate.v-theme--light.v-icon--size-default {
+    color: yellow;
 }
 
 
