@@ -38,7 +38,7 @@
     </ul>
       <p class="loadingMatch" v-else-if="isLoading">Loading...</p> <!-- Show loading message while data is being fetched from the API-->
 
-    <p class="noMatch" v-else>No matches today</p> <!-- If matchesToday is empty, show an errortext-->
+    <p class="noMatches" v-else>No matches today</p> <!-- If matchesToday is empty, show an errortext-->
     </div>
   </div>
 </template>
@@ -99,9 +99,8 @@ export default {
         },
         params: {
           season: 2022,
-          date: '2023-05-28',
-          // dateFrom: this.getTodaysDate(),
-          // dateTo: this.getTodaysDate()
+          dateFrom: this.getTodaysDate(),
+          dateTo: this.getTodaysDate()
         }
       };
       var url = `https://api.football-data.org/v4/competitions/${this.league}/matches`;
