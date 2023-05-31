@@ -154,6 +154,7 @@ export default {
         var response = await axios.get(url, options);
         if (response.data.matches !== undefined && response.data.matches.length > 0) {
           this.favTeamsMatchesToday.push(response.data.matches[0]);
+          console.log(response.data.matches[0])
         }
       } catch (error) {
         if (error.response && error.response.status === 429) {
