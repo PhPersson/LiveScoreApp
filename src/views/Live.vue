@@ -21,7 +21,9 @@
         <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
 
         <div class="homeTeam">
-          <v-icon icon right>{{ getFavoriteIcon(match.homeTeam) }}</v-icon>
+          <v-btn variant="plain" @click="saveTeam(match.homeTeam)">
+              <v-icon icon right>{{ getFavoriteIcon(match.homeTeam) }}</v-icon>
+          </v-btn>           
           <img v-bind:src="match.homeTeam.crest" class="crest" />
           {{ match.homeTeam.name + " " }}
         </div>
@@ -31,8 +33,15 @@
         <div class="awayTeam">
           {{ " " + match.awayTeam.name }}
           <img v-bind:src="match.awayTeam.crest" class="crest" />
-          <v-icon icon right>{{ getFavoriteIcon(match.awayTeam) }}</v-icon>
-        </div>
+          <v-btn variant="plain" @click="saveTeam(match.awayTeam)">
+              <v-icon icon right>{{ getFavoriteIcon(match.awayTeam) }}</v-icon>
+          </v-btn>        
+          </div>
+
+
+ 
+
+
 
       </li>
     </ul>
@@ -81,6 +90,52 @@ export default {
       return time + match.utcDate.substring(13, 16);
     },
 
+    saveTeam(team) {
+      var teamList = JSON.parse(localStorage.getItem('teamList')) || [];
+
+      // Check if there is room to add the team
+      if (teamList.length >= 9) {
+        this.errorMessage = "Max 9 teams allowed as favorites";
+        this.showModal = true;
+        setTimeout(() => {
+          this.showModal = false;
+        }, 4000);
+      }
+      var teamExists = false;
+      var teamId = 0;
+      teamList.forEach(teamInList => {
+        if (teamInList.id === team.id) {
+          teamExists = true;
+          teamId = teamInList.id;
+          return;
+        }
+      });
+      // Check if the team already exists in the list
+      // if the team exits, remove it
+      if (teamExists) {
+        var teamIndex = teamList.findIndex((item) => item.id === team.id);
+        teamList.splice(teamIndex, 1);
+        localStorage.setItem('teamList', JSON.stringify(teamList));
+        this.errorMessage = `Removed ${team.name} as favorite`;
+        this.showModal = true;
+        setTimeout(() => {
+          this.showModal = false;
+        }, 2500);
+      }
+
+      // Add the team to the list of favorites
+      else {
+        teamList.push(team);
+        localStorage.setItem('teamList', JSON.stringify(teamList));
+        this.errorMessage = `Added ${team.name} to favorites`;
+        this.showModal = true;
+        setTimeout(() => {
+          this.showModal = false;
+        }, 2500);
+      }
+      this.favoriteTeams = teamList;
+    },
+
     getTodaysDate() {
       var todaysDate = "";
       const today = new Date();
@@ -99,8 +154,8 @@ export default {
         },
         params: {
           season: 2022,
-          dateFrom: this.getTodaysDate(),
-          dateTo: this.getTodaysDate()
+          dateFrom: '2023-05-20',
+          dateTo: '2023-05-20'
         }
       };
       var url = `https://api.football-data.org/v4/competitions/${this.league}/matches`;
@@ -266,6 +321,10 @@ li.match {
   cursor: pointer;
 }
 
+i.mdi-star.mdi.v-icon.notranslate.v-theme--light.v-icon--size-default {
+    color: yellow;
+}
+
 
 
 @media only screen and (max-width: 600px) {
@@ -273,7 +332,27 @@ li.match {
 li.match {
   margin-left: 1%;
   margin-right: 1%;
+      font-size: 2.8vw;
+
 }
+
+.score {
+  font-size: 3vw;
+}
+
+img.crest {
+  display: none;
+}
+
+
+li.match {
+  padding: 0 !important;
+  padding-bottom: 10px !important;
+  padding-top: 10px !important;
+}
+
+
+
 }
 
 </style>
