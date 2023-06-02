@@ -33,6 +33,9 @@ npm install
 npm run serve
 ```
 
+### CORS
+Vårt API tillåter endast anrop från http://localhost. Det betyder att endast lokala utvecklingsmiljöer på din dator kan kommunicera med API:et och därmed använda LiveScore
+
 ## Varför Vue.js?
 Se [jämförelsen här](jämförelse.md)
 

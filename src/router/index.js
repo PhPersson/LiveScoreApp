@@ -4,8 +4,7 @@ import Table from '@/views/Table.vue';
 import Live from '@/views/Live.vue';
 import Favorites from '@/views/Favorites.vue';
 import Team from '@/views/Team.vue';
-
-import Demo from '@/views/Demo.vue'
+import NotFound from '@/views/NotFound.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: Home},
@@ -13,7 +12,7 @@ const routes = [
   { path: '/live/:league', name: 'Live', component: Live},
   { path: '/favorites', name: 'Favorites', component: Favorites},
   { path: '/team/:id', name: 'Team', component: Team},
-  { path: '/demo', name: 'Demo', component: Demo}
+  { path: "/:catchAll(.*)", name: "NotFound", component: NotFound }
 ];
 
 const router = createRouter({
