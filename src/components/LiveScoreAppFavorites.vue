@@ -16,7 +16,6 @@
     <hr>
     <h3 class="usersFav">Your favorite team's upcoming matches</h3>
 
-
     <div class="favoritesfavTeamsMatchesToday">
       <ul v-if="favTeamsMatchesToday != 0">
         <li class="match" v-for="match in favTeamsMatchesToday" :key="match.id">
@@ -24,15 +23,14 @@
           <p class="competition">{{ match.competition.name }}</p>
 
           <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
-          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{
-            getTime(match)
-            + ' CEST' }} - <p class="timeLive">LIVE</p> first half </div>
-          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{
-            getTime(match)
-            + ' CEST' }} - <p class="timeLive">LIVE</p> second half </div>
+          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{ getTime(match) + ' CEST' }} - 
+            <p class="timeLive">LIVE</p> first half 
+          </div>
+          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{ getTime(match) + ' CEST' }} - 
+            <p class="timeLive">LIVE</p> second half 
+          </div>
           <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
-          <p class="time" v-else-if="match.status === 'TIMED' || match.status === 'SCHEDULED'"> {{ formatFavTime(match.utcDate) }} {{ getTime(match) }}
-            CEST</p>
+          <p class="time" v-else-if="match.status === 'TIMED' || match.status === 'SCHEDULED'"> {{ formatFavTime(match.utcDate) }} {{ getTime(match) }} CEST</p>
 
           <div class="homeTeam">
             <img v-bind:src="match.homeTeam.crest" class="crest" />
@@ -67,7 +65,6 @@ export default {
     Modal,
   },
 
-
   data() {
     return {
       apiUrlFav1: `https://api.football-data.org/v4/teams/`,
@@ -85,7 +82,6 @@ export default {
     this.getTodaysDate();
     this.getFavMatches()
   },
-
 
 
   methods: {
@@ -154,7 +150,6 @@ export default {
         var response = await axios.get(url, options);
         if (response.data.matches !== undefined && response.data.matches.length > 0) {
           this.favTeamsMatchesToday.push(response.data.matches[0]);
-          console.log(response.data.matches[0])
         }
       } catch (error) {
         if (error.response && error.response.status === 429) {
@@ -169,12 +164,10 @@ export default {
         this.showModal = true;
       }
     },
-
   }
 }
 
 </script>
-
 
 <style scoped>
 
@@ -195,9 +188,7 @@ ul {
   min-height: 90vh;
 }
 
-.no-fav {
-  text-align: center;
-}
+
 .usersFav {
   text-align: center;
 }
@@ -241,18 +232,11 @@ li {
   text-align: center;
 }
 
-
-
 .teamLogo{
     margin-left: auto;
     margin-right: auto;
     width: 7%;
     padding:1%;
-}
-
-
-.todaysMatches {
-  text-align: center;
 }
 
 .match {
@@ -269,7 +253,6 @@ li {
   transition: transform 0.5s ease;
   animation: fade-in 1s ease;
 }
-
 .match:hover {
   transform: translateY(-5px);
 }
@@ -284,8 +267,6 @@ li {
   text-align: center;
 }
 
-
-
 .score {
   color: red;
   font-size: 3vw;
@@ -295,39 +276,27 @@ li {
   margin-left: auto;
 }
 
-  
 .loading, .noMatches
 {
     color: red;
     text-align: center;
 }
-
 .timeLive {
     text-align: center;
     display: inline-block;
     animation: pulsate 2s ease-in-out infinite;
 }
-@keyframes pulsate {
-    0% {
-      background-color: green;
-    }
-    50% {
-      background-color: transparent;
-    }
-    100% {
-      background-color: green;
-    }
+  @keyframes pulsate {
+      0% {
+        background-color: green;
+      }
+      50% {
+        background-color: transparent;
+      }
+      100% {
+        background-color: green;
+      }
   }
-
-
-.score {
-  color: red;
-  font-size: 3vw;
-  display: inline-block;
-  text-align: center;
-  margin-right: auto;
-  margin-left: auto;
-}
 
 .crest{
     vertical-align: super;
@@ -342,35 +311,31 @@ li {
 
 
 @media only screen and (max-width: 600px) {
+  li.match {
+    margin-left: 1%;
+    margin-right: 1%;
+    font-size: 3.2vw;
 
-li.match {
-  margin-left: 1%;
-  margin-right: 1%;
-  font-size: 3.2vw;
+  }
 
-}
+  p.favTeamsName {
+      font-size: 14px;
+  }
 
-p.favTeamsName {
-    font-size: 14px;
-}
+  .score {
+    font-size: 3vw;
+  }
 
-.score {
-  font-size: 3vw;
-}
-
-img.crest {
-  display: none;
-}
-
-
-li.match {
-  padding: 0 !important;
-  padding-bottom: 10px !important;
-  padding-top: 10px !important;
-}
+  img.crest {
+    display: none;
+  }
 
 
-
+  li.match {
+    padding: 0 !important;
+    padding-bottom: 10px !important;
+    padding-top: 10px !important;
+  }
 }
 
 </style>

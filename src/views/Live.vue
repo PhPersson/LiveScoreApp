@@ -12,25 +12,30 @@
         <p class="competition">{{ match.competition.name }}</p>
 
         <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
-        <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{
-          getTime(match)
-          + ' CEST' }} - <p class="timeLive">LIVE</p> first half </div>
-        <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{
-          getTime(match)
-          + ' CEST' }} - <p class="timeLive">LIVE</p> second half </div>
+        <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{ getTime(match) + ' CEST' }} - 
+          <p class="timeLive">LIVE</p> first half 
+        </div>
+
+        <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{ getTime(match) + ' CEST' }} - 
+          <p class="timeLive">LIVE</p> second half 
+          </div>
+
         <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
         <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
 
         <div class="homeTeam">
           <v-btn variant="plain" @click="saveTeam(match.homeTeam)">
               <v-icon icon right>{{ getFavoriteIcon(match.homeTeam) }}</v-icon>
-          </v-btn>           
+          </v-btn>   
+
           <img v-bind:src="match.homeTeam.crest" class="crest" />
           {{ match.homeTeam.name + " " }}
         </div>
+
         <div class="score">
           {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }}
         </div>
+
         <div class="awayTeam">
           {{ " " + match.awayTeam.name }}
           <img v-bind:src="match.awayTeam.crest" class="crest" />
@@ -38,12 +43,6 @@
               <v-icon icon right>{{ getFavoriteIcon(match.awayTeam) }}</v-icon>
           </v-btn>        
           </div>
-
-
- 
-
-
-
       </li>
     </ul>
       <p class="loadingMatch" v-else-if="isLoading">Loading...</p> <!-- Show loading message while data is being fetched from the API-->
@@ -158,8 +157,8 @@ export default {
         },
         params: {
           season: 2022,
-          dateFrom: '2023-05-20',
-          dateTo: '2023-05-20'
+          dateFrom: this.getTodaysDate(),
+          dateTo: this.getTodaysDate(),
         }
       };
       var url = `https://api.football-data.org/v4/competitions/${this.league}/matches`;

@@ -1,16 +1,16 @@
 <template>
+  <div class="team">
   <modal :show="showModal" :errorMessage="this.errorMessage" @close="showModal = false"> </modal>
-<div class="teamInfo" >
-    <h1>{{ teamInfo.name }}</h1>
-    <img :src="teamInfo.crest" :alt="teamInfo.name + ' Crest'" />
-    <p>Add favorite</p>
-     <v-btn variant="plain" @click="saveTeam(teamInfo)">
-                            <v-icon icon right>{{ getFavoriteIcon(teamInfo) }}</v-icon>
-                        </v-btn>
-</div>
+  <div class="teamInfo" >
+      <h1>{{ teamInfo.name }}</h1>
+      <img :src="teamInfo.crest" :alt="teamInfo.name + ' Crest'" />
+      <p>Add favorite</p>
+      <v-btn variant="plain" @click="saveTeam(teamInfo)">
+            <v-icon icon right>{{ getFavoriteIcon(teamInfo) }}</v-icon>
+      </v-btn>
+  </div>
 
-
-<h1> Last 3 games </h1>
+  <h1> Last 3 games </h1>
 
   <div class="favoritesfavTeamsMatchesToday">
       <ul v-if="playedGames != 0">
@@ -24,9 +24,11 @@
             <img v-bind:src="match.homeTeam.crest" class="crest" />
             {{ match.homeTeam.name + " " }}
           </div>
+
           <div class="score">
             {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }}
           </div>
+
           <div class="awayTeam">
             {{ " " +  match.awayTeam.name }}
             <img v-bind:src="match.awayTeam.crest" class="crest" />
@@ -47,23 +49,28 @@
           <p class="competition">{{ match.competition.name }}</p>
 
           <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
-          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{
-            getTime(match)
-            + ' CEST' }} - <p class="timeLive">LIVE</p> first half </div>
-          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{
-            getTime(match)
-            + ' CEST' }} - <p class="timeLive">LIVE</p> second half </div>
+          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{ getTime(match) + ' CEST' }} - 
+            <p class="timeLive">LIVE</p> 
+            first half 
+          </div>
+
+          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{ getTime(match) + ' CEST' }} - 
+            <p class="timeLive">LIVE</p> 
+            second half 
+          </div>
+
           <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
-          <p class="time" v-else-if="match.status === 'TIMED' || match.status === 'SCHEDULED'"> {{ formatFavTime(match.utcDate) }} {{ getTime(match) }}
-            CEST</p>
+          <p class="time" v-else-if="match.status === 'TIMED' || match.status === 'SCHEDULED'"> {{ formatFavTime(match.utcDate) }} {{ getTime(match) }} CEST </p>
 
           <div class="homeTeam">
             <img v-bind:src="match.homeTeam.crest" class="crest" />
             {{ match.homeTeam.name + " " }}
           </div>
+
           <div class="score">
             {{ match.score.fullTime.home }} - {{ match.score.fullTime.away }}
           </div>
+
           <div class="awayTeam">
             {{ " " +  match.awayTeam.name }}
             <img v-bind:src="match.awayTeam.crest" class="crest" />
@@ -73,7 +80,7 @@
       </ul>
       <p class="noMatches" v-else>No upcoming games</p>
     </div>
-
+  </div>
 </template>
   
   
@@ -81,25 +88,25 @@
 import axios from 'axios';
 import Modal from '@/components/Modal.vue'
 export default {
-    name: 'App',
-    components: {
-      Modal,
-    },
-    data() {
-        return {
-            team: this.$route.params.id,
-            teamInfo: [],
-            upcomingMatches: [],
-            playedGames: [],
-            todaysDate: '',
-            favoriteTeams: [],
-            errorMessage: "",
-            showModal: false,
-        }
-    },
+  name: 'App',
+  components: {
+    Modal,
+  },
+  data() {
+      return {
+          team: this.$route.params.id,
+          teamInfo: [],
+          upcomingMatches: [],
+          playedGames: [],
+          todaysDate: '',
+          favoriteTeams: [],
+          errorMessage: "",
+          showModal: false,
+      }
+  },
     
-    watch: {
-    '$route.params.id': {
+  watch: {
+  '$route.params.id': {
     immediate: true,
     handler(newTeam, oldTeam) {
         this.fetchApiData();
@@ -107,145 +114,140 @@ export default {
         this.fetchApiDataFav();
         this.fetchApiDataPlayed();
         this.favoriteTeams = JSON.parse(localStorage.getItem("teamList"));
-
+      }
     }
-  }
-},
+  },
 
-    methods: {
-      formatFavTime(matchTime) {
-      return matchTime.substring(0, 10)
-    },
-      saveTeam(team) {
-      var teamList = JSON.parse(localStorage.getItem('teamList')) || [];
+  methods: {
 
-      //   Check if the team already exists in the list
-      var teamExists = false;
+  formatFavTime(matchTime) {
+    return matchTime.substring(0, 10)
+  },
 
-      teamList.forEach(teamToFind => {
-          if (teamToFind.id === team.id) {
-              teamExists = true;
-          }
-      });
-      // Check if there is room to add the team
-      if (teamList.length >= 9) {
-          this.errorMessage = "Max " + 9 + " teams allowed as favorites";
-          this.showModal = true;
-          setTimeout(() => {
-              this.showModal = false;
-          }, 4000);
-          return;
-      }
-      // Check if the team already exists in the list
-      else if (teamExists) {
-          var teamIndex = teamList.findIndex((item) => item.id === team.id);
-          teamList.splice(teamIndex, 1);
-          localStorage.setItem('teamList', JSON.stringify(teamList));
-          this.errorMessage = `Removed ${team.name} as favorite`;
-          this.showModal = true;
-          setTimeout(() => {
-              this.showModal = false;
-          }, 2500);
-      }
-      // Add the team to the list
-      else {
-          teamList.push(team);
-          localStorage.setItem('teamList', JSON.stringify(teamList));
-          this.errorMessage = `Added ${team.name} as favorite`;
-          this.showModal = true;
-          setTimeout(() => {
-              this.showModal = false;
-          }, 2500);
-      }
-      this.favoriteTeams = teamList;
+  saveTeam(team) {
+    var teamList = JSON.parse(localStorage.getItem('teamList')) || [];
 
-    },
-
-
-    getFavoriteIcon(team) {
-      // Check if the team is already marked as a favorite
-      let isFavorite = null;
-      if(this.favoriteTeams != null){
-        isFavorite = this.favoriteTeams.some(favorite => favorite.id === team.id);
-      }
-      // Return the appropriate icon based on whether it is a favorite or not
-      return isFavorite ? 'mdi-star' : 'mdi-star-outline';
-      },
-
-        formatFavTime(matchTime) {
-      return matchTime.substring(0, 10)
-    },
-
-    getTime(match) {
-      var time = match.utcDate.substring(11, 13)
-      time = parseInt(time) + 2
-      return time + match.utcDate.substring(13, 16);
-    },
-
-    
-
-
-
-    getTodaysDate() {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, '0');
-      const day = String(today.getDate()).padStart(2, '0');
-      this.todaysDate = `${year}-${month}-${day}`;
-    },
-
-    getPreviousDay() {
-      const currentDate = new Date();
-      currentDate.setDate(currentDate.getDate() - 1);
-      const year = currentDate.getFullYear();
-      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-      const day = String(currentDate.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    },
-
-    async fetchApiData() {
-      this.teamInfo = [];
-      const team = this.$route.params.id;
-      const options = {
-        headers: {
-            'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
-        },
-      };
-        const url = `https://api.football-data.org/v4/teams/${team}`;
-
-        try {
-            const response = await axios.get(url, options);
-            const { crest, id, name, shortName, tla } = response.data;
-        this.teamInfo = {
-          id,
-          name,
-          shortName,
-          tla,
-          crest
-        };
-        } catch (error) {
-            console.error(error.message);
+    //   Check if the team already exists in the list
+    var teamExists = false;
+    teamList.forEach(teamToFind => {
+        if (teamToFind.id === team.id) {
+            teamExists = true;
         }
-        },
+    });
+    // Check if there is room to add the team
+    if (teamList.length >= 9) {
+        this.errorMessage = "Max " + 9 + " teams allowed as favorites";
+        this.showModal = true;
+        setTimeout(() => {
+            this.showModal = false;
+        }, 4000);
+        return;
+    }
+    // Check if the team already exists in the list
+    else if (teamExists) {
+        var teamIndex = teamList.findIndex((item) => item.id === team.id);
+        teamList.splice(teamIndex, 1);
+        localStorage.setItem('teamList', JSON.stringify(teamList));
+        this.errorMessage = `Removed ${team.name} as favorite`;
+        this.showModal = true;
+        setTimeout(() => {
+            this.showModal = false;
+        }, 2500);
+    }
+    // Add the team to the list
+    else {
+      teamList.push(team);
+      localStorage.setItem('teamList', JSON.stringify(teamList));
+      this.errorMessage = `Added ${team.name} as favorite`;
+      this.showModal = true;
+      setTimeout(() => {
+          this.showModal = false;
+      }, 2500);
+    }
+    this.favoriteTeams = teamList;
+  },
 
-    async fetchApiDataFav() {
-      this.upcomingMatches = [];
-      var options = {
+
+  getFavoriteIcon(team) {
+    // Check if the team is already marked as a favorite
+    let isFavorite = null;
+    if(this.favoriteTeams != null){
+      isFavorite = this.favoriteTeams.some(favorite => favorite.id === team.id);
+    }
+    // Return the appropriate icon based on whether it is a favorite or not
+    return isFavorite ? 'mdi-star' : 'mdi-star-outline';
+  },
+
+  formatFavTime(matchTime) {
+    return matchTime.substring(0, 10)
+  },
+
+  getTime(match) {
+    var time = match.utcDate.substring(11, 13)
+    time = parseInt(time) + 2
+    return time + match.utcDate.substring(13, 16);
+  },
+
+  getTodaysDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    this.todaysDate = `${year}-${month}-${day}`;
+  },
+
+  getPreviousDay() {
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() - 1);
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  },
+
+  async fetchApiData() {
+    this.teamInfo = [];
+    const team = this.$route.params.id;
+    const options = {
       headers: {
         'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
       },
-      params: {
-        dateFrom: this.todaysDate,
-        dateTo: "2023-12-31"
-      }
     };
+    const url = `https://api.football-data.org/v4/teams/${team}`;
+
+    try {
+      const response = await axios.get(url, options);
+      const { crest, id, name, shortName, tla } = response.data;
+    
+      this.teamInfo = {
+        id,
+        name,
+        shortName,
+        tla,
+        crest
+      }
+    } catch (error) {
+        console.error(error.message);
+      }
+    },
+
+  async fetchApiDataFav() {
+    this.upcomingMatches = [];
+    var options = {
+    headers: {
+      'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
+    },
+    params: {
+      dateFrom: this.todaysDate,
+      dateTo: "2023-12-31"
+    }
+  };
     const url = "https://api.football-data.org/v4/teams/" + this.$route.params.id + "/matches";
   try {
     var response = await axios.get(url, options);
 
     if (response.data.matches !== undefined && response.data.matches.length > 0) {
         this.upcomingMatches.push(...response.data.matches);
-      
     }
   } catch (error) {
       if (error.response && error.response.status === 429) {
@@ -276,12 +278,9 @@ export default {
       try {
         var response = await axios.get(url, options);
         if (response.data.matches !== undefined && response.data.matches.length > 0) {
-
-          console.log(response.data.matches)
-
           const lastThreeMatches = response.data.matches.slice(-3);
           this.playedGames.push(...lastThreeMatches);
-      }
+        }
       } catch (error) {
         if (error.response && error.response.status === 429) {
           this.errorMessage = "Too many API calls. Please try again in a short while.";
@@ -301,9 +300,9 @@ export default {
 
 <style scoped>
 
-/*
-Team CSS
-*/
+.team {
+  min-height: 90vh;
+}
 
 img {
 width: 100px;
@@ -335,26 +334,6 @@ li {
   display: block;
 }
 
-li.match {
-    font-size: 1.5vw;
-}
-
-
-.live{
-  background-color: white;
-  min-height: 90vh;
-}
-
-.topMenu {
-  font-size: 25px;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  text-align: center;
-  padding-top: 5%;
-}
-
-.todaysMatches {
-  text-align: center;
-}
 
 .match {
   background-color: rgb(68 145 111);
@@ -385,8 +364,6 @@ li.match {
   text-align: center;
 }
 
-
-
 .score {
   color: red;
   font-size: 2.4vw;
@@ -397,7 +374,6 @@ li.match {
 
 }
 
-  
 .loading, .noMatches
 {
     color: red;
@@ -414,6 +390,8 @@ li.match {
     display: inline-block;
     animation: pulsate 2s ease-in-out infinite;
 }
+
+
 @keyframes pulsate {
     0% {
       background-color: green;
@@ -451,27 +429,25 @@ p{
 
 @media only screen and (max-width: 600px) {
 
-li.match {
-  margin-left: 1%;
-  margin-right: 1%;
+  li.match {
+    margin-left: 1%;
+    margin-right: 1%;
+  }
+
+
+  img {
+  width: 50px;
+  }
+
+  h1 {
+    font-size: 15px;
+  }
+
+
+  li.match {
+      font-size: 12px;
+  }
+
 }
-
-
-img {
-width: 50px;
-}
-
-h1 {
-  font-size: 15px;
-}
-
-
-li.match {
-    font-size: 12px;
-}
-
-}
-
-
 
 </style>

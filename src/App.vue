@@ -28,28 +28,3 @@ export default {
   },
 }
 </script>
-<style>
-
-@media only screen and (max-width: 600px) {
-
-li.match {
-  margin-left: 1%;
-  margin-right: 1%;
-}
-
-
-#LeagueTable {
- 
- margin: 0 auto; 
-overflow-wrap: anywhere;
-max-width: 100%;
-
-}
-
-tr {
-font-size: 2vw;
-}
-}
-
-
-</style>

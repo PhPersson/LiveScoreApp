@@ -16,112 +16,82 @@
 
            
           <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >Today's matches</a>
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Today's matches
+            </a>
             <ul class="dropdown-menu">
               <li>
-                <a
-                  class="dropdown-item"
-                  id="PL"
-                  v-bind:href="'/live/' + this.link"
-                  @click="select($event)"
-                >Premier League</a>
+                <a class="dropdown-item" id="PL" v-bind:href="'/live/' + this.link"  @click="select($event)">
+                  Premier League
+                </a>
               </li>
+
               <li>
-                <a
-                  class="dropdown-item"
-                  id="PD"
-                  v-bind:href="'/live/' + this.link"
-                  @click="select($event)"
-                >La Liga</a>
+                <a class="dropdown-item" id="PD" v-bind:href="'/live/' + this.link" @click="select($event)">
+                  La Liga
+                </a>
               </li>
+
               <li>
-                <a
-                  class="dropdown-item"
-                  id="SA"
-                  v-bind:href="'/live/' + this.link"
-                  @click="select($event)"
-                >Serie A</a>
+                <a class="dropdown-item" id="SA" v-bind:href="'/live/' + this.link" @click="select($event)">
+                  Serie A
+                </a>
               </li>
+
               <li>
-                <a
-                  class="dropdown-item"
-                  id="BL1"
-                  v-bind:href="'/live/' + this.link"
-                  @click="select($event)"
-                >BundesLiga</a>
+                <a class="dropdown-item" id="BL1" v-bind:href="'/live/' + this.link" @click="select($event)">
+                  BundesLiga
+                </a>
               </li>
+
               <li>
-                <a
-                  class="dropdown-item"
-                  id="FL1"
-                  v-bind:href="'/live/' + this.link"
-                  @click="select($event)"
-                >League 1</a>
+                <a class="dropdown-item" id="FL1" v-bind:href="'/live/' + this.link" @click="select($event)">
+                  League 1
+                </a>
               </li>
+              
               <li>
-                <a
-                  class="dropdown-item"
-                  id="CL"
-                  v-bind:href="'/live/' + this.link"
-                  @click="select($event)"
-                >Champions League</a>
+                <a class="dropdown-item" id="CL" v-bind:href="'/live/' + this.link" @click="select($event)">
+                  Champions League
+                </a>
               </li>
             </ul>
           </li>
+
           <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >League tables</a>
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              League tables
+            </a>
             <ul class="dropdown-menu">
               <li>
-                <a
-                  class="dropdown-item"
-                  id="PL"
-                  v-bind:href="'/table/' + this.link"
-                  @click="select($event)"
-                >Premier League</a>
+                <a class="dropdown-item" id="PL" v-bind:href="'/table/' + this.link" @click="select($event)">
+                  Premier League
+                </a>
               </li>
+
+              <li>
+                <a class="dropdown-item" id="PD" v-bind:href="'/table/' + this.link" @click="select($event)">
+                  La Liga
+                </a>
+              </li>
+
               <li>
                 <a
-                  class="dropdown-item"
-                  id="PD"
-                  v-bind:href="'/table/' + this.link"
-                  @click="select($event)"
-                >La Liga</a>
+                  class="dropdown-item" id="SA" v-bind:href="'/table/' + this.link" @click="select($event)">
+                  Serie A
+                </a>
               </li>
+
               <li>
-                <a
-                  class="dropdown-item"
-                  id="SA"
-                  v-bind:href="'/table/' + this.link"
-                  @click="select($event)"
-                >Serie A</a>
+                <a class="dropdown-item" id="BL1" v-bind:href="'/table/' + this.link" @click="select($event)">
+                  BundesLiga
+                </a>
               </li>
+
               <li>
-                <a
-                  class="dropdown-item"
-                  id="BL1"
-                  v-bind:href="'/table/' + this.link"
-                  @click="select($event)"
-                >BundesLiga</a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  id="FL1"
-                  v-bind:href="'/table/' + this.link"
-                  @click="select($event)"
-                >League 1</a>
+                <a class="dropdown-item" id="FL1" v-bind:href="'/table/' + this.link" @click="select($event)">
+                  League 1
+                </a>
               </li>
             </ul>
           </li>
@@ -189,38 +159,33 @@ export default {
     },
     submit() {
       if (this.selectedClub.id != null) {
-        //router.push('/team/' + this.selectedClub.id)
+
         router.push({ path: '/team/' + this.selectedClub.id, replace: true })
-      } else {
-        console.log(this.selectedClub.id + " null")
       }
       this.selectedClub = null;
     },
-    fetchTeamsData() {
+    async fetchTeamsData() {
       if (this.teamList.length === 0) {
         const options = {
           headers: {
             'X-Auth-Token': process.env.VUE_APP_API_KEY,
           },
           params: {
-            limit: 200,
-            plan: 'TIER_FOUR',
+            limit: 200
           },
         };
-        axios
-          .get(this.url, options)
-          .then((response) => {
-            const teams = response.data.teams;
-            teams.forEach((team) => {
-              this.teamList.push({
-                id: team.id,
-                name: team.name,
-              });
+        try {
+          const response = await axios.get(this.url, options);
+          const teams = response.data.teams;
+          teams.forEach((team) => {
+            this.teamList.push({
+              id: team.id,
+              name: team.name,
             });
-          })
-          .catch((error) => {
-            console.error('API request failed:', error.message);
           });
+        } catch (error) {
+          console.error('API request failed:', error.message);
+        }
       }
     },
   },
@@ -232,13 +197,11 @@ li.nav-item {
   display: flex;
   align-items: center;
 }
+
 button#Search {
   margin-left: 15px;
 }
-.v-input__details {
-  min-height: 0px;
-  padding: 0px;
-}
+
 .navbar-nav {
   justify-content: flex-start; /* Align menu items to the left */
 }
@@ -248,29 +211,16 @@ button#Search {
   margin-left: auto;
   width: 300px;
 }
-.teamInfo {
-  text-align: center;
-}
-.teamInfo > p {
-  color: black;
-}
 
-.v-input__details {
-  min-height: 0px !important;
-  padding: 0px !important;
-}
+
 div#input-0-messages {
   min-height: 0px;
 }
 
-@media only screen and (max-width: 1000px) {
+  @media only screen and (max-width: 1000px) {
 
-#Searchbar {
+  #Searchbar {
     margin-left: 0;
-
-}
-
-
-
-}
+    }
+  }
 </style>
