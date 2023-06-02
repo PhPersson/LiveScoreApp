@@ -1,5 +1,5 @@
 <template>
-
+  <modal :show="showModal" :errorMessage="this.errorMessage" @close="showModal = false"> </modal>
 <div class="teamInfo" >
     <h1>{{ teamInfo.name }}</h1>
     <img :src="teamInfo.crest" :alt="teamInfo.name + ' Crest'" />
@@ -78,15 +78,13 @@
   
   
 <script>
-import LiveScoreApp from '@/components/LiveScoreApp.vue'
 import axios from 'axios';
-
+import Modal from '@/components/Modal.vue'
 export default {
     name: 'App',
     components: {
-
+      Modal,
     },
-
     data() {
         return {
             team: this.$route.params.id,
@@ -95,10 +93,10 @@ export default {
             playedGames: [],
             todaysDate: '',
             favoriteTeams: [],
-
+            errorMessage: "",
+            showModal: false,
         }
     },
-
     
     watch: {
     '$route.params.id': {
@@ -115,56 +113,51 @@ export default {
 },
 
     methods: {
-
-
-        formatFavTime(matchTime) {
+      formatFavTime(matchTime) {
       return matchTime.substring(0, 10)
     },
+      saveTeam(team) {
+      var teamList = JSON.parse(localStorage.getItem('teamList')) || [];
 
+      //   Check if the team already exists in the list
+      var teamExists = false;
 
-        saveTeam(team) {
-        var teamList = JSON.parse(localStorage.getItem('teamList')) || [];
-
-        //   Check if the team already exists in the list
-        var teamExists = false;
-
-        teamList.forEach(teamToFind => {
-            if (teamToFind.id === team.id) {
-                teamExists = true;
-            }
-        });
-
-        // Check if there is room to add the team
-        if (teamList.length >= 9) {
-            this.errorMessage = "Max " + 9 + " teams allowed as favorites";
-            this.showModal = true;
-            setTimeout(() => {
-                this.showModal = false;
-            }, 4000);
-            return;
-        }
-        // Check if the team already exists in the list
-        else if (teamExists) {
-            var teamIndex = teamList.findIndex((item) => item.id === team.id);
-            teamList.splice(teamIndex, 1);
-            localStorage.setItem('teamList', JSON.stringify(teamList));
-            this.errorMessage = `Removed ${team.name} as favorite`;
-            this.showModal = true;
-            setTimeout(() => {
-                this.showModal = false;
-            }, 2500);
-        }
-        // Add the team to the list
-        else {
-            teamList.push(team);
-            localStorage.setItem('teamList', JSON.stringify(teamList));
-            this.errorMessage = `Added ${team.name} as favorite`;
-            this.showModal = true;
-            setTimeout(() => {
-                this.showModal = false;
-            }, 2500);
-        }
-        this.favoriteTeams = teamList;
+      teamList.forEach(teamToFind => {
+          if (teamToFind.id === team.id) {
+              teamExists = true;
+          }
+      });
+      // Check if there is room to add the team
+      if (teamList.length >= 9) {
+          this.errorMessage = "Max " + 9 + " teams allowed as favorites";
+          this.showModal = true;
+          setTimeout(() => {
+              this.showModal = false;
+          }, 4000);
+          return;
+      }
+      // Check if the team already exists in the list
+      else if (teamExists) {
+          var teamIndex = teamList.findIndex((item) => item.id === team.id);
+          teamList.splice(teamIndex, 1);
+          localStorage.setItem('teamList', JSON.stringify(teamList));
+          this.errorMessage = `Removed ${team.name} as favorite`;
+          this.showModal = true;
+          setTimeout(() => {
+              this.showModal = false;
+          }, 2500);
+      }
+      // Add the team to the list
+      else {
+          teamList.push(team);
+          localStorage.setItem('teamList', JSON.stringify(teamList));
+          this.errorMessage = `Added ${team.name} as favorite`;
+          this.showModal = true;
+          setTimeout(() => {
+              this.showModal = false;
+          }, 2500);
+      }
+      this.favoriteTeams = teamList;
 
     },
 
@@ -202,61 +195,93 @@ export default {
     },
 
     getPreviousDay() {
-  const currentDate = new Date();
-  currentDate.setDate(currentDate.getDate() - 1);
-  const year = currentDate.getFullYear();
-  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-  const day = String(currentDate.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-},
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() - 1);
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const day = String(currentDate.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    },
 
-        async fetchApiData() {
-            this.teamInfo = [];
-            const team = this.$route.params.id;
-            const options = {
-                headers: {
-                    'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
-                },
-            };
-            const url = `https://api.football-data.org/v4/teams/${team}`;
+    async fetchApiData() {
+      this.teamInfo = [];
+      const team = this.$route.params.id;
+      const options = {
+        headers: {
+            'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
+        },
+      };
+        const url = `https://api.football-data.org/v4/teams/${team}`;
 
-            try {
-                const response = await axios.get(url, options);
-                const { crest, id, name, shortName, tla } = response.data;
-    this.teamInfo = {
-      id,
-      name,
-      shortName,
-      tla,
-      crest
+        try {
+            const response = await axios.get(url, options);
+            const { crest, id, name, shortName, tla } = response.data;
+        this.teamInfo = {
+          id,
+          name,
+          shortName,
+          tla,
+          crest
+        };
+        } catch (error) {
+            console.error(error.message);
+        }
+        },
+
+    async fetchApiDataFav() {
+      this.upcomingMatches = [];
+      var options = {
+      headers: {
+        'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
+      },
+      params: {
+        dateFrom: this.todaysDate,
+        dateTo: "2023-12-31"
+      }
     };
-                //this.teamInfo = response.data; 
+    const url = "https://api.football-data.org/v4/teams/" + this.$route.params.id + "/matches";
+  try {
+    var response = await axios.get(url, options);
 
-            } catch (error) {
-                console.error(error.message);
-            }
-        },
+    if (response.data.matches !== undefined && response.data.matches.length > 0) {
+        this.upcomingMatches.push(...response.data.matches);
+      
+    }
+  } catch (error) {
+      if (error.response && error.response.status === 429) {
+        this.errorMessage = "Too many API calls. Please try again in a short while.";
+        this.showModal = true;
+        setTimeout(() => {
+          this.showModal = false;
+        }, 4000);
+      }
+      console.error(error);
+      this.errorMessage = error.message + ' See the log for more information';
+      this.showModal = true;
+    }
+  },
 
-        async fetchApiDataFav() {
-            this.upcomingMatches = [];
-      var options = {
-        headers: {
-          'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
-        },
-        params: {
-          dateFrom: this.todaysDate,
-          dateTo: "2023-12-31"
-        }
-      };
+  async fetchApiDataPlayed() {
+    this.playedGames = [];
+    var options = {
+      headers: {
+        'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
+      },
+      params: {
+        dateFrom: "2023-01-01",
+        dateTo: this.getPreviousDay()
+      }
+    };
       const url = "https://api.football-data.org/v4/teams/" + this.$route.params.id + "/matches";
       try {
         var response = await axios.get(url, options);
-
         if (response.data.matches !== undefined && response.data.matches.length > 0) {
-            this.upcomingMatches.push(...response.data.matches);
-          
-        }
 
+          console.log(response.data.matches)
+
+          const lastThreeMatches = response.data.matches.slice(-3);
+          this.playedGames.push(...lastThreeMatches);
+      }
       } catch (error) {
         if (error.response && error.response.status === 429) {
           this.errorMessage = "Too many API calls. Please try again in a short while.";
@@ -270,45 +295,6 @@ export default {
         this.showModal = true;
       }
     },
-
-    async fetchApiDataPlayed() {
-            this.playedGames = [];
-      var options = {
-        headers: {
-          'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
-        },
-        params: {
-          dateFrom: "2023-01-01",
-          dateTo: this.getPreviousDay()
-        }
-      };
-      const url = "https://api.football-data.org/v4/teams/" + this.$route.params.id + "/matches";
-      try {
-        var response = await axios.get(url, options);
-
-
-        if (response.data.matches !== undefined && response.data.matches.length > 0) {
-
-            console.log(response.data.matches)
-
-            const lastThreeMatches = response.data.matches.slice(-3);
-            this.playedGames.push(...lastThreeMatches);
-        }
-      } catch (error) {
-        if (error.response && error.response.status === 429) {
-          this.errorMessage = "Too many API calls. Please try again in a short while.";
-          this.showModal = true;
-          setTimeout(() => {
-            this.showModal = false;
-          }, 4000);
-        }
-        console.error(error);
-        this.errorMessage = error.message + ' See the log for more information';
-        this.showModal = true;
-      }
-    },
-
-
     },
 }
 </script>
