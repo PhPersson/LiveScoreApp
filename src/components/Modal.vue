@@ -2,21 +2,16 @@
   <Transition name="modal">
     <div v-if="show" class="modal-mask">
       <div class="modal-container">
-
         <div class="modal-body">
           <slot name="body">{{ this.errorMessage }}</slot>
         </div>
-
         <div class="modal-footer">
-
           <button class="modal-default-button" @click="$emit('close')">OK</button>
-
         </div>
       </div>
     </div>
   </Transition>
 </template>
-
 
 <script>
 export default {
@@ -64,11 +59,7 @@ export default {
 }
 
 
-.modal-enter-from {
-  opacity: 0;
-}
-
-.modal-leave-to {
+.modal-enter-from, .modal-leave-to {
   opacity: 0;
 }
 

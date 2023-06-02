@@ -35,7 +35,6 @@
                         <v-btn variant="plain" @click="saveTeam(team.team)" >
                             <v-icon icon right>{{ getFavoriteIcon(team.team) }}</v-icon>
                         </v-btn>
-
                     </td>
                 </tr>
             </tbody>

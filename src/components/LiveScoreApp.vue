@@ -2,7 +2,6 @@
   <modal :show="showModal" :errorMessage="this.errorMessage" @close="showModal = false"> </modal>
   <div class="live">
 
-
     <div class="topMenu">
       <v-icon id="dateIcon" v-if="state !== 'Yesterday'" @click="fetchApiData(state, 'back')" icon right>{{ iconLeft }}</v-icon>
       {{ getTodaysDate(state) }}
@@ -20,12 +19,12 @@
           <p class="competition">{{ match.competition.name }}</p>
 
           <p class="time" v-if="match.status === 'FINISHED'"> {{ getTime(match) + ' CEST' }} - FULL TIME </p>
-          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{
-            getTime(match)
-            + ' CEST' }} - <p class="timeLive" id="inplay">LIVE</p> first half </div>
-          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{
-            getTime(match)
-            + ' CEST' }} - <p class="timeLive" id="inplay">LIVE</p> second half </div>
+          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home === null"> {{getTime(match) + ' CEST' }} - 
+            <p class="timeLive" id="inplay">LIVE</p> first half 
+          </div>
+          <div class="time" v-else-if="match.status === 'IN_PLAY' && match.score.halfTime.home !== null"> {{getTime(match) + ' CEST' }} - 
+            <p class="timeLive" id="inplay">LIVE</p> second half 
+          </div>
           <p class="time" v-else-if="match.status === 'PAUSED'"> {{ getTime(match) + ' CEST' }} - HT </p>
           <p class="time" v-else-if="match.status === 'TIMED'"> {{ getTime(match) + ' CEST' }} </p>
 
@@ -71,8 +70,6 @@ var State = {
   Tomorrow: "Tomorrow"
 }
 
-
-
 export default {
   name: 'LiveScoreApp',
   components: {
@@ -84,18 +81,16 @@ export default {
   data() {
     return {
       state: State.Today,
-      apiUrl: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=2023-05-20`,
-      apiUrlYesterday: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=2023-05-19`,
-      apiUrlTomorrow: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=2023-05-21`,
+      apiUrl: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021`,
+      apiUrlYesterday: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=YESTERDAY`,
+      apiUrlTomorrow: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=TOMORROW`,
       matchesToday: [],
-
       errorMessage: "",
       showModal: false,
       favoriteTeams: [],
       iconLeft: 'mdi-chevron-left',
       iconRight: 'mdi-chevron-right',
       isLoading: false,
-
     }
   },
 
@@ -103,7 +98,6 @@ export default {
     await this.fetchApiData(this.apiUrl);
     this.favoriteTeams = this.getFavoriteTeams();
   },
-
 
   methods: {
 
@@ -114,20 +108,15 @@ export default {
     getTodaysDate(state) {
       var date;
       if (state == State.Today) {
-        date = '2023-05-20'
-        //date = new Date();
-        //date = new Date().toLocaleDateString("en-UK").replace(/\//g, '-');
+        date = new Date().toLocaleDateString("en-UK").replace(/\//g, '-');
       } else if (state == State.Yesterday) {
-        date = '2023-05-19'
-
-        //date.setDate(date - 1);
-        //date = date.toLocaleDateString("en-UK").replace(/\//g, '-');
+        date = new Date();
+        date.setDate(date.getDate() - 1);
+        date = date.toLocaleDateString("en-UK").replace(/\//g, '-');
       } else {
-        date = '2023-05-21'
-
-        //date = new Date();
-        //date.setDate(date + 1);
-        //date = date.toLocaleDateString("en-UK").replace(/\//g, '-');
+        date = new Date();
+        date.setDate(date.getDate() + 1);
+        date = date.toLocaleDateString("en-UK").replace(/\//g, '-');
       }
       return date;
     },
@@ -162,9 +151,7 @@ export default {
         }
       };
 
-      try {
-
-        console.log(url);        
+      try {    
         var response = await axios.get(url, options);
         this.matchesToday = response.data.matches;
 
@@ -245,7 +232,6 @@ export default {
   }
 }
 
-
 </script>
 
 <style scoped>
@@ -318,8 +304,6 @@ li.match {
   text-align: center;
 }
 
-
-
 .score {
   color: red;
   font-size: 2.4vw;
@@ -327,13 +311,7 @@ li.match {
   text-align: center;
   margin-right: auto;
   margin-left: auto;
-
 }
-
-button.v-btn.v-theme--light.v-btn--density-default.v-btn--size-default.v-btn--variant-plain {
-    min-width: auto;
-}
-
   
 .loading, .noMatches
 {
@@ -385,7 +363,6 @@ i.mdi-star.mdi.v-icon.notranslate.v-theme--light.v-icon--size-default {
 }
 
 
-
 @media only screen and (max-width: 600px) {
 
 li.match {
@@ -394,7 +371,6 @@ li.match {
       font-size: 2.8vw;
 
 }
-
 .score {
   font-size: 3vw;
 }
@@ -409,9 +385,6 @@ li.match {
   padding-bottom: 10px !important;
   padding-top: 10px !important;
 }
-
-
-
 }
 
 </style>
