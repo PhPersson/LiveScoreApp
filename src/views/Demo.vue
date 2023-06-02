@@ -56,34 +56,31 @@ import Modal from '@/components/Modal.vue'
 import VIcon from 'vuetify';
 import LoadingSpinner from '@/components/Loading-Spinner.vue';
   
+export default {
+  name: 'LiveScoreApp',
+  components: {
+    Modal,
+    VIcon,
+    LoadingSpinner
+  },
   
+  data() {
+    return {
+      apiUrl: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021`,
+      matchesToday: [],
+      errorMessage: "",
+      showModal: false,
+      favoriteTeams: [],
+      iconLeft: 'mdi-chevron-left',
+      iconRight: 'mdi-chevron-right',
+      isLoading: false,
+    }
+  },
   
-  export default {
-    name: 'LiveScoreApp',
-    components: {
-      Modal,
-      VIcon,
-      LoadingSpinner
-    },
-  
-    data() {
-      return {
-        apiUrl: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021`,
-        matchesToday: [],
-        errorMessage: "",
-        showModal: false,
-        favoriteTeams: [],
-        iconLeft: 'mdi-chevron-left',
-        iconRight: 'mdi-chevron-right',
-        isLoading: false,
-      }
-    },
-  
-    async mounted() {
-      await this.fetchApiData(this.apiUrl);
-      this.favoriteTeams = this.getFavoriteTeams();
-    },
-  
+  async mounted() {
+    await this.fetchApiData(this.apiUrl);
+    this.favoriteTeams = this.getFavoriteTeams();
+  },
   
   methods: {
       getFavoriteTeams() {

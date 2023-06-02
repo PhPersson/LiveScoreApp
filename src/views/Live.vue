@@ -1,4 +1,5 @@
 <template>
+    <modal :show="showModal" :errorMessage="this.errorMessage" @close="showModal = false"> </modal>
   <div class="live">
     <h1> {{ this.leagueTable.name }}</h1>
         <div class="todaysMatches">
@@ -49,12 +50,14 @@ import LiveScoreApp from '@/components/LiveScoreApp.vue'
 import axios from 'axios';
 import VIcon from 'vuetify';
 import LoadingSpinner from '@/components/Loading-Spinner.vue';
+import Modal from '@/components/Modal.vue'
 export default {
   name: 'App',
   components: {
     LiveScoreApp,
     VIcon,
-    LoadingSpinner
+    LoadingSpinner,
+    Modal
   },
 
   data() {
@@ -64,7 +67,8 @@ export default {
       leagueTable: [],
       favoriteTeams: [],
       isLoading: false,
-
+      errorMessage: "",
+      showModal: false,
     }
   },
 
@@ -128,7 +132,7 @@ export default {
       // Check if the team is already marked as a favorite
       let isFavorite = null;
       if(this.favoriteTeams != null){
-              isFavorite = this.favoriteTeams.some(favorite => favorite.id === team.id);
+        isFavorite = this.favoriteTeams.some(favorite => favorite.id === team.id);
       }
       // Return the appropriate icon based on whether it is a favorite or not
       return isFavorite ? 'mdi-star' : 'mdi-star-outline';
