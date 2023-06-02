@@ -32,7 +32,7 @@
                     <td>{{ team.goalDifference }}</td>
                     <td>{{ team.points }}</td>
                     <td>
-                        <v-btn outline @click="saveTeam(team.team)" color="white">
+                        <v-btn variant="plain" @click="saveTeam(team.team)" >
                             <v-icon icon right>{{ getFavoriteIcon(team.team) }}</v-icon>
                         </v-btn>
 
@@ -173,20 +173,40 @@ export default {
   max-width: 80%;
   margin-left: auto;
   margin-right: auto;
-  overflow-x: auto;
 }
 
-@media only screen and (max-width: 600px) {
+td {
+                font-size: 15px;
+    }
+
+@media only screen and (max-width: 672px) {
 
     #LeagueTable {
         margin: 0 auto; 
-        overflow-wrap: anywhere;
         max-width: 100%;
     }
 
-    tr {
-    font-size: 2vw;
+    th {
+    padding: 0.2rem 0.2rem !important;
+            font-size: 1.5vw;
+
     }
+
+    td {
+                padding: 0.2rem 0.2rem !important;
+                font-size: 2.3vw;
+    }
+
+   
+    button.v-btn.v-theme--light.v-btn--density-default.v-btn--size-default.v-btn--variant-plain {
+        display: contents;
+    }
+
+    img {
+        display:none;
+    }
+
+
 
 }
 

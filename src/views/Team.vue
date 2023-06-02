@@ -4,7 +4,7 @@
     <h1>{{ teamInfo.name }}</h1>
     <img :src="teamInfo.crest" :alt="teamInfo.name + ' Crest'" />
     <p>Add favorite</p>
-     <v-btn outline @click="saveTeam(teamInfo)" color="white">
+     <v-btn variant="plain" @click="saveTeam(teamInfo)">
                             <v-icon icon right>{{ getFavoriteIcon(teamInfo) }}</v-icon>
                         </v-btn>
 </div>
@@ -457,6 +457,10 @@ li.match {
   cursor: pointer;
 }
 
+p{
+  margin:0px;
+}
+
 
 
 @media only screen and (max-width: 600px) {
@@ -465,6 +469,21 @@ li.match {
   margin-left: 1%;
   margin-right: 1%;
 }
+
+
+img {
+width: 50px;
+}
+
+h1 {
+  font-size: 15px;
+}
+
+
+li.match {
+    font-size: 12px;
+}
+
 }
 
 

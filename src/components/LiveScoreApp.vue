@@ -330,6 +330,10 @@ li.match {
 
 }
 
+button.v-btn.v-theme--light.v-btn--density-default.v-btn--size-default.v-btn--variant-plain {
+    min-width: auto;
+}
+
   
 .loading, .noMatches
 {
@@ -387,7 +391,27 @@ i.mdi-star.mdi.v-icon.notranslate.v-theme--light.v-icon--size-default {
 li.match {
   margin-left: 1%;
   margin-right: 1%;
+      font-size: 2.8vw;
+
 }
+
+.score {
+  font-size: 3vw;
+}
+
+img.crest {
+  display: none;
+}
+
+
+li.match {
+  padding: 0 !important;
+  padding-bottom: 10px !important;
+  padding-top: 10px !important;
+}
+
+
+
 }
 
 </style>

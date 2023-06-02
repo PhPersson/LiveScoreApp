@@ -346,7 +346,31 @@ li {
 li.match {
   margin-left: 1%;
   margin-right: 1%;
+  font-size: 3.2vw;
+
 }
+
+p.favTeamsName {
+    font-size: 14px;
+}
+
+.score {
+  font-size: 3vw;
+}
+
+img.crest {
+  display: none;
+}
+
+
+li.match {
+  padding: 0 !important;
+  padding-bottom: 10px !important;
+  padding-top: 10px !important;
+}
+
+
+
 }
 
 </style>
