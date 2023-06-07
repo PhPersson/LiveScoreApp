@@ -1,4 +1,5 @@
 # LiveScoreApp <img src="https://www.svgrepo.com/show/17072/football.svg" width=4% height=4%>
+![Project Status](https://img.shields.io/badge/Status-In%20Development-yellow)
 
 En Vue.js-applikation  visar live-resultat och matchinformation för fotbollsmatcher för top 5 ligorna i Europa. Även Champions League visas. Komponenten använder sig av [Football-data API](https://www.football-data.org/). 
 Tillåter även dig som användare att spara dina favoritlag. 
@@ -34,7 +35,8 @@ npm run serve
 ```
 
 ### CORS
-Vårt API tillåter endast anrop från http://localhost. Det betyder att endast lokala utvecklingsmiljöer på din dator kan kommunicera med API:et och därmed använda LiveScore
+Vårt API tillåter endast anrop från http://localhost. Det betyder att endast lokala utvecklingsmiljöer på din dator kan kommunicera med API:et och därmed använda LiveScore.
+Detta projekt är fortfarande i utvecklingsfasen. Ett användbart tilläg är [Moesif Origin & CORS Changer](https://chrome.google.com/webstore/detail/moesif-origin-cors-change/digfbfaphojjndkpccljibejjbppifbc)
 
 ## Varför Vue.js?
 Se [jämförelsen här](jämförelse.md)
