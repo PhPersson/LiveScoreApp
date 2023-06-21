@@ -81,9 +81,9 @@ export default {
   data() {
     return {
       state: State.Today,
-      apiUrl: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021`,
-      apiUrlYesterday: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=YESTERDAY`,
-      apiUrlTomorrow: `https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=TOMORROW`,
+      apiUrl: 'https://corsproxy.io/?' + encodeURIComponent('https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021'),
+      apiUrlYesterday: 'https://corsproxy.io/?' + encodeURIComponent('https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=YESTERDAY'),
+      apiUrlTomorrow: 'https://corsproxy.io/?' + encodeURIComponent('https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=TOMORROW'),
       matchesToday: [],
       errorMessage: "",
       showModal: false,

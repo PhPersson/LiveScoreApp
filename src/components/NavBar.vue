@@ -138,7 +138,7 @@ export default {
   data() {
     return {
       link: "",
-      url: `https://api.football-data.org/v4/teams/`,
+      url: 'https://corsproxy.io/?' + encodeURIComponent('https://api.football-data.org/v4/teams/?'),
       search: null,
       selectVal: null,
       teamList: [],
