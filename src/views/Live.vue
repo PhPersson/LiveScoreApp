@@ -77,11 +77,12 @@ export default {
       isLoading: false,
       errorMessage: "",
       showModal: false,
+
     }
   },
 
   async mounted() {
-    await this.fetchApiData();
+    await this.fetchApiData(this.url);
     this.favoriteTeams = JSON.parse(localStorage.getItem("teamList"));
   },
 
@@ -161,7 +162,11 @@ export default {
           dateTo: this.getTodaysDate(),
         }
       };
-      var url = `https://api.football-data.org/v4/competitions/${this.league}/matches`;
+
+            const url =  'https://corsproxy.io/?' + 'https://api.football-data.org/v4/competitions/'+this.league+'/matches?';
+
+
+      
       try {
         const response = await axios.get(url, options);
         this.leagueTable = response.data.competition;

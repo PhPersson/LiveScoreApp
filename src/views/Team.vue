@@ -213,7 +213,8 @@ export default {
         'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
       },
     };
-    const url = `https://api.football-data.org/v4/teams/${team}`;
+
+    const url = 'https://corsproxy.io/?' + encodeURIComponent(`https://api.football-data.org/v4/teams/${team}?`);
 
     try {
       const response = await axios.get(url, options);
@@ -242,7 +243,9 @@ export default {
       dateTo: "2023-12-31"
     }
   };
-    const url = "https://api.football-data.org/v4/teams/" + this.$route.params.id + "/matches";
+
+    const url = 'https://corsproxy.io/?' + encodeURIComponent(`https://api.football-data.org/v4/teams/${this.$route.params.id}/matches?`);
+
   try {
     var response = await axios.get(url, options);
 
@@ -274,7 +277,8 @@ export default {
         dateTo: this.getPreviousDay()
       }
     };
-      const url = "https://api.football-data.org/v4/teams/" + this.$route.params.id + "/matches";
+      const url = 'https://corsproxy.io/?' + `https://api.football-data.org/v4/teams/${this.$route.params.id}/matches?`;
+      
       try {
         var response = await axios.get(url, options);
         if (response.data.matches !== undefined && response.data.matches.length > 0) {

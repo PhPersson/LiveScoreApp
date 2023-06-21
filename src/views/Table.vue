@@ -129,7 +129,8 @@ export default {
                 dateTo: this.todaysDate
             }
         };
-        var url = `https://api.football-data.org/v4/competitions/${this.league}/standings`;
+
+        var url = 'https://corsproxy.io/?' + encodeURIComponent(`https://api.football-data.org/v4/competitions/${this.league}/standings?`);
 
         try {
             const response = await axios.get(url, options);

@@ -67,7 +67,7 @@ export default {
 
   data() {
     return {
-      apiUrlFav1: `https://api.football-data.org/v4/teams/`,
+      apiUrlFav1: 'https://corsproxy.io/?' + encodeURIComponent('https://api.football-data.org/v4/teams/?'),
       favTeams: [],
       favTeamsMatchesToday: [],
       todaysDate: '',
