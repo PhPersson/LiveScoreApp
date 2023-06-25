@@ -147,7 +147,7 @@ export default {
       const month = String(today.getMonth() + 1).padStart(2, '0');
       const day = String(today.getDate()).padStart(2, '0');
       todaysDate = `${year}-${month}-${day}`;
-      return todaysDate;
+      return '2023-05-20';
     },
 
     async fetchApiData() {

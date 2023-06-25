@@ -81,9 +81,9 @@ export default {
   data() {
     return {
       state: State.Today,
-      apiUrl: 'https://corsproxy.io/?' + encodeURIComponent('https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021'),
-      apiUrlYesterday: 'https://corsproxy.io/?' + encodeURIComponent('https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=YESTERDAY'),
-      apiUrlTomorrow: 'https://corsproxy.io/?' + encodeURIComponent('https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=TOMORROW'),
+      apiUrl: 'https://corsproxy.io/?' + encodeURIComponent('https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=2023-05-20'),
+      apiUrlYesterday: 'https://corsproxy.io/?' + encodeURIComponent('https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=2023-05-19'),
+      apiUrlTomorrow: 'https://corsproxy.io/?' + encodeURIComponent('https://api.football-data.org/v4/matches?competitions=2001,2002,2019,2014,2015,2021&date=2023-05-21'),
       matchesToday: [],
       errorMessage: "",
       showModal: false,
@@ -118,7 +118,7 @@ export default {
         date.setDate(date.getDate() + 1);
         date = date.toLocaleDateString("en-UK").replace(/\//g, '-');
       }
-      return date;
+      return '2023-05-20';
     },
 
     getTime(match) {

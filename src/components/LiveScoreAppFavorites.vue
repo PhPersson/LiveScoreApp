@@ -100,7 +100,7 @@ export default {
     getFavMatches() {
       if (this.favTeams != null) {
         this.favTeams.forEach(element => {
-          this.fetchApiDataFav(this.apiUrlFav1, element.id)
+          this.fetchApiDataFav(element.id)
         });
       }
     },
@@ -134,18 +134,20 @@ export default {
       return time + match.utcDate.substring(13, 16);
     },
 
-    async fetchApiDataFav(url, fav) {
+    async fetchApiDataFav( fav) {
 
       var options = {
         headers: {
           'X-Auth-Token': `${process.env.VUE_APP_API_KEY}`
         },
         params: {
-          dateFrom: this.todaysDate,
+          dateFrom: '2023-05-20',
           dateTo: "2023-12-31"
         }
       };
-      url = url + fav + "/matches";
+      // url = url + fav + "/matches";
+      
+      const url =  'https://corsproxy.io/?' + 'https://api.football-data.org/v4/teams/'+fav+'/matches?';
       try {
         var response = await axios.get(url, options);
         if (response.data.matches !== undefined && response.data.matches.length > 0) {
